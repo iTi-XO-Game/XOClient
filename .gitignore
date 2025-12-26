@@ -1,0 +1,26 @@
+# --- Build Artifacts (The most important part) ---
+target/
+build/
+bin/
+
+# --- NetBeans Specific ---
+nbproject/private/
+nbbuild/
+dist/
+nbdist/
+.nb-gradle/
+
+# --- IntelliJ/Eclipse (In case you or a collaborator switch IDEs) ---
+.idea/
+*.iml
+.settings/
+.classpath
+.project
+
+# --- OS Specific ---
+.DS_Store
+Thumbs.db
+
+# --- Log files ---
+*.log
+hs_err_pid*
