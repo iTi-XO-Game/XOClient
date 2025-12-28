@@ -2,7 +2,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/javafx/FXMLController.java to edit this template
  */
-package controllers;
+package com.mycompany.clientside.controllers;
 
 import java.net.URL;
 import java.time.LocalDateTime;
@@ -13,7 +13,7 @@ import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
-import models.GameModel;
+import com.mycompany.clientside.models.GameModel;
 import javafx.scene.control.Label;
 import java.time.format.DateTimeFormatter;
 import javafx.fxml.FXML;
