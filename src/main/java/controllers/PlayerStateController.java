@@ -30,30 +30,34 @@ public class PlayerStateController implements Initializable {
      * Initializes the controller class.
      */
     ArrayList<GameModel> gameModels;
-
-    @Override
-    public void initialize(URL url, ResourceBundle rb) {
-        LocalDateTime matchStart = LocalDateTime.of(2023, 10, 24, 14, 30, 0);
-        LocalDateTime matchEnd = LocalDateTime.of(2023, 10, 24, 14, 34, 21);
-
-        gameModels = new ArrayList<>();
-        gameModels.add(new GameModel(1, 100, 200, 100, matchStart, matchEnd));
-        gameModels.add(new GameModel(2, 100, 200, -1, matchStart, matchEnd));
-        gameModels.add(new GameModel(3, 100, 200, 200, matchStart, matchEnd));  
-        gameModels.add(new GameModel(3, 100, 200, 200, matchStart, matchEnd));
-        gameModels.add(new GameModel(3, 100, 200, 200, matchStart, matchEnd));
-        gameModels.add(new GameModel(3, 100, 200, 200, matchStart, matchEnd));
-
-        displayGames(gameModels);
-    }
-
     @FXML
     private VBox gameRowsContainer;
+
     //thinking on getting that value from the constructor
     private final int MY_ID = 100;
 
+    @Override
+    public void initialize(URL url, ResourceBundle rb) {
+
+        gameModels = new ArrayList<>();
+        gettingGamesHistory();
+        displayGames(gameModels);
+    }
+
+    //this function should fill the data from the database
+    private void gettingGamesHistory() {
+        LocalDateTime matchStart = LocalDateTime.of(2023, 10, 24, 14, 30, 0);
+        LocalDateTime matchEnd = LocalDateTime.of(2023, 10, 24, 14, 34, 21);
+        gameModels.add(new GameModel(1, 100, 200, 100, matchStart, matchEnd));
+        gameModels.add(new GameModel(2, 100, 200, -1, matchStart, matchEnd));
+        gameModels.add(new GameModel(3, 100, 200, 200, matchStart, matchEnd));
+        gameModels.add(new GameModel(3, 100, 200, 200, matchStart, matchEnd));
+        gameModels.add(new GameModel(3, 100, 200, 200, matchStart, matchEnd));
+        gameModels.add(new GameModel(3, 100, 200, 200, matchStart, matchEnd));
+    }
+
     public void displayGames(ArrayList<GameModel> gameModels) {
-        gameRowsContainer.getChildren().clear(); 
+        gameRowsContainer.getChildren().clear();
 
         for (GameModel game : gameModels) {
             HBox row = createGameRow(game);
@@ -71,7 +75,7 @@ public class PlayerStateController implements Initializable {
         Label resultLabel = new Label();
         HBox resultContainer = new HBox(resultLabel);
         resultContainer.setAlignment(Pos.CENTER_LEFT);
-        // Set the CONTAINER to grow, not the label
+
         resultContainer.setMaxWidth(Double.MAX_VALUE);
         HBox.setHgrow(resultContainer, Priority.ALWAYS);
 
@@ -87,7 +91,6 @@ public class PlayerStateController implements Initializable {
                 break;
         }
 
-        // 2. Opponent, Date, Duration
         Label opponentLabel = new Label("Player " + (game.getPlayerOneId() == MY_ID ? game.getPlayerTwoId() : game.getPlayerOneId()));
         Label dateLabel = new Label(game.getStartTime().format(DateTimeFormatter.ofPattern("MMM dd, yyyy")));
         Label durationLabel = new Label(game.getDuration());
@@ -95,7 +98,7 @@ public class PlayerStateController implements Initializable {
         opponentLabel.prefWidthProperty().bind(row.widthProperty().divide(4));
         dateLabel.prefWidthProperty().bind(row.widthProperty().divide(4));
         durationLabel.prefWidthProperty().bind(row.widthProperty().divide(4));
-        // Layout management for others
+
         opponentLabel.setMaxWidth(Double.MAX_VALUE);
         HBox.setHgrow(opponentLabel, Priority.ALWAYS);
         dateLabel.setMaxWidth(Double.MAX_VALUE);
@@ -103,7 +106,6 @@ public class PlayerStateController implements Initializable {
         durationLabel.setMaxWidth(Double.MAX_VALUE);
         HBox.setHgrow(durationLabel, Priority.ALWAYS);
 
-        // CRITICAL CHANGE: Add 'resultContainer', NOT 'resultLabel'
         row.getChildren().addAll(resultContainer, opponentLabel, dateLabel, durationLabel);
 
         return row;
