@@ -11,7 +11,7 @@
 <?import javafx.scene.shape.Circle?>
 <?import javafx.scene.text.Font?>
 
-<StackPane minHeight="480.0" minWidth="640.0" prefHeight="480.0" prefWidth="640.0" style="-fx-background-color: linear-gradient(to bottom, #e8f4f8, #d4e9f0);" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.mycompany.clientside.DifficultyScreenController">
+<StackPane minHeight="480.0" minWidth="640.0" prefHeight="480.0" prefWidth="640.0" style="-fx-background-color: linear-gradient(to bottom, #e8f4f8, #d4e9f0);" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.mycompany.clientside.controllers.DifficultyScreenController">
     
     <!-- Dark Mode Toggle -->
     <HBox alignment="TOP_RIGHT" StackPane.alignment="TOP_RIGHT">
