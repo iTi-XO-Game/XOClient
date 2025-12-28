@@ -6,6 +6,7 @@ package com.mycompany.clientside;
 
 import java.net.URL;
 import java.util.ResourceBundle;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.ToggleGroup;
@@ -21,11 +22,35 @@ public class DifficultyScreenController implements Initializable {
     private ToggleGroup difficultyGroup;
 
     /**
-     * Initializes the controller class.
+     * Initializes the controller class.    
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         // TODO
     }    
+
+    @FXML
+    private void clickEasy(ActionEvent event) {
+    }
+
+    @FXML
+    private void clickMedium(ActionEvent event) {
+    }
+
+    @FXML
+    private void clickHard(ActionEvent event) {
+    }
+
+    @FXML
+    private void clickRecordGame(ActionEvent event) {
+    }
+
+    @FXML
+    private void clickPlayGame(ActionEvent event) {
+    }
+
+    @FXML
+    private void backToMenu(ActionEvent event) {
+    }
     
 }

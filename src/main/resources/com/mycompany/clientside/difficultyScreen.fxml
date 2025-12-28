@@ -5,139 +5,112 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ToggleButton?>
 <?import javafx.scene.control.ToggleGroup?>
-<?import javafx.scene.image.Image?>
-<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.shape.Circle?>
 <?import javafx.scene.text.Font?>
 
-<StackPane xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" 
-           prefHeight="480.0" prefWidth="640.0"
-           minHeight="480.0" minWidth="640.0"
-           style="-fx-background-color: linear-gradient(to bottom, #e8f4f8, #d4e9f0);" fx:controller="com.mycompany.clientside.DifficultyScreenController">
+<StackPane minHeight="480.0" minWidth="640.0" prefHeight="480.0" prefWidth="640.0" style="-fx-background-color: linear-gradient(to bottom, #e8f4f8, #d4e9f0);" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.mycompany.clientside.DifficultyScreenController">
     
     <!-- Dark Mode Toggle -->
     <HBox alignment="TOP_RIGHT" StackPane.alignment="TOP_RIGHT">
         <padding>
-            <Insets top="10.0" right="10.0"/>
+            <Insets right="10.0" top="10.0" />
         </padding>
-        <Button text="🌙" 
-                style="-fx-background-color: white; -fx-background-radius: 20; -fx-cursor: hand;"
-                prefWidth="35.0" prefHeight="35.0">
-            <font>
-                <Font size="14.0"/>
-            </font>
-        </Button>
     </HBox>
     
     <!-- Main Content -->
     <VBox alignment="TOP_CENTER" spacing="20.0">
         <StackPane.margin>
-            <Insets top="50.0"/>
+            <Insets top="50.0" />
         </StackPane.margin>
         
         <!-- Character Avatar -->
         <StackPane prefHeight="80.0" prefWidth="80.0">
-            <Circle radius="40.0" style="-fx-fill: white;"/>
-            <Label text="👤" style="-fx-font-size: 35;">
+            <Circle radius="40.0" style="-fx-fill: white;" />
+            <Label style="-fx-font-size: 35;" text="👤">
                 <font>
-                    <Font size="35.0"/>
+                    <Font size="35.0" />
                 </font>
             </Label>
         </StackPane>
         
         <!-- Title -->
         <VBox alignment="CENTER" spacing="3.0">
-            <Label text="Vs. NPC" style="-fx-font-size: 28; -fx-font-weight: bold; -fx-text-fill: #1e293b;">
+            <Label style="-fx-font-size: 28; -fx-font-weight: bold; -fx-text-fill: #1e293b;" text="Vs. NPC">
                 <font>
-                    <Font name="System Bold" size="28.0"/>
+                    <Font name="System Bold" size="28.0" />
                 </font>
             </Label>
-            <Label text="Challenge the AI Master!" style="-fx-font-size: 12; -fx-text-fill: #64748b;">
+            <Label style="-fx-font-size: 12; -fx-text-fill: #64748b;" text="Challenge the AI Master!">
                 <font>
-                    <Font size="12.0"/>
+                    <Font size="12.0" />
                 </font>
             </Label>
         </VBox>
         
         <!-- Game Options Card -->
-        <VBox alignment="CENTER" spacing="15.0" 
-              style="-fx-background-color: white; -fx-background-radius: 15; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.1), 15, 0, 0, 3);"
-              prefWidth="320.0" maxWidth="320.0">
+        <VBox alignment="CENTER" maxWidth="320.0" prefWidth="320.0" spacing="15.0" style="-fx-background-color: white; -fx-background-radius: 15; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.1), 15, 0, 0, 3);">
             <padding>
-                <Insets top="25.0" right="25.0" bottom="25.0" left="25.0"/>
+                <Insets bottom="25.0" left="25.0" right="25.0" top="25.0" />
             </padding>
             
             <!-- Difficulty Selection -->
             <VBox alignment="CENTER" spacing="10.0">
-                <Label text="SELECT DIFFICULTY" style="-fx-text-fill: #94a3b8; -fx-font-size: 10; -fx-font-weight: bold;">
+                <Label style="-fx-text-fill: #94a3b8; -fx-font-size: 10; -fx-font-weight: bold;" text="SELECT DIFFICULTY">
                     <font>
-                        <Font name="System Bold" size="10.0"/>
+                        <Font name="System Bold" size="10.0" />
                     </font>
                 </Label>
                 
                 <HBox alignment="CENTER" spacing="8.0">
                     <fx:define>
-                        <ToggleGroup fx:id="difficultyGroup"/>
+                        <ToggleGroup fx:id="difficultyGroup" />
                     </fx:define>
                     
-                    <ToggleButton text="Easy" 
-                                  toggleGroup="$difficultyGroup"
-                                  selected="true"
-                                  style="-fx-background-color: #86efac; -fx-background-radius: 20; -fx-text-fill: white; -fx-border-width: 0; -fx-cursor: hand; -fx-font-weight: bold;"
-                                  prefWidth="90.0" prefHeight="35.0">
+                    <ToggleButton onAction="#clickEasy" prefHeight="35.0" prefWidth="90.0" selected="true" style="-fx-background-color: #86efac; -fx-background-radius: 20; -fx-text-fill: white; -fx-border-width: 0; -fx-cursor: hand; -fx-font-weight: bold;" text="Easy">
                         <font>
-                            <Font name="System Bold" size="11.0"/>
+                            <Font name="System Bold" size="11.0" />
+                        </font>
+                  <toggleGroup>
+                     <ToggleGroup fx:id="difficultyGroup" />
+                  </toggleGroup>
+                    </ToggleButton>
+                    
+                    <ToggleButton onAction="#clickMedium" prefHeight="35.0" prefWidth="90.0" style="-fx-background-color: #fbbf24; -fx-background-radius: 20; -fx-text-fill: white; -fx-border-width: 0; -fx-cursor: hand; -fx-font-weight: bold;" text="Medium" toggleGroup="$difficultyGroup">
+                        <font>
+                            <Font name="System Bold" size="11.0" />
                         </font>
                     </ToggleButton>
                     
-                    <ToggleButton text="Medium" 
-                                  toggleGroup="$difficultyGroup"
-                                  style="-fx-background-color: #fbbf24; -fx-background-radius: 20; -fx-text-fill: white; -fx-border-width: 0; -fx-cursor: hand; -fx-font-weight: bold;"
-                                  prefWidth="90.0" prefHeight="35.0">
+                    <ToggleButton onAction="#clickHard" prefHeight="35.0" prefWidth="90.0" style="-fx-background-color: #f87171; -fx-background-radius: 20; -fx-text-fill: white; -fx-border-width: 0; -fx-cursor: hand; -fx-font-weight: bold;" text="Hard" toggleGroup="$difficultyGroup">
                         <font>
-                            <Font name="System Bold" size="11.0"/>
-                        </font>
-                    </ToggleButton>
-                    
-                    <ToggleButton text="Hard" 
-                                  toggleGroup="$difficultyGroup"
-                                  style="-fx-background-color: #f87171; -fx-background-radius: 20; -fx-text-fill: white; -fx-border-width: 0; -fx-cursor: hand; -fx-font-weight: bold;"
-                                  prefWidth="90.0" prefHeight="35.0">
-                        <font>
-                            <Font name="System Bold" size="11.0"/>
+                            <Font name="System Bold" size="11.0" />
                         </font>
                     </ToggleButton>
                 </HBox>
             </VBox>
             
             <!-- Record Game Button -->
-            <Button text="⏺  Record Game" 
-                    style="-fx-background-color: #e0e7ff; -fx-background-radius: 20; -fx-text-fill: #6366f1; -fx-border-width: 0; -fx-cursor: hand; -fx-font-weight: bold;"
-                    prefWidth="270.0" prefHeight="40.0">
+            <Button onAction="#clickRecordGame" prefHeight="40.0" prefWidth="270.0" style="-fx-background-color: #e0e7ff; -fx-background-radius: 20; -fx-text-fill: #6366f1; -fx-border-width: 0; -fx-cursor: hand; -fx-font-weight: bold;" text="⏺  Record Game">
                 <font>
-                    <Font name="System Bold" size="12.0"/>
+                    <Font name="System Bold" size="12.0" />
                 </font>
             </Button>
             
             <!-- Play Game Button -->
-            <Button text="▶  Play Game" 
-                    style="-fx-background-color: #ff7b7b; -fx-background-radius: 20; -fx-text-fill: white; -fx-cursor: hand;"
-                    prefWidth="270.0" prefHeight="45.0">
+            <Button onAction="#clickPlayGame" prefHeight="45.0" prefWidth="270.0" style="-fx-background-color: #ff7b7b; -fx-background-radius: 20; -fx-text-fill: white; -fx-cursor: hand;" text="▶  Play Game">
                 <font>
-                    <Font name="System Bold" size="14.0"/>
+                    <Font name="System Bold" size="14.0" />
                 </font>
             </Button>
         </VBox>
         
         <!-- Back to Menu Link -->
-        <Button text="← Back to Menu" 
-                style="-fx-background-color: transparent; -fx-text-fill: #94a3b8; -fx-cursor: hand; -fx-underline: false;"
-                prefHeight="25.0">
+        <Button onAction="#backToMenu" prefHeight="25.0" style="-fx-background-color: transparent; -fx-text-fill: #94a3b8; -fx-cursor: hand; -fx-underline: false;" text="← Back to Menu">
             <font>
-                <Font size="11.0"/>
+                <Font size="11.0" />
             </font>
         </Button>
         
