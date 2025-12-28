@@ -31,6 +31,7 @@ public class DifficultyScreenController implements Initializable {
 
     @FXML
     private void clickEasy(ActionEvent event) {
+        System.out.println("Easy mode");
     }
 
     @FXML
