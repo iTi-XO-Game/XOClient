@@ -14,16 +14,18 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane id="AnchorPane" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.mycompany.clientside.controllers.PlayerStateController">
+<AnchorPane id="AnchorPane" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.mycompany.clientside.controllers.PlayerStateController">
     <children>
         <BorderPane prefHeight="415.0" prefWidth="607.0" style="-fx-background-color: #F8FAFC;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
             <top>
                 <HBox prefHeight="59.0" prefWidth="600.0" style="-fx-background-color: white;" BorderPane.alignment="CENTER_LEFT">
                     <children>
-                        <Button mnemonicParsing="false" prefHeight="58.0" prefWidth="87.0" style="-fx-background-color: transparent;" text="←   ">
-                            <font>
-                                <Font name="Segoe UI Black" size="24.0" />
-                            </font>
+                        <Button fx:id="navigateBackButton" mnemonicParsing="false" onAction="#navigateBack" prefHeight="58.0" prefWidth="87.0" style="-fx-background-color: transparent;">
+                            <graphic>
+                                <ImageView fitHeight="31.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true" smooth="true">
+                                    <Image url="@../images/arrow_back.png" />
+                                </ImageView>
+                            </graphic>
                         </Button>
                     </children>
                 </HBox>
@@ -104,9 +106,9 @@
                                                             </HBox.margin>
                                                         </HBox>
                                                     </children>
-                                       <HBox.margin>
-                                          <Insets right="18.0" />
-                                       </HBox.margin>
+                                                    <HBox.margin>
+                                                        <Insets right="18.0" />
+                                                    </HBox.margin>
                                                 </HBox>
                                             </children>
                                         </HBox>
@@ -142,9 +144,9 @@
                                                     <VBox.margin>
                                                         <Insets bottom="15.0" top="20.0" />
                                                     </VBox.margin>
-                                       <padding>
-                                          <Insets left="20.0" right="20.0" />
-                                       </padding>
+                                                    <padding>
+                                                        <Insets left="20.0" right="20.0" />
+                                                    </padding>
                                                 </HBox>
                                     
                                                 <ScrollPane fitToWidth="true" style="-fx-background-color: transparent; -fx-background: white;" VBox.vgrow="ALWAYS">

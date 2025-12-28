@@ -4,6 +4,9 @@
  */
 package com.mycompany.clientside.controllers;
 
+import com.mycompany.clientside.App;
+import com.mycompany.clientside.Screens;
+import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
@@ -44,10 +47,16 @@ public class HomeMenuController implements Initializable {
 
     @FXML
     private void onSingleClick(ActionEvent event) {
+        try {
+            App.setRoot(Screens.DIFFICULTY_SCREEN);
+        } catch (IOException ex) {
+            // todo make an alert!
+        }
     }
 
     @FXML
     private void onLocalModeClick(ActionEvent event) {
+       
     }
 
     @FXML
@@ -56,6 +65,11 @@ public class HomeMenuController implements Initializable {
 
     @FXML
     private void onScoreClick(ActionEvent event) {
+        try {
+            App.setRoot(Screens.STATS_SCREEN);
+        } catch (IOException ex) {
+            // todo make an alert!
+        }
     }
 
     @FXML
