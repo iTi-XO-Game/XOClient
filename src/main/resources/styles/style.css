@@ -48,14 +48,20 @@
     -fx-font-weight: bold;
     -fx-background-radius: 8;
 }
+.login-btn:hover {
+    -fx-background-color: #dc2626; 
+}
 .primary-btn {
     -fx-background-color: linear-gradient(to right, #fb7185, #fb923c);
     -fx-text-fill: white;
     -fx-font-weight: bold;
     -fx-background-radius: 10;
 }
+.primary-btn:hover {
+    -fx-background-color: linear-gradient(to right, #f43f5e, #f97316); 
+}
 .small-text {
-    -fx-font-size: 10;
+    -fx-font-size: 14;
 }
 
 .create-link {
