@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.net.URL?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+
+<BorderPane id="AnchorPane" prefHeight="400.0" prefWidth="600.0" styleClass="mainFxmlClass" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.mycompany.clientside.controllers.GameScreenController">
+    <stylesheets>
+        <URL value="@/styles/gamescreen.css" />
+    </stylesheets>
+    <top>
+        <BorderPane prefHeight="60" styleClass="topBar">
+            <left>
+                <HBox alignment="CENTER_LEFT" spacing="12">
+                    <ImageView id="logo" fitHeight="31.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true" smooth="true">
+                        <Image url="@../images/xo_tiles.png" />
+                    </ImageView>
+                    <Label id="gameTitle" prefHeight="27.0" prefWidth="105.0" text="Tic Tac Toe" />
+                </HBox>
+            </left>
+            <right>
+                <Button fx:id="exitGameButton" onAction="#onExitClick" styleClass="button">
+                    <graphic>
+                        <ImageView fitHeight="31.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true" smooth="true">
+                            <Image url="@../images/logout.png" />
+                        </ImageView>
+                    </graphic>
+                    <text>Leave</text>
+                </Button>
+            </right>
+        </BorderPane>
+    </top>
+    <center>
+        <StackPane prefHeight="150.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+            <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0">
+                <GridPane alignment="CENTER" hgap="24">
+                    <VBox alignment="TOP_CENTER" GridPane.columnIndex="0">
+                        <Label text="CurrentTurn" />
+                        <VBox alignment="CENTER">
+                            <Label text="X" />
+                            <Label fx:id="scoreX" text="0" />
+                            <Label text="Player X" />
+                        </VBox>
+                    </VBox>
+                    <VBox alignment="TOP_CENTER" GridPane.columnIndex="1">
+                        <Label text="CurrentTurn" />     
+                        <VBox alignment="CENTER">
+                            <Label text="O" />
+                            <Label fx:id="scoreO" text="0" />
+                            <Label text="Player O" />
+                        </VBox>
+                    </VBox>
+               <columnConstraints>
+                  <ColumnConstraints />
+                  <ColumnConstraints />
+               </columnConstraints>
+               <rowConstraints>
+                  <RowConstraints />
+               </rowConstraints>
+                </GridPane>
+                <GridPane alignment="CENTER" hgap="12" vgap="12">
+                    <!-- Row 0 -->
+                    <Button fx:id="b00" onAction="#handleMove" GridPane.rowIndex="0" GridPane.columnIndex="0" />
+                    <Button fx:id="b01" onAction="#handleMove" GridPane.rowIndex="0" GridPane.columnIndex="1" />
+                    <Button fx:id="b02" onAction="#handleMove" GridPane.rowIndex="0" GridPane.columnIndex="2" />
+
+                    <!-- Row 1 -->
+                    <Button fx:id="b10" onAction="#handleMove" GridPane.rowIndex="1" GridPane.columnIndex="0" />
+                    <Button fx:id="b11" onAction="#handleMove" GridPane.rowIndex="1" GridPane.columnIndex="1" />
+                    <Button fx:id="b12" onAction="#handleMove" GridPane.rowIndex="1" GridPane.columnIndex="2" />
+
+                    <!-- Row 2 -->
+                    <Button fx:id="b20" onAction="#handleMove" GridPane.rowIndex="2" GridPane.columnIndex="0" />
+                    <Button fx:id="b21" onAction="#handleMove" GridPane.rowIndex="2" GridPane.columnIndex="1" />
+                    <Button fx:id="b22" onAction="#handleMove" GridPane.rowIndex="2" GridPane.columnIndex="2" />
+               <columnConstraints>
+                  <ColumnConstraints />
+                  <ColumnConstraints />
+                  <ColumnConstraints />
+               </columnConstraints>
+               <rowConstraints>
+                  <RowConstraints />
+                  <RowConstraints />
+                  <RowConstraints />
+               </rowConstraints>
+                </GridPane>
+            <Button fx:id="restartButton" mnemonicParsing="false" onAction="#onRestartClick" text="Restart Game" />
+            </VBox>
+        </StackPane>
+    </center>
+    
+</BorderPane>

@@ -10,7 +10,8 @@ package com.mycompany.clientside;
  */
 public class Screens {
     
-    public static final String HOME_SCREEN = "fxml/homeMenu";
-    public static final String STATS_SCREEN = "stats/PlayerState";
-    public static final String DIFFICULTY_SCREEN = "difficulty/difficultyScreen";
+    public static final String HOME_SCREEN = "screens/homeMenu";
+    public static final String STATS_SCREEN = "screens/PlayerState";
+    public static final String DIFFICULTY_SCREEN = "screens/difficultyScreen";
+    public static final String GAME_SCREEN = "screens/gameScreen";
 }

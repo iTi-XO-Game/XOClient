@@ -51,6 +51,11 @@ public class DifficultyScreenController implements Initializable {
 
     @FXML
     private void clickPlayGame(ActionEvent event) {
+        try { // todo handle the AI
+            App.setRoot(Screens.GAME_SCREEN);
+        } catch (IOException ex) {
+            // todo add alert!
+        }
     }
 
     @FXML

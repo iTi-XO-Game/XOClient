@@ -13,13 +13,13 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
+
 /**
  * FXML Controller class
  *
  * @author lenovo
  */
 public class HomeMenuController implements Initializable {
-
 
     @FXML
     private Button logOutButton;
@@ -33,14 +33,15 @@ public class HomeMenuController implements Initializable {
     private Button scoreButton;
     @FXML
     private Button replayButton;
+
     /**
      * Initializes the controller class.
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         // TODO
-    }    
-    
+    }
+
     @FXML
     private void onLogOut(ActionEvent event) {
     }
@@ -56,7 +57,11 @@ public class HomeMenuController implements Initializable {
 
     @FXML
     private void onLocalModeClick(ActionEvent event) {
-       
+        try {
+            App.setRoot(Screens.GAME_SCREEN);
+        } catch (IOException ex) {
+            // todo add alert!
+        }
     }
 
     @FXML
