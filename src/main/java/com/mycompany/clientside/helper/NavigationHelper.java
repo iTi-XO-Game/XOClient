@@ -9,23 +9,22 @@ import javafx.animation.FadeTransition;
 import javafx.scene.Parent;
 import javafx.stage.Stage;
 import javafx.util.Duration;
+
 /**
  *
  * @author Depogramming
  */
-
-
-
 public class NavigationHelper {
+
     private static Stack<Parent> history = new Stack<>();
 
     public static void navigateTo(Stage stage, Parent nextRoot) {
         Parent currentRoot = stage.getScene().getRoot();
         history.push(currentRoot);
 
-        
+        // 1. Prepare the new root (invisible at first)
         nextRoot.setOpacity(0);
-        
+
         // 2. Fade Out the current screen
         FadeTransition fadeOut = new FadeTransition(Duration.millis(300), currentRoot);
         fadeOut.setFromValue(1.0);
@@ -34,7 +33,7 @@ public class NavigationHelper {
         fadeOut.setOnFinished(e -> {
             // 3. Once faded out, swap the roots
             stage.getScene().setRoot(nextRoot);
-            
+
             // 4. Fade In the new screen
             FadeTransition fadeIn = new FadeTransition(Duration.millis(300), nextRoot);
             fadeIn.setFromValue(0.0);
