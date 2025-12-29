@@ -11,9 +11,8 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 
 import javafx.scene.control.Button;
-import javafx.scene.control.CheckBox;
-import javafx.scene.control.Hyperlink;
 import javafx.scene.control.TextField;
+import javafx.scene.layout.StackPane;
 /**
  * FXML Controller class
  *
@@ -22,18 +21,13 @@ import javafx.scene.control.TextField;
 public class RegisterController implements Initializable {
 
 
+    
     @FXML
     private TextField userNameTxt;
     @FXML
     private TextField passTxt;
     @FXML
     private TextField conformPassTxt;
-    @FXML
-    private CheckBox termOfServiceCheckBox;
-    @FXML
-    private Hyperlink termOfServiceHyperLink;
-    @FXML
-    private Hyperlink privacyPolicyHyperLink;
     @FXML
     private Button createAccountBtn;
     /**
@@ -46,6 +40,10 @@ public class RegisterController implements Initializable {
     
     @FXML
     private void handelCreateAccount(ActionEvent event) {
+    }
+
+    @FXML
+    private void handelLoginHyperLink(ActionEvent event) {
     }
 
 }
