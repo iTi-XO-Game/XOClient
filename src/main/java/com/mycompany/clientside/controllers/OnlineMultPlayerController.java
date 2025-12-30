@@ -20,6 +20,12 @@ import javafx.scene.Parent;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.VBox;
+import javafx.animation.PauseTransition;
+import javafx.util.Duration;
+import javafx.scene.Scene;
+import javafx.stage.Stage;
+import javafx.stage.Modality;
+import javafx.stage.StageStyle;
 
 /**
  * FXML Controller class
@@ -39,19 +45,46 @@ public class OnlineMultPlayerController implements Initializable {
         playersList = new ArrayList<>();
         gettingPlayersList();
         updatePlayerList(playersList);
+
+        PauseTransition delay = new PauseTransition(Duration.seconds(5));
+        delay.setOnFinished(event -> showPlayerRequestPopUp());
+        delay.play();
     }
 
+    private void showPlayerRequestPopUp() {
+    try {
+        // 1. Load the FXML for the request screen
+        // Ensure Screens.PLAYER_REQUEST matches your file path correctly!
+        FXMLLoader loader = new FXMLLoader(getClass().getResource(Screens.PLAYER_REQUEST_SCREEN + ".fxml"));
+        Parent root = loader.load();
+
+        // 2. Create a new Stage (window)
+        Stage popupStage = new Stage();
+        popupStage.initModality(Modality.APPLICATION_MODAL); // Blocks interaction with main window
+        popupStage.initStyle(StageStyle.UNDECORATED);      // Optional: removes title bar/buttons
+        popupStage.setTitle("Game Request");
+
+        // 3. Set the scene and show
+        Scene scene = new Scene(root);
+        popupStage.setScene(scene);
+        popupStage.show();
+
+    } catch (IOException e) {
+        System.err.println("Could not load player request popup: " + e.getMessage());
+        e.printStackTrace();
+    }
+}
     private void gettingPlayersList() {
         //do some logic with the server...
         //but for now there's no server, I am the server
         playersList.clear();
-        playersList.add(new Player(1, "Ali", 10, 1,true));
-        playersList.add(new Player(2, "Ali", 20, 2,false));
-        playersList.add(new Player(3, "Ali", 30, 3,true));
-        playersList.add(new Player(4, "Ali", 40, 4,false));
-        playersList.add(new Player(5, "Ali", 50, 5,false));
-        playersList.add(new Player(6, "Ali", 60, 6,false));
-        playersList.add(new Player(7, "Ali", 70, 7,false));
+        playersList.add(new Player(1, "Ali", 10, 1, true));
+        playersList.add(new Player(2, "Ali", 20, 2, false));
+        playersList.add(new Player(3, "Ali", 30, 3, true));
+        playersList.add(new Player(4, "Ali", 40, 4, false));
+        playersList.add(new Player(5, "Ali", 50, 5, false));
+        playersList.add(new Player(6, "Ali", 60, 6, false));
+        playersList.add(new Player(7, "Ali", 70, 7, false));
         onlinePlayersCount.setText(playersList.size() + "");
     }
 
@@ -62,7 +95,7 @@ public class OnlineMultPlayerController implements Initializable {
         for (Player p : players) {
             try {
                 // 1. Load the template for each player
-                FXMLLoader loader = new FXMLLoader(getClass().getResource(Screens.ONLINE_MULTIPLAYER_PLAYER_CARD+".fxml"));
+                FXMLLoader loader = new FXMLLoader(getClass().getResource(Screens.ONLINE_MULTIPLAYER_PLAYER_CARD + ".fxml"));
                 Parent card = loader.load();
 
                 // 2. Get the references to labels from the loaded FXML
@@ -70,7 +103,7 @@ public class OnlineMultPlayerController implements Initializable {
                 Label winsLabel = (Label) card.lookup("#winsLabel");
                 Label losesLabel = (Label) card.lookup("#losesLabel");
                 Button btn = (Button) card.lookup("#challengeButton");
-                if(p.isInGame()){
+                if (p.isInGame()) {
                     btn.setDisable(true);
                     btn.setText("In Game");
                 }
@@ -90,7 +123,7 @@ public class OnlineMultPlayerController implements Initializable {
     }
 
     private void handleChallenge(Player p, Button btn) {
-        System.out.println("We clicked on button for player"+p.getId());
+        System.out.println("We clicked on button for player" + p.getId());
         btn.setDisable(true);
         btn.setText("Waiting");
         // send to server...
@@ -99,11 +132,12 @@ public class OnlineMultPlayerController implements Initializable {
     }
 
     @FXML
-    void refreshFunction(ActionEvent event) {
+    private void refreshFunction(ActionEvent event) {
         gettingPlayersList();
         updatePlayerList(playersList);
     }
-        @FXML
+
+    @FXML
     private void navigateBack(ActionEvent event) {
         try {
             App.setRoot(Screens.HOME_SCREEN);

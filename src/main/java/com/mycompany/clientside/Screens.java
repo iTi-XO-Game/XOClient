@@ -16,4 +16,6 @@ public class Screens {
     public static final String GAME_SCREEN = "screens/gameScreen";
     public static final String ONLINE_MULTIPLAYER = "screens/onlineMultPlayer";
     public static final String ONLINE_MULTIPLAYER_PLAYER_CARD = "/com/mycompany/clientside/screens/onlineMultiplayerPlayerCard";
+    public static final String PLAYER_REQUEST_SCREEN = "/com/mycompany/clientside/screens/playerRequestScreen";
+
 }
