@@ -2,8 +2,11 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/javafx/FXMLController.java to edit this template
  */
-package com.mycompany.clientside;
+package com.mycompany.clientside.controllers;
 
+import com.mycompany.clientside.App;
+import com.mycompany.clientside.Screens;
+import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
@@ -103,4 +106,13 @@ private void addGame(String dateTime) {
     private void handelDelVideo(ActionEvent event) {
     }
 
+    
+    @FXML
+    private void navigateBack(ActionEvent event) {
+        try {
+            App.setRoot(Screens.HOME_SCREEN);
+        } catch (IOException ex) {
+            // todo make an alert!
+        }
+    }
 }

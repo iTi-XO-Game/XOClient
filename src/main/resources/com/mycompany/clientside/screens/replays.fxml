@@ -5,15 +5,31 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.HBox?>
 
 <BorderPane xmlns="http://javafx.com/javafx/25"
             xmlns:fx="http://javafx.com/fxml/1"
-            fx:controller="com.mycompany.clientside.ReplaysController"
-            stylesheets="@../../../styles/style.css"
+            fx:controller="com.mycompany.clientside.controllers.ReplaysController"
+            stylesheets="@../styles/loginStyles.css"
             styleClass="login-background"
             prefWidth="600.0"
             prefHeight="400.0">
 
+    <top>
+        <HBox prefHeight="59.0" prefWidth="600.0" style="-fx-background-color: white;" BorderPane.alignment="CENTER_LEFT">
+            <children>
+                <Button fx:id="navigateBackButton" mnemonicParsing="false" onAction="#navigateBack" prefHeight="58.0" prefWidth="87.0" style="-fx-background-color: transparent;">
+                    <graphic>
+                        <ImageView fitHeight="31.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true" smooth="true">
+                            <Image url="@../images/arrow_back.png" />
+                        </ImageView>
+                    </graphic>
+                </Button>
+            </children>
+        </HBox>
+    </top>
     <center>
         <VBox spacing="10"
               alignment="TOP_CENTER"

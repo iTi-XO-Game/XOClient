@@ -9,11 +9,11 @@
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="526.0" prefWidth="598.0" styleClass="login-background" stylesheets="@../../../styles/style.css" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.mycompany.clientside.LoginController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="526.0" prefWidth="598.0" styleClass="login-background" stylesheets="@../styles/loginStyles.css" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.mycompany.clientside.controllers.LoginController">
    <children>
       <StackPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="150.0" prefWidth="200.0"  styleClass="login-background" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
-            <VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="426.0" prefWidth="335.0" spacing="12.0" styleClass="card">
+            <VBox maxHeight="370.0" maxWidth="360.0" spacing="12.0" styleClass="card">
                <children>
                   <Label styleClass="title" text="Login to Play" />
                   <Label styleClass="subtitle" text="Enter your credentials to continue your winning streak." />
@@ -22,11 +22,11 @@
                   <Label styleClass="field-label" text="Password" />
                   <TextField fx:id="passTxt" promptText="Enter your password" styleClass="input" />
                   <Hyperlink fx:id="forgetPassHyperLink" onAction="#handelForgetPassHyperLink" styleClass="forgot" text="Forgot Password?" />
-                  <Button fx:id="loginBtn" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#handelLogin" prefHeight="40.0" styleClass="login-btn" text="Log In" />
-                  <HBox prefHeight="100.0" prefWidth="200.0">
+                  <Button fx:id="loginBtn" maxWidth="1.7976931348623157E308"  mnemonicParsing="false" onAction="#handelLogin" prefHeight="40.0" styleClass="login-btn" text="Log In" />
+                  <HBox alignment="CENTER_LEFT" >
                      <children>
-                        <Label prefHeight="19.0" prefWidth="54.0" styleClass="small-text" text="New player?" />
-                        <Hyperlink fx:id="createAccountHyperLink" alignment="TOP_CENTER" onAction="#handelCreateAccount" styleClass="create-link" text="Create Account" />
+                        <Label styleClass="small-text" text="New player?" />
+                        <Hyperlink fx:id="createAccountHyperLink" alignment="TOP_CENTER" onAction="#navigateToRegister" styleClass="create-link" text="Create Account" />
                      </children>
                   </HBox>
                </children>

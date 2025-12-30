@@ -11,7 +11,10 @@ package com.mycompany.clientside;
 public class Screens {
     
     public static final String HOME_SCREEN = "screens/homeMenu";
-    public static final String STATS_SCREEN = "screens/PlayerState";
+    public static final String STATS_SCREEN = "screens/playerStats";
     public static final String DIFFICULTY_SCREEN = "screens/difficultyScreen";
     public static final String GAME_SCREEN = "screens/gameScreen";
+    public static final String LOGIN_SCREEN = "screens/login";
+    public static final String REGISTER_SCREEN = "screens/register";
+    public static final String REPLAYS_SCREEN = "screens/replays";
 }
