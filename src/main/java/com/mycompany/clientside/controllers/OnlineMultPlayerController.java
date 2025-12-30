@@ -10,6 +10,7 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -41,17 +42,17 @@ public class OnlineMultPlayerController implements Initializable {
     private void gettingPlayersList() {
         //do some logic with the server...
         //but for now there's no server, I am the server
-
-        playersList.add(new Player(1, "Ali", 10, 1));
-        playersList.add(new Player(2, "Ali", 20, 2));
-        playersList.add(new Player(3, "Ali", 30, 3));
-        playersList.add(new Player(4, "Ali", 40, 4));
-        playersList.add(new Player(5, "Ali", 50, 5));
-        playersList.add(new Player(6, "Ali", 60, 6));
-        playersList.add(new Player(7, "Ali", 70, 7));
-        onlinePlayersCount.setText(playersList.size()+"");
+        playersList.clear();
+        playersList.add(new Player(1, "Ali", 10, 1,true));
+        playersList.add(new Player(2, "Ali", 20, 2,false));
+        playersList.add(new Player(3, "Ali", 30, 3,true));
+        playersList.add(new Player(4, "Ali", 40, 4,false));
+        playersList.add(new Player(5, "Ali", 50, 5,false));
+        playersList.add(new Player(6, "Ali", 60, 6,false));
+        playersList.add(new Player(7, "Ali", 70, 7,false));
+        onlinePlayersCount.setText(playersList.size() + "");
     }
-    
+
     public void updatePlayerList(List<Player> players) {
         // Clear old data
         playersContainer.getChildren().clear();
@@ -67,26 +68,37 @@ public class OnlineMultPlayerController implements Initializable {
                 Label winsLabel = (Label) card.lookup("#winsLabel");
                 Label losesLabel = (Label) card.lookup("#losesLabel");
                 Button btn = (Button) card.lookup("#challengeButton");
-
+                if(p.isInGame()){
+                    btn.setDisable(true);
+                    btn.setText("In Game");
+                }
                 // 3. Set the data
                 nameLabel.setText(p.getUserName());
                 winsLabel.setText("W:" + p.getWins());
                 losesLabel.setText("L:" + p.getLosses());
-                
-                btn.setOnAction(e -> handleChallenge(p));
 
+                btn.setOnAction(e -> handleChallenge(p, btn));
                 // 4. Add to the main container
                 playersContainer.getChildren().add(card);
-                
+
             } catch (IOException e) {
                 e.printStackTrace();
             }
         }
     }
 
-    private void handleChallenge(Player p) {
-        //1. make the button un pressable
-        //2. send the request to the server
-        //3. if failed, make the button clickable again
+    private void handleChallenge(Player p, Button btn) {
+        System.out.println("We clicked on button for player"+p.getId());
+        btn.setDisable(true);
+        btn.setText("Waiting");
+        // send to server...
+        // if it fails:
+        // btn.setDisable(false);
+    }
+
+    @FXML
+    void refreshFunction(ActionEvent event) {
+        gettingPlayersList();
+        updatePlayerList(playersList);
     }
 }

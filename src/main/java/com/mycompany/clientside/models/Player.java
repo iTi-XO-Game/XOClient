@@ -13,16 +13,17 @@ public class Player {
     private final String userName;
     private final int wins;
     private final int losses;
-
+    private final boolean inGame;
     public int getId() {
         return id;
     }
 
-    public Player(int id, String userName, int wins, int losses) {
+    public Player(int id, String userName, int wins, int losses, boolean inGame) {
         this.id = id;
         this.userName = userName;
         this.wins = wins;
         this.losses = losses;
+        this.inGame = inGame;
     }
 
     public String getUserName() {
@@ -35,6 +36,9 @@ public class Player {
 
     public int getLosses() {
         return losses;
+    }
+    public boolean isInGame(){
+        return this.inGame;
     }
     
 }
