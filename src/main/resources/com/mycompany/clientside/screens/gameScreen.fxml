@@ -13,11 +13,12 @@
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 
-<BorderPane id="AnchorPane" prefHeight="400.0" prefWidth="600.0" styleClass="mainFxmlClass" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.mycompany.clientside.controllers.GameScreenController">
+<BorderPane xmlns:fx="http://javafx.com/fxml/1" id="AnchorPane" styleClass="mainFxmlClass" xmlns="http://javafx.com/javafx/25"  fx:controller="com.mycompany.clientside.controllers.GameScreenController">
     <stylesheets>
-        <URL value="@/styles/gamescreen.css" />
+        <URL value="@../styles/gamescreen.css" />
     </stylesheets>
     <top>
+        
         <BorderPane prefHeight="60" styleClass="topBar">
             <left>
                 <HBox alignment="CENTER_LEFT" spacing="12">
@@ -28,7 +29,7 @@
                 </HBox>
             </left>
             <right>
-                <Button fx:id="exitGameButton" onAction="#onExitClick" styleClass="button">
+                <Button fx:id="exitGameButton" id="leaveButton" onAction="#onExitClick" styleClass="button">
                     <graphic>
                         <ImageView fitHeight="31.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true" smooth="true">
                             <Image url="@../images/logout.png" />
@@ -39,61 +40,47 @@
             </right>
         </BorderPane>
     </top>
+    
     <center>
         <StackPane prefHeight="150.0" prefWidth="200.0" BorderPane.alignment="CENTER">
-            <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0">
-                <GridPane alignment="CENTER" hgap="24">
-                    <VBox alignment="TOP_CENTER" GridPane.columnIndex="0">
-                        <Label text="CurrentTurn" />
-                        <VBox alignment="CENTER">
-                            <Label text="X" />
-                            <Label fx:id="scoreX" text="0" />
-                            <Label text="Player X" />
+            <VBox alignment="CENTER" spacing="20" >
+                <HBox alignment="CENTER"  spacing="20" >
+                    <VBox  alignment="TOP_CENTER" >
+                        <Label text="Turn" visible="false"  fx:id="turnXLabel" styleClass="turnLabel" />
+                        <VBox fx:id="playerXCard" alignment="CENTER" styleClass="playerCard">
+                            <Label text="X" styleClass="x-text"/>
+                            <Label fx:id="scoreX" text="0" styleClass="playerScore" />
+                            <Label text="Player X" styleClass="playerName" />
                         </VBox>
                     </VBox>
-                    <VBox alignment="TOP_CENTER" GridPane.columnIndex="1">
-                        <Label text="CurrentTurn" />     
-                        <VBox alignment="CENTER">
-                            <Label text="O" />
-                            <Label fx:id="scoreO" text="0" />
-                            <Label text="Player O" />
+                    
+                    <GridPane alignment="CENTER" hgap="12" vgap="12" styleClass="board">
+                        <!-- Row 0 -->
+                        <Button fx:id="b00" styleClass="gameTile" onAction="#handleMove" GridPane.rowIndex="0" GridPane.columnIndex="0" />
+                        <Button fx:id="b01" styleClass="gameTile" onAction="#handleMove" GridPane.rowIndex="0" GridPane.columnIndex="1" />
+                        <Button fx:id="b02" styleClass="gameTile" onAction="#handleMove" GridPane.rowIndex="0" GridPane.columnIndex="2" />
+
+                        <!-- Row 1 -->
+                        <Button fx:id="b10" styleClass="gameTile" onAction="#handleMove" GridPane.rowIndex="1" GridPane.columnIndex="0" />
+                        <Button fx:id="b11" styleClass="gameTile" onAction="#handleMove" GridPane.rowIndex="1" GridPane.columnIndex="1" />
+                        <Button fx:id="b12" styleClass="gameTile" onAction="#handleMove" GridPane.rowIndex="1" GridPane.columnIndex="2" />
+
+                        <!-- Row 2 -->
+                        <Button fx:id="b20" styleClass="gameTile" onAction="#handleMove" GridPane.rowIndex="2" GridPane.columnIndex="0" />
+                        <Button fx:id="b21" styleClass="gameTile" onAction="#handleMove" GridPane.rowIndex="2" GridPane.columnIndex="1" />
+                        <Button fx:id="b22" styleClass="gameTile" onAction="#handleMove" GridPane.rowIndex="2" GridPane.columnIndex="2" />
+
+                    </GridPane>
+                    <VBox alignment="TOP_CENTER">
+                        <Label text="Turn" visible="false" fx:id="turnOLabel" styleClass="turnLabel" />     
+                        <VBox  fx:id="playerOCard" alignment="CENTER" styleClass="playerCard">
+                            <Label text="O" styleClass="o-text" />
+                            <Label fx:id="scoreO" text="0" styleClass="playerScore" />
+                            <Label text="Player O" styleClass="playerName"/>
                         </VBox>
                     </VBox>
-               <columnConstraints>
-                  <ColumnConstraints />
-                  <ColumnConstraints />
-               </columnConstraints>
-               <rowConstraints>
-                  <RowConstraints />
-               </rowConstraints>
-                </GridPane>
-                <GridPane alignment="CENTER" hgap="12" vgap="12">
-                    <!-- Row 0 -->
-                    <Button fx:id="b00" onAction="#handleMove" GridPane.rowIndex="0" GridPane.columnIndex="0" />
-                    <Button fx:id="b01" onAction="#handleMove" GridPane.rowIndex="0" GridPane.columnIndex="1" />
-                    <Button fx:id="b02" onAction="#handleMove" GridPane.rowIndex="0" GridPane.columnIndex="2" />
-
-                    <!-- Row 1 -->
-                    <Button fx:id="b10" onAction="#handleMove" GridPane.rowIndex="1" GridPane.columnIndex="0" />
-                    <Button fx:id="b11" onAction="#handleMove" GridPane.rowIndex="1" GridPane.columnIndex="1" />
-                    <Button fx:id="b12" onAction="#handleMove" GridPane.rowIndex="1" GridPane.columnIndex="2" />
-
-                    <!-- Row 2 -->
-                    <Button fx:id="b20" onAction="#handleMove" GridPane.rowIndex="2" GridPane.columnIndex="0" />
-                    <Button fx:id="b21" onAction="#handleMove" GridPane.rowIndex="2" GridPane.columnIndex="1" />
-                    <Button fx:id="b22" onAction="#handleMove" GridPane.rowIndex="2" GridPane.columnIndex="2" />
-               <columnConstraints>
-                  <ColumnConstraints />
-                  <ColumnConstraints />
-                  <ColumnConstraints />
-               </columnConstraints>
-               <rowConstraints>
-                  <RowConstraints />
-                  <RowConstraints />
-                  <RowConstraints />
-               </rowConstraints>
-                </GridPane>
-            <Button fx:id="restartButton" mnemonicParsing="false" onAction="#onRestartClick" text="Restart Game" />
+                </HBox>
+                <Button fx:id="restartButton" styleClass="restart" mnemonicParsing="false" onAction="#onRestartClick" text="Restart Game" />
             </VBox>
         </StackPane>
     </center>

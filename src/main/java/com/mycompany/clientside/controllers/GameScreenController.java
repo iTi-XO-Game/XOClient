@@ -21,6 +21,7 @@ import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
+import javafx.scene.layout.VBox;
 
 /**
  * FXML Controller class
@@ -51,6 +52,14 @@ public class GameScreenController implements Initializable {
     private Button exitGameButton;
 
     private final ArrayList<Move> gameMoves = new ArrayList<>();
+    @FXML
+    private VBox playerXCard;
+    @FXML
+    private VBox playerOCard;
+    @FXML
+    private Label turnXLabel;
+    @FXML
+    private Label turnOLabel;
 
     /**
      * Initializes the controller class.
@@ -63,6 +72,8 @@ public class GameScreenController implements Initializable {
             {b20, b21, b22},};
         scoreX.setText("0"); // zero
         scoreO.setText("0"); // zero
+        playerXCard.getStyleClass().add("current-player");
+        turnXLabel.setVisible(true);
     }
 
     @FXML
@@ -76,8 +87,25 @@ public class GameScreenController implements Initializable {
 
         clicked.setText(currentPlayer);
         saveMove(clicked, currentPlayer);
+        if (currentPlayer.equals(X)) {
+            clicked.getStyleClass().add("x-text");
+            playerXCard.getStyleClass().remove("current-player");
+            playerOCard.getStyleClass().add("current-player");
+            turnXLabel.setVisible(false);
+            turnOLabel.setVisible(true);
+        } else {
+            clicked.getStyleClass().add("o-text");
+            playerXCard.getStyleClass().add("current-player");
+            playerOCard.getStyleClass().remove("current-player");
+            turnXLabel.setVisible(true);
+            turnOLabel.setVisible(false);
+        }
 
         if (checkIfWinner()) {
+            playerXCard.getStyleClass().remove("current-player");
+            playerOCard.getStyleClass().remove("current-player");
+            turnXLabel.setVisible(false);
+            turnOLabel.setVisible(false);
             if (currentPlayer.equals(X)) {
                 int currentScore = Integer.parseInt(scoreX.getText());
                 scoreX.setText(String.valueOf(currentScore + 1));
@@ -89,6 +117,7 @@ public class GameScreenController implements Initializable {
                 btn.setDisable(true);
             });
             showEndGameAlert(currentPlayer + " Wins!");
+            
             return;
         }
 
@@ -96,6 +125,10 @@ public class GameScreenController implements Initializable {
             forEachButton((btn) -> {
                 btn.setDisable(true);
             });
+            playerXCard.getStyleClass().remove("current-player");
+            playerOCard.getStyleClass().remove("current-player");
+            turnXLabel.setVisible(false);
+            turnOLabel.setVisible(false);
             showEndGameAlert("It is a Draw!");
             return;
         }
@@ -160,7 +193,15 @@ public class GameScreenController implements Initializable {
 
     private boolean checkLine(Button a, Button b, Button c) {
         String temp = a.getText();
-        return !temp.isBlank() && temp.equals(b.getText()) && temp.equals(c.getText());
+        
+        if (!temp.isBlank() && temp.equals(b.getText()) && temp.equals(c.getText())) {
+            a.getStyleClass().add("winning-cell");
+            b.getStyleClass().add("winning-cell");
+            c.getStyleClass().add("winning-cell");
+            return true;
+        }
+        
+        return false;
     }
 
     @FXML
@@ -190,9 +231,16 @@ public class GameScreenController implements Initializable {
 
     private void restartGame() {
         gameMoves.clear();
+        playerXCard.getStyleClass().add("current-player");
+        playerOCard.getStyleClass().remove("current-player");
+        turnXLabel.setVisible(true);
+        turnOLabel.setVisible(false);
         forEachButton((btn) -> {
-            btn.setDisable(false);
             btn.setText("");
+            btn.getStyleClass().remove("o-text");
+            btn.getStyleClass().remove("x-text");
+            btn.getStyleClass().remove("winning-cell");
+            btn.setDisable(false);
         });
         currentPlayer = X;
     }
