@@ -26,26 +26,51 @@ public class DifficultyScreenController implements Initializable {
 
     @FXML
     private ToggleGroup difficultyGroup;
-
     /**
      * Initializes the controller class.    
      */
+
+    public enum Difficulty
+    {
+        Easy ,
+        Mid ,
+        Hard
+    }
+
+    Difficulty currentDifficulty;
+
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         // TODO
-    }    
+        currentDifficulty = Difficulty.Easy;
+        difficultyGroup.selectedToggleProperty().addListener((obs, oldToggle, newToggle) -> {
+            if (newToggle == null) {
+                oldToggle.setSelected(true);
+            }
+        });
+
+    }
 
     @FXML
     private void clickEasy(ActionEvent event) {
-        System.out.println("Easy mode");
+        currentDifficulty = Difficulty.Easy;
+        System.out.println(currentDifficulty.toString());
+
     }
 
     @FXML
     private void clickMedium(ActionEvent event) {
+        currentDifficulty = Difficulty.Mid;
+        System.out.println(currentDifficulty.toString());
+
+
     }
 
     @FXML
     private void clickHard(ActionEvent event) {
+        currentDifficulty = Difficulty.Hard;
+        System.out.println(currentDifficulty.toString());
+
     }
 
     @FXML
