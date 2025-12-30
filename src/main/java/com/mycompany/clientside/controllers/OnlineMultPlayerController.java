@@ -42,7 +42,7 @@ public class OnlineMultPlayerController implements Initializable {
         //do some logic with the server...
         //but for now there's no server, I am the server
 
-        playersList.add(new Player(1, "Ahmed", 10, 1));
+        playersList.add(new Player(1, "Ali", 10, 1));
         playersList.add(new Player(2, "Ali", 20, 2));
         playersList.add(new Player(3, "Ali", 30, 3));
         playersList.add(new Player(4, "Ali", 40, 4));
