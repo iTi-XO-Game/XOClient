@@ -12,13 +12,14 @@ import javafx.fxml.Initializable;
 
 import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
+import javafx.stage.Stage;
+
 /**
  * FXML Controller class
  *
  * @author Mohamed
  */
 public class PlayerRequestScreenController implements Initializable {
-
 
     @FXML
     private ImageView imageIcon;
@@ -28,16 +29,19 @@ public class PlayerRequestScreenController implements Initializable {
     private Label challengerWinRate;
     @FXML
     private Label timerDown;
+
     /**
      * Initializes the controller class.
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         // TODO
-    }    
-    
+    }
+
     @FXML
     private void declineChallenge(ActionEvent event) {
+        Stage stage = (Stage) ((javafx.scene.Node) event.getSource()).getScene().getWindow();
+        stage.close();
     }
 
     @FXML
