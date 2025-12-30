@@ -16,7 +16,7 @@
          <top>
             <HBox prefHeight="60.0" prefWidth="579.0" styleClass="app-bar-container" BorderPane.alignment="CENTER">
                <children>
-                  <Button alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" prefHeight="62.0" prefWidth="60.0" styleClass="back-button" stylesheets="@../styles/onlinemultplayer.css" text="←" textAlignment="CENTER">
+                  <Button alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#navigateBack" prefHeight="62.0" prefWidth="60.0" styleClass="back-button" stylesheets="@../styles/onlinemultplayer.css" text="←" textAlignment="CENTER">
                      <HBox.margin>
                         <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />
                      </HBox.margin>

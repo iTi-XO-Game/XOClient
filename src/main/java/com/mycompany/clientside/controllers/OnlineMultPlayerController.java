@@ -4,6 +4,8 @@
  */
 package com.mycompany.clientside.controllers;
 
+import com.mycompany.clientside.App;
+import com.mycompany.clientside.Screens;
 import com.mycompany.clientside.models.Player;
 import java.io.IOException;
 import java.net.URL;
@@ -60,7 +62,7 @@ public class OnlineMultPlayerController implements Initializable {
         for (Player p : players) {
             try {
                 // 1. Load the template for each player
-                FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/mycompany/clientside/onlinemultiplayer/PlayerCard.fxml"));
+                FXMLLoader loader = new FXMLLoader(getClass().getResource(Screens.ONLINE_MULTIPLAYER_PLAYER_CARD+".fxml"));
                 Parent card = loader.load();
 
                 // 2. Get the references to labels from the loaded FXML
@@ -100,5 +102,13 @@ public class OnlineMultPlayerController implements Initializable {
     void refreshFunction(ActionEvent event) {
         gettingPlayersList();
         updatePlayerList(playersList);
+    }
+        @FXML
+    private void navigateBack(ActionEvent event) {
+        try {
+            App.setRoot(Screens.HOME_SCREEN);
+        } catch (IOException ex) {
+            // todo add alert!
+        }
     }
 }
