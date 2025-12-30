@@ -5,7 +5,7 @@
     -fx-background-position: center center;
 }
 .register-background {
-    -fx-background-image: url("/images/registerBackgroung.png");
+    -fx-background-image: url("/images/registerBackground.png");
     -fx-background-repeat: no-repeat;
     -fx-background-size: cover;
     -fx-background-position: center center;
@@ -47,9 +47,20 @@
     -fx-text-fill: white;
     -fx-font-weight: bold;
     -fx-background-radius: 8;
+   
+     -fx-pref-height: 30px;
+    -fx-min-height: 30px;
+    -fx-max-height: 30px;
+
+    -fx-padding: 0 15 0 15; 
+    
+     
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.2), 4, 0, 0, 2);
+    -fx-cursor: hand; 
 }
 .login-btn:hover {
     -fx-background-color: #dc2626; 
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.35), 6, 0, 0, 3);
 }
 .primary-btn {
     -fx-background-color: linear-gradient(to right, #fb7185, #fb923c);
