@@ -1,0 +1,239 @@
+/*
+ * Empty Stylesheet file.
+ */
+
+.mainFxmlClass {
+
+}
+
+.back-button {
+    -fx-font-size: 30px;
+    -fx-text-fill: #0078D7;
+    -fx-background-color: white;
+    -fx-border-color: #d1e1f0;
+    -fx-border-width: 2px;
+    -fx-min-width: 60px;
+    -fx-max-width: 60px;
+    -fx-min-height: 60px;
+    -fx-max-height: 60px;
+    -fx-background-radius: 500;
+    -fx-border-radius: 500;
+    -fx-padding: 0;
+    -fx-alignment: center;
+    -fx-cursor: hand;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.2), 8, 0, 0, 2);
+}
+
+.back-button:hover {
+    -fx-border-width: 0px;
+    -fx-text-fill: #005a9e;
+    -fx-background-color: #9fc4e1;
+    -fx-border-color: #0078D7;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.3), 10, 0, 0, 3);
+}
+
+.refresh-button{
+    -fx-font-size: 30px;
+    -fx-text-fill: #209c04;
+    -fx-background-color: rgb(171, 224, 186);
+    -fx-border-color: #d1e1f0;
+    -fx-border-width: 2px;
+    -fx-min-width: 60px;
+    -fx-max-width: 60px;
+    -fx-min-height: 60px;
+    -fx-max-height: 60px;
+    -fx-background-radius: 500;
+    -fx-border-radius: 500;
+    -fx-padding: 0;
+    -fx-alignment: center;
+    -fx-cursor: hand;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.2), 8, 0, 0, 2);
+}
+.refresh-button:hover {
+    -fx-border-width: 0px;
+    -fx-text-fill: white;
+    -fx-background-color: #4ECDC4;
+    /* -fx-border-color: #;  */
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.3), 10, 0, 0, 3);
+}
+.mainFxmlClass{
+    -fx-background-color: #FFF9F5;
+}
+.app-bar-container{
+    -fx-background-color:white;
+}
+
+/* General styling for both words */
+.title-main, .title-blue {
+    -fx-font-family: "System Bold"; /* Or "Arial" */
+    -fx-font-size: 32px;            /* Adjust size to fit your screen */
+    -fx-font-weight: bold;
+}
+
+.title-main {
+    -fx-text-fill: #2C3E50;
+}
+.title-blue {
+    -fx-text-fill: #0078D7;
+    /* This adds a tiny bit of depth without being a 'heavy' shadow */
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.05), 0, 0, 0, 1);
+}
+
+.status-container {
+    -fx-background-color: white;
+    -fx-border-color: #d1e1f0;
+    -fx-border-width: 1px;
+
+    /* High radius creates the pill/capsule shape */
+    -fx-background-radius: 50;
+    -fx-border-radius: 50;
+
+    /* Adds the subtle shadow seen in the image */
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.05), 5, 0, 0, 1);
+
+    /* Ensures the container doesn't stretch too much */
+    -fx-max-width: -font-relative-size;
+    -fx-padding: 5 15 5 15;
+}
+
+.status-number {
+    -fx-font-weight: bold;
+    -fx-text-fill: #2C3E50; /* Darker charcoal for the number */
+    -fx-font-size: 16px;
+}
+
+.status-text {
+    -fx-text-fill: #5D6D7E; /* Slightly lighter blue-grey for the text */
+    -fx-font-size: 16px;
+}
+.challenge-card {
+    -fx-background-color: white;
+    -fx-background-radius: 20px;
+        -fx-padding: 15px;
+}
+
+.challenge-card:hover {
+    -fx-background-color: #FFFBF6; 
+    
+}
+
+.opponent-name{
+    -fx-font-family: "System Bold";
+    -fx-font-size: 24px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #2C3E50;
+    -fx-line-spacing: 1px;
+}
+
+.opponent-wins ,.opponent-loses{
+    -fx-text-fill: #0078D7;
+    -fx-font-size: 18px;
+    -fx-background-color:#EFF6FF;
+    -fx-padding: 8px;
+    -fx-background-radius:15px;
+    -fx-font-weight:bold;
+}
+
+.opponent-loses{
+        -fx-background-color:#FEF2F2;
+    -fx-text-fill: #F15532;
+
+}
+/* Targets the ScrollPane itself */
+.scroll-pane {
+    -fx-background-color: transparent;
+}
+
+/* IMPORTANT: Targets the internal viewport that actually holds your content */
+.scroll-pane .viewport {
+    -fx-background-color: transparent;
+}
+
+/* Optional: Removes the border around the scroll area if you want a seamless look */
+.scroll-pane {
+    -fx-background-insets: 0;
+    -fx-padding: 0;
+}
+
+.challenge-button {
+    -fx-background-color: #0078D7;
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+    -fx-font-size: 24px;
+    -fx-background-radius: 50px;
+    -fx-cursor: hand;
+    
+    /* 1. Base Elevation (Stationary) */
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.2), 10, 0, 0, 4);
+    
+    /* Smoothing the transition (Optional: works best if done via Java code) */
+}
+
+.challenge-button:hover {
+    /* 2. Hover Elevation (Lifting up) */
+    /* We make the shadow blurrier and offset it more to look higher */
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.3), 15, 0, 0, 6);
+    
+    /* Make the color slightly brighter */
+    -fx-background-color: #1a89e0;
+    
+    /* Visual "Lift": Move the button 1 pixel up */
+    -fx-translate-y: -1px;
+}
+
+.challenge-button:pressed {
+    /* 3. Pressed State (Pushing down) */
+    /* Remove the offset and shrink the shadow to make it look like it touched the floor */
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.2), 5, 0, 0, 1);
+    
+    /* Push the button down */
+    -fx-translate-y: 2px;
+    
+    /* Darken the color slightly */
+    -fx-background-color: #005a9e;
+}
+
+/* 1. The main ScrollBar track (background) */
+.scroll-pane .scroll-bar:vertical {
+    -fx-background-color: transparent;
+    -fx-width: 8px; /* Thinner for a modern look */
+}
+
+/* 2. The Thumb (the part that moves) */
+.scroll-pane .scroll-bar:vertical .thumb {
+    -fx-background-color: #d1e1f0; /* Light blue-grey */
+    -fx-background-insets: 0;
+    -fx-background-radius: 10px;
+}
+
+/* 3. Thumb Hover State */
+.scroll-pane .scroll-bar:vertical .thumb:hover {
+    -fx-background-color: #0078D7; /* Primary Blue on hover */
+}
+
+/* 4. Thumb Pressed State */
+.scroll-pane .scroll-bar:vertical .thumb:pressed {
+    -fx-background-color: #005a9e;
+}
+
+/* 5. Hide the top and bottom arrow buttons */
+.scroll-pane .scroll-bar:vertical .increment-button, 
+.scroll-pane .scroll-bar:vertical .decrement-button {
+    -fx-background-color: transparent;
+    -fx-padding: 0;
+}
+
+.scroll-pane .scroll-bar:vertical .increment-arrow, 
+.scroll-pane .scroll-bar:vertical .decrement-arrow {
+    -fx-shape: " "; /* Removes the arrow shape entirely */
+    -fx-padding: 0;
+}
+/* Hide the thumb by default */
+.scroll-pane .scroll-bar .thumb {
+    -fx-opacity: 0;
+}
+
+/* Show the thumb when the user moves the mouse over the scroll pane */
+.scroll-pane:hover .scroll-bar .thumb {
+    -fx-opacity: 1;
+}
