@@ -4,6 +4,8 @@
  */
 package com.mycompany.clientside.controllers;
 
+import com.mycompany.clientside.App;
+import com.mycompany.clientside.Screens;
 import java.net.URL;
 import java.time.LocalDateTime;
 import java.util.ResourceBundle;
@@ -14,9 +16,12 @@ import javafx.geometry.Pos;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
 import com.mycompany.clientside.models.GameModel;
+import java.io.IOException;
 import javafx.scene.control.Label;
 import java.time.format.DateTimeFormatter;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.control.Button;
 import javafx.scene.layout.VBox;
 
 /**
@@ -35,6 +40,8 @@ public class PlayerStateController implements Initializable {
 
     //thinking on getting that value from the constructor
     private final int MY_ID = 100;
+    @FXML
+    private Button navigateBackButton;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -115,6 +122,15 @@ public class PlayerStateController implements Initializable {
         lbl.setText(text);
         lbl.setStyle("-fx-background-color: " + bg + "; -fx-text-fill: " + textFill + "; "
                 + "-fx-background-radius: 10; -fx-padding: 5 10 5 10; -fx-font-weight: bold;");
+    }
+
+    @FXML
+    private void navigateBack(ActionEvent event) {
+        try {
+            App.setRoot(Screens.HOME_SCREEN);
+        } catch (IOException ex) {
+            // todo add alert!
+        }
     }
 
 }
