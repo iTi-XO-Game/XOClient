@@ -4,6 +4,9 @@
  */
 package com.mycompany.clientside.controllers;
 
+import com.mycompany.clientside.App;
+import com.mycompany.clientside.Screens;
+import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
@@ -48,10 +51,20 @@ public class DifficultyScreenController implements Initializable {
 
     @FXML
     private void clickPlayGame(ActionEvent event) {
+        try { // todo handle the AI
+            App.setRoot(Screens.GAME_SCREEN);
+        } catch (IOException ex) {
+            // todo add alert!
+        }
     }
 
     @FXML
     private void backToMenu(ActionEvent event) {
+        try {
+            App.setRoot(Screens.HOME_SCREEN);
+        } catch (IOException ex) {
+            // todo add alert!
+        }
     }
     
 }

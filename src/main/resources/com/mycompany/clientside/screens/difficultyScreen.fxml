@@ -10,16 +10,11 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.shape.Circle?>
 <?import javafx.scene.text.Font?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 
 <StackPane minHeight="480.0" minWidth="640.0" prefHeight="480.0" prefWidth="640.0" style="-fx-background-color: linear-gradient(to bottom, #e8f4f8, #d4e9f0);" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.mycompany.clientside.controllers.DifficultyScreenController">
-    
-    <!-- Dark Mode Toggle -->
-    <HBox alignment="TOP_RIGHT" StackPane.alignment="TOP_RIGHT">
-        <padding>
-            <Insets right="10.0" top="10.0" />
-        </padding>
-    </HBox>
-    
+
     <!-- Main Content -->
     <VBox alignment="TOP_CENTER" spacing="20.0">
         <StackPane.margin>
@@ -73,9 +68,9 @@
                         <font>
                             <Font name="System Bold" size="11.0" />
                         </font>
-                  <toggleGroup>
-                     <ToggleGroup fx:id="difficultyGroup" />
-                  </toggleGroup>
+                        <toggleGroup>
+                     
+                        </toggleGroup>
                     </ToggleButton>
                     
                     <ToggleButton onAction="#clickMedium" prefHeight="35.0" prefWidth="90.0" style="-fx-background-color: #fbbf24; -fx-background-radius: 20; -fx-text-fill: white; -fx-border-width: 0; -fx-cursor: hand; -fx-font-weight: bold;" text="Medium" toggleGroup="$difficultyGroup">
@@ -108,10 +103,13 @@
         </VBox>
         
         <!-- Back to Menu Link -->
-        <Button onAction="#backToMenu" prefHeight="25.0" style="-fx-background-color: transparent; -fx-text-fill: #94a3b8; -fx-cursor: hand; -fx-underline: false;" text="← Back to Menu">
-            <font>
-                <Font size="11.0" />
-            </font>
+        <Button onAction="#backToMenu" prefHeight="25.0" style="-fx-background-color: transparent; -fx-text-fill: #2d3748 -fx-cursor: hand; -fx-underline: false; -fx-font-size: 14px;" text="Back to Menu">
+            
+            <graphic>
+                <ImageView fitHeight="31.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true" smooth="true">
+                    <Image url="@../images/arrow_back.png" />
+                </ImageView>
+            </graphic>
         </Button>
         
     </VBox>
