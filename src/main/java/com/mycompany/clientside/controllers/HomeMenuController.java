@@ -8,11 +8,14 @@ import com.mycompany.clientside.App;
 import com.mycompany.clientside.Screens;
 import java.io.IOException;
 import java.net.URL;
+import java.util.Optional;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 
 /**
  * FXML Controller class
@@ -44,6 +47,25 @@ public class HomeMenuController implements Initializable {
 
     @FXML
     private void onLogOut(ActionEvent event) {
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setTitle("Log out");
+        alert.setHeaderText("Log out");
+        alert.setContentText("Are you sure you want to log out from the game?");
+
+        ButtonType confirmBtn = new ButtonType("Log out");
+        ButtonType cancelBtn = new ButtonType("Cancel");
+
+        alert.getButtonTypes().setAll(confirmBtn, cancelBtn);
+
+        Optional<ButtonType> result = alert.showAndWait();
+
+        if (result.isPresent() && result.get() == confirmBtn) {
+            try {
+                App.setRoot(Screens.LOGIN_SCREEN);
+            } catch (IOException ex) {
+                // todo make an alert!
+            }
+        }
     }
 
     @FXML
@@ -84,6 +106,11 @@ public class HomeMenuController implements Initializable {
 
     @FXML
     private void onReplayClick(ActionEvent event) {
+        try {
+            App.setRoot(Screens.REPLAYS_SCREEN);
+        } catch (IOException ex) {
+            // todo make an alert!
+        }
     }
 
 }
