@@ -65,8 +65,8 @@
 
 /* General styling for both words */
 .title-main, .title-blue {
-    -fx-font-family: "System Bold"; /* Or "Arial" */
-    -fx-font-size: 32px;            /* Adjust size to fit your screen */
+    -fx-font-family: "Segoe UI Black"; 
+    -fx-font-size: 32px;           
     -fx-font-weight: bold;
 }
 
@@ -118,7 +118,7 @@
 }
 
 .opponent-name{
-    -fx-font-family: "System Bold";
+    -fx-font-family: "Segoe UI Black";
     -fx-font-size: 24px;
     -fx-font-weight: bold;
     -fx-text-fill: #2C3E50;
