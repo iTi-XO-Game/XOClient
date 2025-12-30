@@ -88,6 +88,11 @@ public class HomeMenuController implements Initializable {
 
     @FXML
     private void onOnlineModeClick(ActionEvent event) {
+        try {
+            App.setRoot(Screens.ONLINE_MULTIPLAYER);
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
     }
 
     @FXML
