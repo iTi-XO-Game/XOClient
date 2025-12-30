@@ -47,7 +47,7 @@
                   </HBox>
                   <HBox alignment="TOP_CENTER" maxHeight="-Infinity" maxWidth="-Infinity" styleClass="status-container" VBox.vgrow="NEVER">
                      <children>
-                        <Label styleClass="status-number" text="12" />
+                        <Label fx:id="onlinePlayersCount" styleClass="status-number" text="12" />
                         <Label styleClass="status-text" text=" Players Online" />
                      </children>
                      <VBox.margin>
@@ -60,7 +60,7 @@
                            <children>
                               <ScrollPane fitToHeight="true" fitToWidth="true" prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                                  <content>
-                                    <VBox>
+                                    <VBox fx:id="playersContainer">
                                        <children>
                                           <HBox alignment="CENTER" fillHeight="false" prefHeight="62.0" prefWidth="498.0" styleClass="challenge-card">
                                              <children>
