@@ -6,6 +6,9 @@ package com.mycompany.clientside.serverhandler.communication;
 
 import java.io.DataInputStream;
 import java.io.IOException;
+import javafx.application.Platform;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.StringProperty;
 
 /**
  *
@@ -15,14 +18,19 @@ public class RecievingResponsesThread extends SocketInitializer implements Runna
 
     private static RecievingResponsesThread instance;
     private DataInputStream reader;
-    String request;
+    StringProperty request;
 
     private RecievingResponsesThread() {
+        request = new SimpleStringProperty();
         try {
             reader = new DataInputStream(socket.getInputStream());
         } catch (IOException ex) {
             throw new RuntimeException("Failed to init receiver", ex);
         }
+    }
+
+    public StringProperty requestProperty() {
+        return request;
     }
 
     public static RecievingResponsesThread getInstance() {
@@ -34,11 +42,14 @@ public class RecievingResponsesThread extends SocketInitializer implements Runna
 
     @Override
     public void run() {
-
+        String incomingData;
         try {
-            while ((request = reader.readUTF()) != null) {
-                //should desrialize that request and do some event based on that 
-                System.out.println("Server: " + request);
+            while ((incomingData = reader.readUTF()) != null) {
+                final String finalData = incomingData;
+                Platform.runLater(() -> {
+                    request.set(finalData);
+                });
+                System.out.println("Server: " + incomingData);
             }
         } catch (IOException ex) {
             System.out.println("there's no active server!");//didn't handled yet

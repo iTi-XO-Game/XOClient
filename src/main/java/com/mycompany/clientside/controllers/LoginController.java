@@ -51,7 +51,17 @@ public class LoginController implements Initializable {
         // TODO
         gson = new Gson();
         startReceiverThread();
+        RecievingResponsesThread.getInstance().requestProperty().addListener((observable, oldValue, newValue) -> {
+            // here we should deserialize the json and do UI based on that
+            //currently, I will print the json till we are actually getting a value and navigate to home page to not stop other developers from testing the application
+            System.out.println("UI received new data: " + newValue);
+            try {
+                App.setRoot(Screens.HOME_SCREEN);
+            } catch (IOException ex) {
+                System.out.println("we couldn't navigate, lol");
+            }
 
+        });
     }
 
     @FXML
@@ -61,20 +71,17 @@ public class LoginController implements Initializable {
     @FXML
     private void handelLogin(ActionEvent event) {
 
-            String username = usernameTxt.getText();
-            String password = passTxt.getText();
-            Message msg = new Message(
-                    new Header(Header.MessageType.REQUEST, Header.ActionType.LOGIN),
-                    new LogIn(username, password)
-            );
+        String username = usernameTxt.getText();
+        String password = passTxt.getText();
+        Message msg = new Message(
+                new Header(Header.MessageType.REQUEST, Header.ActionType.LOGIN),
+                new LogIn(username, password)
+        );
 
-            String json = gson.toJson(msg);
+        String json = gson.toJson(msg);
 
-            // 1. Send request
-            SendingRequests sendingRequests = new SendingRequests(json);
-
-            
-            
+        // 1. Send the request, and there's a listener on the init method that will do ui based on response that will be recieved
+        new SendingRequests(json);
 
     }
 
