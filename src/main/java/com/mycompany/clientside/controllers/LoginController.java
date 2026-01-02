@@ -53,13 +53,8 @@ public class LoginController implements Initializable {
         startReceiverThread();
         RecievingResponsesThread.getInstance().requestProperty().addListener((observable, oldValue, newValue) -> {
             // here we should deserialize the json and do UI based on that
-            //currently, I will print the json till we are actually getting a value and navigate to home page to not stop other developers from testing the application
+            //currently, I will print the json till we are actually getting a value 
             System.out.println("UI received new data: " + newValue);
-            try {
-                App.setRoot(Screens.HOME_SCREEN);
-            } catch (IOException ex) {
-                System.out.println("we couldn't navigate, lol");
-            }
 
         });
     }
@@ -83,6 +78,12 @@ public class LoginController implements Initializable {
         // 1. Send the request, and there's a listener on the init method that will do ui based on response that will be recieved
         new SendingRequests(json);
 
+        //navigate to the home page to not prevent other developers from using the application
+        try {
+            App.setRoot(Screens.HOME_SCREEN);
+        } catch (IOException ex) {
+            System.out.println("we couldn't navigate, lol");
+        }
     }
 
     private void showLoginFailed() {

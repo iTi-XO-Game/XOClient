@@ -22,10 +22,15 @@ public class RecievingResponsesThread extends SocketInitializer implements Runna
 
     private RecievingResponsesThread() {
         request = new SimpleStringProperty();
+
+        if (socket == null) {
+            System.out.println("the server is not available, but the application won't crash... yaaay");
+            return;
+        }
         try {
             reader = new DataInputStream(socket.getInputStream());
         } catch (IOException ex) {
-            throw new RuntimeException("Failed to init receiver", ex);
+            System.out.println("Server is not available at startup.");
         }
     }
 
@@ -42,6 +47,10 @@ public class RecievingResponsesThread extends SocketInitializer implements Runna
 
     @Override
     public void run() {
+        if (reader == null) {
+            System.out.println("Receiver thread stopped: no server connection.");
+            return;
+        }
         String incomingData;
         try {
             while ((incomingData = reader.readUTF()) != null) {
@@ -49,7 +58,6 @@ public class RecievingResponsesThread extends SocketInitializer implements Runna
                 Platform.runLater(() -> {
                     request.set(finalData);
                 });
-                System.out.println("Server: " + incomingData);
             }
         } catch (IOException ex) {
             System.out.println("there's no active server!");//didn't handled yet
