@@ -1,0 +1,159 @@
+/* Main Container */
+.root {
+    -fx-background-color: linear-gradient(to bottom, #e8f4f8, #d4e9f0);
+}
+
+/* Avatar Circle */
+.avatar-circle {
+    -fx-fill: white;
+}
+
+.avatar-emoji {
+    -fx-font-size: 35;
+}
+
+/* Title Styles */
+.title-main {
+    -fx-font-size: 28;
+    -fx-font-weight: bold;
+    -fx-text-fill: #1e293b;
+}
+
+.title-subtitle {
+    -fx-font-size: 12;
+    -fx-text-fill: #64748b;
+}
+
+/* Game Options Card */
+.game-options-card {
+    -fx-background-color: white;
+    -fx-background-radius: 15;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.1), 15, 0, 0, 3);
+}
+
+/* Difficulty Label */
+.difficulty-label {
+    -fx-text-fill: #94a3b8;
+    -fx-font-size: 10;
+    -fx-font-weight: bold;
+}
+
+/* Difficulty Buttons Base Styles */
+.difficulty-button-easy {
+    -fx-background-color: #86efac;
+    -fx-background-radius: 20;
+    -fx-text-fill: white;
+    -fx-border-width: 4;
+    -fx-border-color: transparent;
+    -fx-border-radius: 20;
+    -fx-cursor: hand;
+    -fx-font-weight: bold;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.1), 8, 0, 0, 2);
+}
+
+.difficulty-button-easy:selected {
+    -fx-border-color: #000000;
+    -fx-border-width: 5;
+    -fx-background-color: #4ade80;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.4), 15, 0, 0, 3);
+    -fx-scale-x: 1.05;
+    -fx-scale-y: 1.05;
+}
+
+.difficulty-button-easy:hover {
+    -fx-background-color: #6ee7b7;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.2), 12, 0, 0, 3);
+}
+
+.difficulty-button-medium {
+    -fx-background-color: #fbbf24;
+    -fx-background-radius: 20;
+    -fx-text-fill: white;
+    -fx-border-width: 4;
+    -fx-border-color: transparent;
+    -fx-border-radius: 20;
+    -fx-cursor: hand;
+    -fx-font-weight: bold;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.1), 8, 0, 0, 2);
+}
+
+.difficulty-button-medium:selected {
+    -fx-border-color: #000000;
+    -fx-border-width: 5;
+    -fx-background-color: #fcd34d;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.4), 15, 0, 0, 3);
+    -fx-scale-x: 1.05;
+    -fx-scale-y: 1.05;
+}
+
+.difficulty-button-medium:hover {
+    -fx-background-color: #fcd34d;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.2), 12, 0, 0, 3);
+}
+
+.difficulty-button-hard {
+    -fx-background-color: #f87171;
+    -fx-background-radius: 20;
+    -fx-text-fill: white;
+    -fx-border-width: 4;
+    -fx-border-color: transparent;
+    -fx-border-radius: 20;
+    -fx-cursor: hand;
+    -fx-font-weight: bold;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.1), 8, 0, 0, 2);
+}
+
+.difficulty-button-hard:selected {
+    -fx-border-color: #000000;
+    -fx-border-width: 5;
+    -fx-background-color: #fb923c;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.4), 15, 0, 0, 3);
+    -fx-scale-x: 1.05;
+    -fx-scale-y: 1.05;
+}
+
+.difficulty-button-hard:hover {
+    -fx-background-color: #ef4444;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.2), 12, 0, 0, 3);
+}
+
+/* Record Game Button */
+.record-button {
+    -fx-background-color: #e0e7ff;
+    -fx-background-radius: 20;
+    -fx-text-fill: #6366f1;
+    -fx-border-width: 0;
+    -fx-cursor: hand;
+    -fx-font-weight: bold;
+}
+
+.record-button:hover {
+    -fx-background-color: #c7d2fe;
+    -fx-text-fill: #4f46e5;
+}
+
+/* Play Game Button */
+.play-button {
+    -fx-background-color: #ff7b7b;
+    -fx-background-radius: 20;
+    -fx-text-fill: white;
+    -fx-cursor: hand;
+}
+
+.play-button:hover {
+    -fx-background-color: #ef4444;
+}
+
+/* Back to Menu Button */
+.back-button {
+    -fx-background-color: transparent;
+    -fx-text-fill: #2d3748;
+    -fx-cursor: hand;
+    -fx-underline: false;
+    -fx-font-size: 14px;
+}
+
+.back-button:hover {
+    -fx-text-fill: #1a202c;
+    -fx-underline: true;
+}
