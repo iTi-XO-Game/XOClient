@@ -6,9 +6,11 @@ package com.mycompany.clientside.controllers;
 
 import com.mycompany.clientside.App;
 import com.mycompany.clientside.Screens;
+import com.mycompany.clientside.client.ClientManager;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -49,11 +51,15 @@ public class LoginController implements Initializable {
     @FXML
     private void handelLogin(ActionEvent event) {
         // todo
-        try {
-            App.setRoot(Screens.HOME_SCREEN);
-        } catch (IOException ex) {
-            // todo add alert!
-        }
+        ClientManager clientManager = ClientManager.getInstance();
+        
+        clientManager
+            .send(usernameTxt.getText(),
+                (response) -> {
+                    Platform.runLater(() -> {
+                        passTxt.setText(response);
+                    });
+                });
     }
 
     @FXML
