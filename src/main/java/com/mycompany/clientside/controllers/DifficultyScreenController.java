@@ -12,10 +12,15 @@ import java.util.Optional;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.ToggleGroup;
+import javafx.stage.Stage;
 
 /**
  * FXML Controller class
@@ -26,14 +31,13 @@ public class DifficultyScreenController implements Initializable {
 
     @FXML
     private ToggleGroup difficultyGroup;
-    /**
-     * Initializes the controller class.    
-     */
 
-    public enum Difficulty
-    {
-        Easy ,
-        Mid ,
+    /**
+     * Initializes the controller class.
+     */
+    public enum Difficulty {
+        Easy,
+        Mid,
         Hard
     }
 
@@ -63,7 +67,6 @@ public class DifficultyScreenController implements Initializable {
         currentDifficulty = Difficulty.Mid;
         System.out.println(currentDifficulty.toString());
 
-
     }
 
     @FXML
@@ -79,10 +82,21 @@ public class DifficultyScreenController implements Initializable {
 
     @FXML
     private void clickPlayGame(ActionEvent event) {
-        try { // todo handle the AI
-            App.setRoot(Screens.GAME_SCREEN);
+        try {
+            
+            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+
+            
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/mycompany/clientside/screens/AIGameScreen.fxml"));
+            Parent root = loader.load();
+            
+            AIGameScreenController controllerB = loader.getController();
+            controllerB.setData(currentDifficulty.ordinal());
+            App.setRoot(root);
+            stage.setMaximized(true);
+
         } catch (IOException ex) {
-            // todo add alert!
+            ex.printStackTrace();
         }
     }
 
@@ -103,7 +117,8 @@ public class DifficultyScreenController implements Initializable {
             if (result.isPresent() && result.get() == buttonYes) {
                 App.setRoot(Screens.HOME_SCREEN);
             }
-        }catch (IOException ex){}
+        } catch (IOException ex) {
         }
-    
+    }
+
 }
