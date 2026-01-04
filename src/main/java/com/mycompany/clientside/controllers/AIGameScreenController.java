@@ -289,12 +289,12 @@ public class AIGameScreenController implements Initializable {
         String videoPath;
 
         if (isdraw)
-            videoPath = "C:\\Users\\Mohamed\\OneDrive\\Desktop\\XO Project\\XOClient\\src\\main\\resources\\com\\mycompany\\clientside\\Videoes\\draw.mp4";
+            videoPath = "draw.mp4";
         else
-            videoPath = "C:\\Users\\Mohamed\\OneDrive\\Desktop\\XO Project\\XOClient\\src\\main\\resources\\com\\mycompany\\clientside\\Videoes\\win.mp4";
+            videoPath = "win.mp4";
         File file = new File(videoPath);
 
-        Media media = new Media(file.toURI().toString());
+        Media media = new Media(getClass().getResource("/com/mycompany/clientside/Videoes/" + videoPath).toExternalForm());
         MediaPlayer mediaPlayer = new MediaPlayer(media);
         MediaView mediaView = new MediaView(mediaPlayer);
 
@@ -306,14 +306,20 @@ public class AIGameScreenController implements Initializable {
         videoStage.setScene(scene);
         videoStage.show();
 
-        mediaPlayer.play();
+        mediaPlayer.setOnReady(mediaPlayer::play);
+
 
         videoStage.setOnCloseRequest(event ->
         {
             mediaPlayer.stop();
+            restartGame();
         });
-        mediaPlayer.setOnEndOfMedia(videoStage::close);
-        restartGame();
+        mediaPlayer.setOnEndOfMedia(() ->
+        {
+            mediaPlayer.stop();
+            videoStage.close();
+            restartGame();
+        });
     }
 
 

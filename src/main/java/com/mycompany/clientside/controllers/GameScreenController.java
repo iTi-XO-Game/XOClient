@@ -7,6 +7,8 @@ package com.mycompany.clientside.controllers;
 import com.mycompany.clientside.App;
 import com.mycompany.clientside.Screens;
 import com.mycompany.clientside.models.Move;
+
+import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
@@ -16,12 +18,18 @@ import java.util.function.Consumer;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
+import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
+import javafx.scene.media.MediaView;
+import javafx.stage.Stage;
 
 /**
  * FXML Controller class
@@ -116,8 +124,8 @@ public class GameScreenController implements Initializable {
             forEachButton((btn) -> {
                 btn.setDisable(true);
             });
-            showEndGameAlert(currentPlayer + " Wins!");
-            
+            showEndGameVideo(currentPlayer + " Wins!",false);
+
             return;
         }
 
@@ -129,7 +137,7 @@ public class GameScreenController implements Initializable {
             playerOCard.getStyleClass().remove("current-player");
             turnXLabel.setVisible(false);
             turnOLabel.setVisible(false);
-            showEndGameAlert("It is a Draw!");
+            showEndGameVideo("It is a Draw!",true);
             return;
         }
 
@@ -172,24 +180,45 @@ public class GameScreenController implements Initializable {
                 || checkLine(board[0][2], board[1][1], board[2][0]);
     }
 
-    private void showEndGameAlert(String header) {
 
-        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-        alert.setTitle("Game Over");
-        alert.setHeaderText(header);
-        alert.setContentText("Restart the game?");
+    public void showEndGameVideo(String eventMessage, boolean isdraw)
+    {
+        String videoPath;
 
-        ButtonType restartBtn = new ButtonType("Restart");
-        ButtonType cancelBtn = new ButtonType("Cancel");
+        if (isdraw)
+            videoPath = "draw.mp4";
+        else
+            videoPath = "win.mp4";
+        File file = new File(videoPath);
 
-        alert.getButtonTypes().setAll(restartBtn, cancelBtn);
+        Media media = new Media(getClass().getResource("/com/mycompany/clientside/Videoes/" + videoPath).toExternalForm());
+        MediaPlayer mediaPlayer = new MediaPlayer(media);
+        MediaView mediaView = new MediaView(mediaPlayer);
 
-        Optional<ButtonType> result = alert.showAndWait();
+        StackPane root = new StackPane(mediaView);
+        Scene scene = new Scene(root, 800, 600);
 
-        if (result.isPresent() && result.get() == restartBtn) {
+        Stage videoStage = new Stage();
+        videoStage.setTitle(eventMessage);
+        videoStage.setScene(scene);
+        videoStage.show();
+
+        mediaPlayer.setOnReady(mediaPlayer::play);
+
+
+        videoStage.setOnCloseRequest(event ->
+        {
+            mediaPlayer.stop();
             restartGame();
-        }
+        });
+        mediaPlayer.setOnEndOfMedia(() ->
+        {
+            mediaPlayer.stop();
+            videoStage.close();
+            restartGame();
+        });
     }
+
 
     private boolean checkLine(Button a, Button b, Button c) {
         String temp = a.getText();
