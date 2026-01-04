@@ -55,7 +55,8 @@ public class LoginController implements Initializable {
         
         clientManager
             .send(usernameTxt.getText(),
-                (response) -> {
+                (response) ->
+                {
                     Platform.runLater(() -> {
                         passTxt.setText(response);
                     });

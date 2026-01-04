@@ -1,7 +1,4 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/javafx/FXMLController.java to edit this template
- */
+
 package com.mycompany.clientside.controllers;
 
 import com.mycompany.clientside.App;
@@ -18,12 +15,23 @@ import java.util.function.Consumer;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
-
+import javafx.stage.Stage;
+import javax.print.attribute.standard.Media;
+import javafx.scene.Scene;
+import javafx.scene.layout.StackPane;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
+import javafx.scene.media.MediaView;
+import javafx.stage.Stage;
 /**
  * FXML Controller class
  *
@@ -278,24 +286,28 @@ public class AIGameScreenController implements Initializable {
                 || checkLine(board[0][2], board[1][1], board[2][0]);
     }
 
-    private void showEndGameAlert(String header) {
+    public void showEndGameVideo(String videoPath) {
+        // videoPath = "file:///C:/path/to/video.mp4"
+        Media media = new Media(videoPath);
+        MediaPlayer mediaPlayer = new MediaPlayer(media);
+        MediaView mediaView = new MediaView(mediaPlayer);
 
-        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-        alert.setTitle("Game Over");
-        alert.setHeaderText(header);
-        alert.setContentText("Restart the game?");
+        StackPane root = new StackPane(mediaView);
+        Scene scene = new Scene(root, 800, 600);
 
-        ButtonType restartBtn = new ButtonType("Restart");
-        ButtonType cancelBtn = new ButtonType("Cancel");
+        Stage videoStage = new Stage();
+        videoStage.setTitle("Game Over Video");
+        videoStage.setScene(scene);
+        videoStage.show();
 
-        alert.getButtonTypes().setAll(restartBtn, cancelBtn);
+        mediaPlayer.play();
 
-        Optional<ButtonType> result = alert.showAndWait();
-
-        if (result.isPresent() && result.get() == restartBtn) {
+        mediaPlayer.setOnEndOfMedia(() -> {
+            videoStage.close();
             restartGame();
-        }
+        });
     }
+
 
     private boolean checkLine(Button a, Button b, Button c) {
         String temp = a.getText();
