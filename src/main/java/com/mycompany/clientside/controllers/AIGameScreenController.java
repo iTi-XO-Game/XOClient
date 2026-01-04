@@ -20,18 +20,14 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
-import javax.print.attribute.standard.Media;
-import javafx.scene.Scene;
-import javafx.scene.layout.StackPane;
+
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.scene.media.MediaView;
-import javafx.stage.Stage;
+
 /**
  * FXML Controller class
  *
@@ -147,7 +143,7 @@ public class AIGameScreenController implements Initializable {
             forEachButton((btn) -> {
                 btn.setDisable(true);
             });
-            showEndGameAlert(currentPlayer + " Wins!");
+            showEndGameVideo(currentPlayer + " Wins!");
 
             return;
         }
@@ -160,7 +156,7 @@ public class AIGameScreenController implements Initializable {
             playerOCard.getStyleClass().remove("current-player");
             turnXLabel.setVisible(false);
             turnOLabel.setVisible(false);
-            showEndGameAlert("It is a Draw!");
+            showEndGameVideo("It is a Draw!");
             return;
         }
 
@@ -229,7 +225,7 @@ public class AIGameScreenController implements Initializable {
             forEachButton((btn) -> {
                 btn.setDisable(true);
             });
-            showEndGameAlert(currentPlayer + " Wins!");
+            showEndGameVideo(currentPlayer + " Wins!");
 
             return;
         }
@@ -242,7 +238,7 @@ public class AIGameScreenController implements Initializable {
             playerOCard.getStyleClass().remove("current-player");
             turnXLabel.setVisible(false);
             turnOLabel.setVisible(false);
-            showEndGameAlert("It is a Draw!");
+            showEndGameVideo("It is a Draw!");
             return;
         }
 
@@ -286,8 +282,8 @@ public class AIGameScreenController implements Initializable {
                 || checkLine(board[0][2], board[1][1], board[2][0]);
     }
 
-    public void showEndGameVideo(String videoPath) {
-        // videoPath = "file:///C:/path/to/video.mp4"
+    public void showEndGameVideo(String eventMessage) {
+        String videoPath = "C:\\Users\\Mohamed\\Videos\\Screen Recordings\\Screen Recording 2026-01-04 190640.mp4";
         Media media = new Media(videoPath);
         MediaPlayer mediaPlayer = new MediaPlayer(media);
         MediaView mediaView = new MediaView(mediaPlayer);
@@ -296,7 +292,7 @@ public class AIGameScreenController implements Initializable {
         Scene scene = new Scene(root, 800, 600);
 
         Stage videoStage = new Stage();
-        videoStage.setTitle("Game Over Video");
+        videoStage.setTitle(eventMessage);
         videoStage.setScene(scene);
         videoStage.show();
 
