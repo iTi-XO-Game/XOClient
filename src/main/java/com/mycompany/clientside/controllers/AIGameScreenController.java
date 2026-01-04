@@ -173,7 +173,7 @@ public class AIGameScreenController implements Initializable {
                 aiMove = findBestMove(boardForAlgorithm, currentPlayer.charAt(0), 9);
                 break;
             case 1:
-                aiMove = findBestMove(boardForAlgorithm, currentPlayer.charAt(0), 3);
+                aiMove = findBestMove(boardForAlgorithm, currentPlayer.charAt(0), 2);
                 break;
             default:
                 List<int[]> availableMoves = new ArrayList<>();
