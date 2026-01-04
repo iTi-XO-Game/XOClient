@@ -289,9 +289,9 @@ public class AIGameScreenController implements Initializable {
         String videoPath;
 
         if (isdraw)
-            videoPath = "C:\\Users\\Mohamed\\Videos\\Screen Recordings\\Screen Recording 2026-01-04 191927.mp4";
+            videoPath = "C:\\Users\\Mohamed\\OneDrive\\Desktop\\XO Project\\XOClient\\src\\main\\resources\\com\\mycompany\\clientside\\Videoes\\draw.mp4";
         else
-            videoPath = "C:\\Users\\Mohamed\\Videos\\Screen Recordings\\Screen Recording 2026-01-04 190640.mp4";
+            videoPath = "C:\\Users\\Mohamed\\OneDrive\\Desktop\\XO Project\\XOClient\\src\\main\\resources\\com\\mycompany\\clientside\\Videoes\\win.mp4";
         File file = new File(videoPath);
 
         Media media = new Media(file.toURI().toString());
@@ -308,10 +308,12 @@ public class AIGameScreenController implements Initializable {
 
         mediaPlayer.play();
 
-        mediaPlayer.setOnEndOfMedia(() -> {
-            videoStage.close();
-            restartGame();
+        videoStage.setOnCloseRequest(event ->
+        {
+            mediaPlayer.stop();
         });
+        mediaPlayer.setOnEndOfMedia(videoStage::close);
+        restartGame();
     }
 
 
