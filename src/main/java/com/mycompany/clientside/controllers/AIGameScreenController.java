@@ -4,6 +4,8 @@ package com.mycompany.clientside.controllers;
 import com.mycompany.clientside.App;
 import com.mycompany.clientside.Screens;
 import com.mycompany.clientside.models.Move;
+
+import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
@@ -143,7 +145,7 @@ public class AIGameScreenController implements Initializable {
             forEachButton((btn) -> {
                 btn.setDisable(true);
             });
-            showEndGameVideo(currentPlayer + " Wins!");
+            showEndGameVideo(currentPlayer + " Wins!",false);
 
             return;
         }
@@ -156,7 +158,7 @@ public class AIGameScreenController implements Initializable {
             playerOCard.getStyleClass().remove("current-player");
             turnXLabel.setVisible(false);
             turnOLabel.setVisible(false);
-            showEndGameVideo("It is a Draw!");
+            showEndGameVideo("It is a Draw!",true);
             return;
         }
 
@@ -225,7 +227,7 @@ public class AIGameScreenController implements Initializable {
             forEachButton((btn) -> {
                 btn.setDisable(true);
             });
-            showEndGameVideo(currentPlayer + " Wins!");
+            showEndGameVideo(currentPlayer + " Wins!", false);
 
             return;
         }
@@ -238,7 +240,7 @@ public class AIGameScreenController implements Initializable {
             playerOCard.getStyleClass().remove("current-player");
             turnXLabel.setVisible(false);
             turnOLabel.setVisible(false);
-            showEndGameVideo("It is a Draw!");
+            showEndGameVideo("It is a Draw!",true);
             return;
         }
 
@@ -282,9 +284,17 @@ public class AIGameScreenController implements Initializable {
                 || checkLine(board[0][2], board[1][1], board[2][0]);
     }
 
-    public void showEndGameVideo(String eventMessage) {
-        String videoPath = "C:\\Users\\Mohamed\\Videos\\Screen Recordings\\Screen Recording 2026-01-04 190640.mp4";
-        Media media = new Media(videoPath);
+    public void showEndGameVideo(String eventMessage, boolean isdraw)
+    {
+        String videoPath;
+
+        if (isdraw)
+            videoPath = "C:\\Users\\Mohamed\\Videos\\Screen Recordings\\Screen Recording 2026-01-04 191927.mp4";
+        else
+            videoPath = "C:\\Users\\Mohamed\\Videos\\Screen Recordings\\Screen Recording 2026-01-04 190640.mp4";
+        File file = new File(videoPath);
+
+        Media media = new Media(file.toURI().toString());
         MediaPlayer mediaPlayer = new MediaPlayer(media);
         MediaView mediaView = new MediaView(mediaPlayer);
 
