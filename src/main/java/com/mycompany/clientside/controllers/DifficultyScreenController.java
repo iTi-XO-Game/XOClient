@@ -16,7 +16,6 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.ToggleGroup;
@@ -31,13 +30,14 @@ public class DifficultyScreenController implements Initializable {
 
     @FXML
     private ToggleGroup difficultyGroup;
-
     /**
      * Initializes the controller class.
      */
-    public enum Difficulty {
-        Easy,
-        Mid,
+
+    public enum Difficulty
+    {
+        Easy ,
+        Mid ,
         Hard
     }
 
@@ -86,7 +86,7 @@ public class DifficultyScreenController implements Initializable {
             
             Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
 
-            
+            //saddly, it should be like that to be able to pass a variable to the other controller
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/mycompany/clientside/screens/AIGameScreen.fxml"));
             Parent root = loader.load();
             
@@ -117,8 +117,7 @@ public class DifficultyScreenController implements Initializable {
             if (result.isPresent() && result.get() == buttonYes) {
                 App.setRoot(Screens.HOME_SCREEN);
             }
-        } catch (IOException ex) {
+        }catch (IOException ex){}
         }
-    }
 
 }
