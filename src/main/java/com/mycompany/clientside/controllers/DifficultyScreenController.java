@@ -12,10 +12,14 @@ import java.util.Optional;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
+import javafx.scene.Parent;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.ToggleGroup;
+import javafx.stage.Stage;
 
 /**
  * FXML Controller class
@@ -27,7 +31,7 @@ public class DifficultyScreenController implements Initializable {
     @FXML
     private ToggleGroup difficultyGroup;
     /**
-     * Initializes the controller class.    
+     * Initializes the controller class.
      */
 
     public enum Difficulty
@@ -63,7 +67,6 @@ public class DifficultyScreenController implements Initializable {
         currentDifficulty = Difficulty.Mid;
         System.out.println(currentDifficulty.toString());
 
-
     }
 
     @FXML
@@ -79,10 +82,11 @@ public class DifficultyScreenController implements Initializable {
 
     @FXML
     private void clickPlayGame(ActionEvent event) {
-        try { // todo handle the AI
-            App.setRoot(Screens.GAME_SCREEN);
+        try {
+            AIGameScreenController.setDifficulty(currentDifficulty.ordinal());
+            App.setRoot(Screens.AI_GAME_SCREEN);
+            
         } catch (IOException ex) {
-            // todo add alert!
         }
     }
 
@@ -105,5 +109,5 @@ public class DifficultyScreenController implements Initializable {
             }
         }catch (IOException ex){}
         }
-    
+
 }
