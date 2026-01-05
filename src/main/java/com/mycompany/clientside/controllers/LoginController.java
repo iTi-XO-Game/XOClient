@@ -7,6 +7,9 @@ package com.mycompany.clientside.controllers;
 import com.mycompany.clientside.App;
 import com.mycompany.clientside.Screens;
 import com.mycompany.clientside.client.ClientManager;
+import com.mycompany.clientside.client.EndPoint;
+import com.mycompany.clientside.client.JsonUtils;
+import com.mycompany.clientside.models.Move;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -50,14 +53,16 @@ public class LoginController implements Initializable {
 
     @FXML
     private void handelLogin(ActionEvent event) {
-        // todo
+        // todo Sending demo
         ClientManager clientManager = ClientManager.getInstance();
-        
+         
+        Move move = new Move(usernameTxt.getText(),10,20);
         clientManager
-            .send(usernameTxt.getText(),
-                (response) -> {
+            .send(move, EndPoint.LOGIN,
+                response -> {
+                    Move movea = JsonUtils.fromJson(response, Move.class);
                     Platform.runLater(() -> {
-                        passTxt.setText(response);
+                        passTxt.setText(movea.getPlayer());
                     });
                 });
     }

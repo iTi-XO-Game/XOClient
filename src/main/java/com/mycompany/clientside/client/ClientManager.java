@@ -43,9 +43,7 @@ public class ClientManager {
             reader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
             writer = new PrintWriter(socket.getOutputStream(), true);
             
-            executor.submit(() -> {
-                receiveMessages();
-            });
+            executor.submit(this::receiveMessages);
 
         } catch (IOException ex) {
             disconnect();
@@ -57,22 +55,29 @@ public class ClientManager {
             String response;
             while ((response = reader.readLine()) != null && !Thread.currentThread().isInterrupted()) {
 
-                int separatorIndex = response.indexOf("|");
+                int firstSplit = response.indexOf("|");
+                int secondSplit = response.indexOf("|", firstSplit + 1);
                 
-                if (separatorIndex == -1) continue;
+                if (firstSplit == -1 || secondSplit == -1) continue;
+                
+                String endPointString = response.substring(0, firstSplit);
+                EndPoint endPoint = EndPoint.fromString(endPointString);
+
+                String callbackId = response.substring(firstSplit + 1, secondSplit);
+
+                String responseJson = response.substring(secondSplit + 1);
                 
                 int requestId ;
                 try {
-                    requestId = Integer.parseInt(response.substring(0, separatorIndex).trim());
+                    requestId = Integer.parseInt(callbackId);
                 }catch (NumberFormatException e) {
                     continue;
                 }
-                String body = response.substring(separatorIndex + 1).trim();
                 
-                ClientCallback callback = requestCallbacks.remove(requestId);
+                ClientCallback requestCallback = requestCallbacks.remove(requestId);
                 
-                if (callback != null){
-                    executor.submit(() -> callback.onSuccess(body));
+                if (requestCallback != null){
+                    executor.submit(() -> requestCallback.onSuccess(responseJson));
                 }
             }
         } catch (IOException ex) {
@@ -82,7 +87,7 @@ public class ClientManager {
         }
     }
 
-    public void send(String messageJson, ClientCallback callback) {
+    public <T> void send(T request, EndPoint endPoint, ClientCallback callback) {
         
         connectToServer();
         
@@ -91,11 +96,12 @@ public class ClientManager {
             return;
         }
         
+        String messageJson = JsonUtils.toJson(request);
         int requestId = requestIdGenerator.incrementAndGet();
         
         requestCallbacks.put(requestId, callback);
         
-        writer.println(requestId + "|" + messageJson);
+        writer.println(endPoint.getCode() + "|" + requestId + "|" + messageJson);
     }
 
     public void disconnect() {
