@@ -12,18 +12,24 @@ public class Player {
     private final int id;
     private final String userName;
     private final int wins;
+    private final int draws;
     private final int losses;
-    private final boolean inGame;
+
+    public int getDraws() {
+        return draws;
+    }
+    private final boolean isInGame;
     public int getId() {
         return id;
     }
 
-    public Player(int id, String userName, int wins, int losses, boolean inGame) {
+    public Player(int id, String userName, int wins, int losses, boolean inGame, int draws) {
         this.id = id;
         this.userName = userName;
         this.wins = wins;
         this.losses = losses;
-        this.inGame = inGame;
+        this.isInGame = inGame;
+        this.draws = draws;
     }
 
     public String getUserName() {
@@ -37,8 +43,8 @@ public class Player {
     public int getLosses() {
         return losses;
     }
-    public boolean isInGame(){
-        return this.inGame;
+
+    public boolean isIsInGame(){
+        return this.isInGame;
     }
-    
 }

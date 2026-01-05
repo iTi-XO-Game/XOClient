@@ -71,20 +71,20 @@ public class OnlineMultPlayerController implements Initializable {
 
     } catch (IOException e) {
         System.err.println("Could not load player request popup: " + e.getMessage());
-        e.printStackTrace();
+        //e.printStackTrace();
     }
 }
     private void gettingPlayersList() {
         //do some logic with the server...
         //but for now there's no server, I am the server
         playersList.clear();
-        playersList.add(new Player(1, "Ali", 10, 1, true));
-        playersList.add(new Player(2, "Ali", 20, 2, false));
-        playersList.add(new Player(3, "Ali", 30, 3, true));
-        playersList.add(new Player(4, "Ali", 40, 4, false));
-        playersList.add(new Player(5, "Ali", 50, 5, false));
-        playersList.add(new Player(6, "Ali", 60, 6, false));
-        playersList.add(new Player(7, "Ali", 70, 7, false));
+        playersList.add(new Player(1, "Ali", 10, 1, true, 10));
+        playersList.add(new Player(2, "Ali", 20, 2, false, 20));
+        playersList.add(new Player(3, "Ali", 30, 3, true, 20));
+        playersList.add(new Player(4, "Ali", 40, 4, false, 20));
+        playersList.add(new Player(5, "Ali", 50, 5, false, 20));
+        playersList.add(new Player(6, "Ali", 60, 6, false, 20));
+        playersList.add(new Player(7, "Ali", 70, 7, false, 20));
         onlinePlayersCount.setText(playersList.size() + "");
     }
 
@@ -103,7 +103,7 @@ public class OnlineMultPlayerController implements Initializable {
                 Label winsLabel = (Label) card.lookup("#winsLabel");
                 Label losesLabel = (Label) card.lookup("#losesLabel");
                 Button btn = (Button) card.lookup("#challengeButton");
-                if (p.isInGame()) {
+                if (p.isIsInGame()) {
                     btn.setDisable(true);
                     btn.setText("In Game");
                 }
