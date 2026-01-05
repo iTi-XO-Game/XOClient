@@ -33,7 +33,7 @@ public class AIGameScreenController implements Initializable {
 
     private final String X = "X";
     private final String O = "O";
-    private int difficulty;
+    private static int difficulty;
     
     @FXML
     private Label npcLabel;
@@ -69,6 +69,11 @@ public class AIGameScreenController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        switch (difficulty) {
+            case 0 -> npcLabel.setText("Easy NPC");
+            case 1 -> npcLabel.setText("Medium NPC");
+            case 2 -> npcLabel.setText("Undefeatable NPC");
+        }
         board = new Button[][]{
             {b00, b01, b02},
             {b10, b11, b12},
@@ -84,19 +89,9 @@ public class AIGameScreenController implements Initializable {
         turnXLabel.setVisible(true);
 
     }
-
-    public void setData(int difficulty) {
-        this.difficulty = difficulty;
-        switch (difficulty) {
-            case 0:
-                npcLabel.setText("Easy NPC");
-                break;
-            case 1:
-                npcLabel.setText("Medium NPC");
-                break;
-            default:
-                npcLabel.setText("Undefeatable NPC");
-        }
+    
+    public static void setDifficulty(int difficulty) {
+        AIGameScreenController.difficulty = difficulty;
     }
 
     @FXML

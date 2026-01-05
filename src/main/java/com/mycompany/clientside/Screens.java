@@ -20,5 +20,6 @@ public class Screens {
     public static final String ONLINE_MULTIPLAYER = "screens/onlineMultPlayer";
     public static final String ONLINE_MULTIPLAYER_PLAYER_CARD = "/com/mycompany/clientside/screens/onlineMultiplayerPlayerCard";
     public static final String PLAYER_REQUEST_SCREEN = "/com/mycompany/clientside/screens/playerRequestScreen";
+    public static final String AI_GAME_SCREEN = "screens/AIGameScreen";
 
 }

@@ -83,20 +83,10 @@ public class DifficultyScreenController implements Initializable {
     @FXML
     private void clickPlayGame(ActionEvent event) {
         try {
+            AIGameScreenController.setDifficulty(currentDifficulty.ordinal());
+            App.setRoot(Screens.AI_GAME_SCREEN);
             
-            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-
-            //saddly, it should be like that to be able to pass a variable to the other controller
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/mycompany/clientside/screens/AIGameScreen.fxml"));
-            Parent root = loader.load();
-            
-            AIGameScreenController controllerB = loader.getController();
-            controllerB.setData(currentDifficulty.ordinal());
-            App.setRoot(root);
-            stage.setMaximized(true);
-
         } catch (IOException ex) {
-            ex.printStackTrace();
         }
     }
 
