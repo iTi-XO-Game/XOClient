@@ -6,6 +6,7 @@ package com.mycompany.clientside.controllers;
 
 import com.mycompany.clientside.App;
 import com.mycompany.clientside.Screens;
+import com.mycompany.clientside.client.EndGameVideo;
 import com.mycompany.clientside.models.Move;
 import java.io.IOException;
 import java.net.URL;
@@ -116,8 +117,9 @@ public class GameScreenController implements Initializable {
             forEachButton((btn) -> {
                 btn.setDisable(true);
             });
-            showEndGameAlert(currentPlayer + " Wins!");
-            
+
+            EndGameVideo.showEndGameVideo(currentPlayer + " Wins!",false);
+            restartGame();
             return;
         }
 
@@ -129,7 +131,8 @@ public class GameScreenController implements Initializable {
             playerOCard.getStyleClass().remove("current-player");
             turnXLabel.setVisible(false);
             turnOLabel.setVisible(false);
-            showEndGameAlert("It is a Draw!");
+            EndGameVideo.showEndGameVideo("It is a Draw!",true);
+            restartGame();
             return;
         }
 
@@ -170,25 +173,6 @@ public class GameScreenController implements Initializable {
         }
         return checkLine(board[0][0], board[1][1], board[2][2])
                 || checkLine(board[0][2], board[1][1], board[2][0]);
-    }
-
-    private void showEndGameAlert(String header) {
-
-        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-        alert.setTitle("Game Over");
-        alert.setHeaderText(header);
-        alert.setContentText("Restart the game?");
-
-        ButtonType restartBtn = new ButtonType("Restart");
-        ButtonType cancelBtn = new ButtonType("Cancel");
-
-        alert.getButtonTypes().setAll(restartBtn, cancelBtn);
-
-        Optional<ButtonType> result = alert.showAndWait();
-
-        if (result.isPresent() && result.get() == restartBtn) {
-            restartGame();
-        }
     }
 
     private boolean checkLine(Button a, Button b, Button c) {
