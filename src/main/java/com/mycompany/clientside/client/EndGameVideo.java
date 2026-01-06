@@ -1,6 +1,7 @@
 package com.mycompany.clientside.client;
 
 
+import javafx.application.Platform;
 import javafx.scene.Scene;
 import javafx.scene.layout.StackPane;
 import javafx.scene.media.Media;
@@ -32,8 +33,8 @@ public class EndGameVideo
         Stage videoStage = new Stage();
         videoStage.setTitle(eventMessage);
         videoStage.setScene(scene);
-        videoStage.show();
 
+        videoStage.show();
         mediaPlayer.setOnReady(mediaPlayer::play);
 
 

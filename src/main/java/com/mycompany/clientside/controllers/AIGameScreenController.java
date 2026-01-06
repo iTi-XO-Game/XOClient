@@ -16,6 +16,8 @@ import java.util.Optional;
 import java.util.Random;
 import java.util.ResourceBundle;
 import java.util.function.Consumer;
+
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -135,8 +137,12 @@ public class AIGameScreenController implements Initializable {
             forEachButton((btn) -> {
                 btn.setDisable(true);
             });
-            EndGameVideo.showEndGameVideo(currentPlayer + " Wins!",false);
-            restartGame();
+            Platform.runLater(()->
+            {
+                EndGameVideo.showEndGameVideo(currentPlayer + " Wins!",false);
+                restartGame();
+            });
+
             return;
         }
 
@@ -148,8 +154,12 @@ public class AIGameScreenController implements Initializable {
             playerOCard.getStyleClass().remove("current-player");
             turnXLabel.setVisible(false);
             turnOLabel.setVisible(false);
-            EndGameVideo.showEndGameVideo("It is a Draw!",true);
-            restartGame();
+            Platform.runLater(()->
+            {
+                EndGameVideo.showEndGameVideo("It is a Draw!",true);
+                restartGame();
+
+            });
             return;
         }
 
@@ -218,8 +228,11 @@ public class AIGameScreenController implements Initializable {
             forEachButton((btn) -> {
                 btn.setDisable(true);
             });
-            EndGameVideo.showEndGameVideo(currentPlayer + " Wins!",false);
-            restartGame();
+            Platform.runLater(()->
+            {
+                EndGameVideo.showEndGameVideo(currentPlayer + " Wins!",false);
+                restartGame();
+            });
             return;
         }
 
@@ -231,9 +244,11 @@ public class AIGameScreenController implements Initializable {
             playerOCard.getStyleClass().remove("current-player");
             turnXLabel.setVisible(false);
             turnOLabel.setVisible(false);
-
-            EndGameVideo.showEndGameVideo("It is a Draw!",true);
-            restartGame();
+            Platform.runLater(()->
+            {
+                EndGameVideo.showEndGameVideo("It is a Draw!",true);
+                restartGame();
+            });
             return;
         }
 
