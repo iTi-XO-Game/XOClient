@@ -9,25 +9,29 @@ import com.mycompany.clientside.Screens;
 import com.mycompany.clientside.client.ClientManager;
 import com.mycompany.clientside.client.EndPoint;
 import com.mycompany.clientside.client.JsonUtils;
-import com.mycompany.clientside.models.Move;
+import com.mycompany.clientside.client.StatusCode;
+import com.mycompany.clientside.models.LoginRequest;
+import com.mycompany.clientside.models.LoginResponse;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
+
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Alert;
 
 import javafx.scene.control.Button;
 import javafx.scene.control.Hyperlink;
 import javafx.scene.control.TextField;
+
 /**
  * FXML Controller class
  *
  * @author Dell
  */
 public class LoginController implements Initializable {
-
 
     @FXML
     private TextField usernameTxt;
@@ -39,14 +43,15 @@ public class LoginController implements Initializable {
     private Button loginBtn;
     @FXML
     private Hyperlink createAccountHyperLink;
+
     /**
      * Initializes the controller class.
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         // TODO
-    }    
-    
+    }
+
     @FXML
     private void handelForgetPassHyperLink(ActionEvent event) {
     }
@@ -55,16 +60,41 @@ public class LoginController implements Initializable {
     private void handelLogin(ActionEvent event) {
         // todo Sending demo
         ClientManager clientManager = ClientManager.getInstance();
-         
-        Move move = new Move(usernameTxt.getText(),10,20);
+
+        LoginRequest loginRequest = new LoginRequest(usernameTxt.getText(), passTxt.getText());
         clientManager
-            .send(move, EndPoint.LOGIN,
-                response -> {
-                    Move movea = JsonUtils.fromJson(response, Move.class);
-                    Platform.runLater(() -> {
-                        passTxt.setText(movea.getPlayer());
-                    });
-                });
+                .send(loginRequest, EndPoint.LOGIN,
+                        response -> {
+
+                            System.out.println("we have a response right now!");
+                            try {
+                                System.out.println(response);
+
+                                LoginResponse loginResponse = JsonUtils.fromJson(response, LoginResponse.class);
+                                System.out.println(loginResponse.getStatusCode());
+                                Platform.runLater(() -> {
+                                    if (loginResponse.getStatusCode() == StatusCode.ERROR) {
+                                        Alert alert = new Alert(Alert.AlertType.ERROR);
+                                        alert.setTitle("An Error Ocurred");
+                                        alert.setHeaderText(loginResponse.getErrorMessage());
+                                        alert.showAndWait();
+                                    } else {
+
+                                        try {
+                                            System.out.println(loginResponse.getUserName());
+                                            //also store the values of the login response on some place...
+                                            App.setRoot(Screens.HOME_SCREEN);
+
+                                        } catch (IOException ex) {
+                                        }
+                                    }
+                                });
+                            } catch (Exception e) {
+                                System.out.println("sad");
+                                e.printStackTrace();
+                            }
+
+                        });
     }
 
     @FXML
