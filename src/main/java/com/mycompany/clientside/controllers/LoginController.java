@@ -13,6 +13,7 @@ import com.mycompany.clientside.client.StatusCode;
 import com.mycompany.clientside.models.LoginRequest;
 import com.mycompany.clientside.models.LoginResponse;
 import java.io.IOException;
+import java.io.InputStream;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.application.Platform;
@@ -23,7 +24,11 @@ import javafx.scene.control.Alert;
 
 import javafx.scene.control.Button;
 import javafx.scene.control.Hyperlink;
+import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+
 /**
  * FXML Controller class
  *
@@ -34,19 +39,26 @@ public class LoginController implements Initializable {
     @FXML
     private TextField usernameTxt;
     @FXML
-    private TextField passTxt;
+    private PasswordField passTxt;
+    @FXML
+    private TextField passTxtPlain;
     @FXML
     private Hyperlink forgetPassHyperLink;
     @FXML
     private Button loginBtn;
     @FXML
     private Hyperlink createAccountHyperLink;
+    @FXML
+    private ImageView eyeIcon;
+    boolean isPasswordVisible;
+
     /**
      * Initializes the controller class.
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        // TODO
+        isPasswordVisible = false;
+        passTxtPlain.setVisible(false);
     }
 
     @FXML
@@ -98,4 +110,29 @@ public class LoginController implements Initializable {
         }
     }
 
+    @FXML
+    void togglePassword(ActionEvent event) {
+        if (isPasswordVisible) {
+            
+            passTxt.setText(passTxtPlain.getText());
+            passTxt.setVisible(true);
+            passTxtPlain.setVisible(false);
+
+            updateIcon("/com/mycompany/clientside/images/show_password_eye.png");
+        } else {
+          
+            passTxtPlain.setText(passTxt.getText());
+            passTxtPlain.setVisible(true);
+            passTxt.setVisible(false);
+
+            updateIcon("/com/mycompany/clientside/images/hide_password_eye.png");
+        }
+        isPasswordVisible = !isPasswordVisible;
+    }
+
+
+    private void updateIcon(String path) {
+        Image img = new Image(getClass().getResource(path).toExternalForm());
+        eyeIcon.setImage(img);
+    }
 }
