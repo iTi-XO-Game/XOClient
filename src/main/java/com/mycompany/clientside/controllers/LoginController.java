@@ -15,7 +15,6 @@ import com.mycompany.clientside.models.LoginResponse;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
-
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -25,7 +24,6 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Hyperlink;
 import javafx.scene.control.TextField;
-
 /**
  * FXML Controller class
  *
@@ -43,7 +41,6 @@ public class LoginController implements Initializable {
     private Button loginBtn;
     @FXML
     private Hyperlink createAccountHyperLink;
-
     /**
      * Initializes the controller class.
      */
@@ -66,12 +63,9 @@ public class LoginController implements Initializable {
                 .send(loginRequest, EndPoint.LOGIN,
                         response -> {
 
-                            System.out.println("we have a response right now!");
                             try {
-                                System.out.println(response);
 
                                 LoginResponse loginResponse = JsonUtils.fromJson(response, LoginResponse.class);
-                                System.out.println(loginResponse.getStatusCode());
                                 Platform.runLater(() -> {
                                     if (loginResponse.getStatusCode() == StatusCode.ERROR) {
                                         Alert alert = new Alert(Alert.AlertType.ERROR);
@@ -81,8 +75,7 @@ public class LoginController implements Initializable {
                                     } else {
 
                                         try {
-                                            System.out.println(loginResponse.getUserName());
-                                            //also store the values of the login response on some place...
+                                            //consider showing the user some animations before navigating...
                                             App.setRoot(Screens.HOME_SCREEN);
 
                                         } catch (IOException ex) {
@@ -90,8 +83,7 @@ public class LoginController implements Initializable {
                                     }
                                 });
                             } catch (Exception e) {
-                                System.out.println("sad");
-                                e.printStackTrace();
+
                             }
 
                         });
