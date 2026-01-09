@@ -69,7 +69,7 @@ public class LoginController implements Initializable {
         // todo Sending demo
         ClientManager clientManager = ClientManager.getInstance();
 
-        AuthRequest loginRequest = new AuthRequest(usernameTxt.getText(), passTxt.getText());
+        AuthRequest loginRequest = new AuthRequest(usernameTxt.getText(), getPassowrd());
         clientManager.send(loginRequest, EndPoint.LOGIN, response -> {
             try {
                 AuthResponse loginResponse = JsonUtils.fromJson(response, AuthResponse.class);
@@ -129,5 +129,12 @@ public class LoginController implements Initializable {
     private void updateIcon(String path) {
         Image img = new Image(getClass().getResource(path).toExternalForm());
         eyeIcon.setImage(img);
+    }
+
+    private String getPassowrd(){
+        if(isPasswordVisible){
+            return passTxtPlain.getText();
+        }
+        return passTxt.getText();
     }
 }
