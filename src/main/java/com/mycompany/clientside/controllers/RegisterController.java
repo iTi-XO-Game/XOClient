@@ -39,8 +39,7 @@ public class RegisterController implements Initializable {
     private TextField userNameTxt;
     @FXML
     private Button createAccountBtn;
-    @FXML
-    private Label errorMessageLabel;
+
     @FXML
     private ImageView confirmEyeIcon;
     @FXML
@@ -53,6 +52,13 @@ public class RegisterController implements Initializable {
     private PasswordField passTxtHidden;
     @FXML
     private TextField passTxtPlain;
+    @FXML
+    private Label passwordErrorMessageLabel;
+    @FXML
+    private Label confirmPasswordErrorMessageLabel;
+    @FXML
+    private Label userNameErrorMessageLabel;
+
     boolean isPasswordVisible;
     boolean isConfirmPasswordVisible;
 
@@ -61,7 +67,7 @@ public class RegisterController implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        errorMessageLabel.setManaged(false);
+        disableErrorMessages();
         isPasswordVisible = false;
         isConfirmPasswordVisible = false;
         // TODO
@@ -131,8 +137,7 @@ public class RegisterController implements Initializable {
     }
 
     private void createAccount() {
-        errorMessageLabel.setManaged(false);
-        errorMessageLabel.setVisible(false);
+        disableErrorMessages();
 
         ClientManager clientManager = ClientManager.getInstance();
         clientManager.send(new AuthRequest(userNameTxt.getText(), getPassword()), EndPoint.REGISTER, (response) -> {
@@ -164,25 +169,73 @@ public class RegisterController implements Initializable {
         String password = getPassword();
         String confirmPass = getConfirmationPassword();
         boolean isValid = true;
-        StringBuilder errorMessage = new StringBuilder();
         if (userName.isBlank()) {
-            errorMessage.append("User Name Can't Be Empty\n");
+            userNameErrorMessageLabel.setText("User Name Can't Be Empty");
             isValid = false;
+            enableUserNameError();
+        } else if (userName.length() < 3) {
+            userNameErrorMessageLabel.setText("User Name Length Must Be Bigger Than 3");
+            enableUserNameError();
+            isValid = false;
+        } else {
+            disableUserNameError();
         }
         if (password.isEmpty()) {
-            errorMessage.append("Password Can't Be Empty\n");
+            passwordErrorMessageLabel.setText("Password Can't Be Empty");
             isValid = false;
-        } else if (!confirmPass.equals(password)) {
-            errorMessage.append("Passwords Don't Match");
+            enablePasswordError();
+        } else if (password.length() < 6) {
+            passwordErrorMessageLabel.setText("Password Length Must Be Higher Than 6");
             isValid = false;
+            enablePasswordError();
+        } else {
+            disablePasswordError();
         }
-
-        if (!isValid) {
-            errorMessageLabel.setVisible(true);
-            errorMessageLabel.setManaged(true);
-            errorMessageLabel.setText(errorMessage.toString());
+        if (!confirmPass.equals(password)) {
+            confirmPasswordErrorMessageLabel.setText("Passwords Don't Match");
+            isValid = false;
+            enableConfirmPasswordError();
+        } else {
+            disableConfirmPasswordError();
         }
         return isValid;
+    }
+
+    private void disableErrorMessages() {
+        disableUserNameError();
+        disablePasswordError();
+        disableConfirmPasswordError();
+    }
+
+    private void enableUserNameError() {
+        userNameErrorMessageLabel.setManaged(true);
+        userNameErrorMessageLabel.setVisible(true);
+    }
+
+    private void enablePasswordError() {
+        passwordErrorMessageLabel.setManaged(true);
+        passwordErrorMessageLabel.setVisible(true);
+    }
+
+    private void enableConfirmPasswordError() {
+        confirmPasswordErrorMessageLabel.setManaged(true);
+        confirmPasswordErrorMessageLabel.setVisible(true);
+    }
+
+    private void disableUserNameError() {
+        userNameErrorMessageLabel.setManaged(false);
+        userNameErrorMessageLabel.setVisible(false);
+    }
+
+    private void disablePasswordError() {
+        passwordErrorMessageLabel.setManaged(false);
+        passwordErrorMessageLabel.setVisible(false);
+    }
+
+    private void disableConfirmPasswordError() {
+        confirmPasswordErrorMessageLabel.setManaged(false);
+        confirmPasswordErrorMessageLabel.setVisible(false);
+
     }
 
     private String getPassword() {

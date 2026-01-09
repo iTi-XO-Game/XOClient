@@ -22,6 +22,7 @@
                   <Label styleClass="subtitle" text="Join the fun! Enter your details to start playing." />
                   <Label styleClass="field-label" text="Username" />
                   <TextField fx:id="userNameTxt" prefHeight="36.0" promptText="Choose a unique username" styleClass="input" />
+                  <Label fx:id="userNameErrorMessageLabel" prefHeight="130.0" prefWidth="310.0" styleClass="error-message" />
                   <Label styleClass="field-label" text="Password" />
                   <StackPane>
                      <children>
@@ -38,6 +39,7 @@
                         </Button>
                      </children>
                   </StackPane>
+                  <Label fx:id="passwordErrorMessageLabel" prefHeight="130.0" prefWidth="310.0" styleClass="error-message" />
                   <Label styleClass="field-label" text="Confirm Password" />
                   <StackPane>
                      <children>
@@ -54,7 +56,7 @@
                         </Button>
                      </children>
                   </StackPane>
-                  <Label fx:id="errorMessageLabel" prefHeight="18.0" prefWidth="331.0" styleClass="error-message" />
+                  <Label fx:id="confirmPasswordErrorMessageLabel" prefHeight="130.0" prefWidth="310.0" styleClass="error-message" />
                   <Button fx:id="createAccountBtn" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#handelCreateAccount" prefHeight="42.0" styleClass="login-btn" text="Create Account" />
                   <HBox alignment="CENTER_LEFT">
                      <children>
