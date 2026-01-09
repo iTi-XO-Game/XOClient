@@ -1,4 +1,4 @@
-package com.mycompany.clientside.client.requests;
+package com.mycompany.clientside.models;
 
 public class GamesHistoryRequest
 {

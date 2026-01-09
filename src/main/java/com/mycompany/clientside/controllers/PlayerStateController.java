@@ -7,14 +7,19 @@ package com.mycompany.clientside.controllers;
 import com.mycompany.clientside.App;
 import com.mycompany.clientside.Screens;
 import java.net.URL;
+import java.time.Instant;
 import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.util.List;
 import java.util.ResourceBundle;
 
 import com.mycompany.clientside.client.ClientManager;
 import com.mycompany.clientside.client.EndPoint;
 import com.mycompany.clientside.client.JsonUtils;
-import com.mycompany.clientside.client.requests.GamesHistoryRequest;
-import com.mycompany.clientside.client.responses.GamesHistoryResponse;
+import com.mycompany.clientside.models.GameHistory;
+import com.mycompany.clientside.models.GamesHistoryRequest;
+import com.mycompany.clientside.models.GamesHistoryResponse;
+import javafx.application.Platform;
 import javafx.fxml.Initializable;
 import java.util.ArrayList;
 import javafx.geometry.Insets;
@@ -40,7 +45,9 @@ public class PlayerStateController implements Initializable {
     /**
      * Initializes the controller class.
      */
+
     ArrayList<GameModel> gameModels;
+    List<GameHistory> gameModels2 = new ArrayList<>();
     @FXML
     private VBox gameRowsContainer;
 
@@ -51,46 +58,46 @@ public class PlayerStateController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        System.out.println("Line 57");
 
         gameModels = new ArrayList<>();
         gettingGamesHistory();
-        displayGames();
+
     }
 
     //this function should fill the data from the database
-    private void gettingGamesHistory()
-    {
-//        ClientManager clientManager = ClientManager.getInstance();
-//
-//        GamesHistoryRequest gamesHistoryRequest = new GamesHistoryRequest(10);
-//
-//        clientManager.send(gamesHistoryRequest, EndPoint.PLAYER_GAMES_HISTORY,response->
-//        {
-//            GamesHistoryResponse gamesHistoryResponse  = JsonUtils.fromJson(response,GamesHistoryResponse.class);
-//            gameModels = gamesHistoryResponse.getGameModels();
-//        });
+    private void gettingGamesHistory() {
+
+        ClientManager clientManager = ClientManager.getInstance();
+
+        GamesHistoryRequest gamesHistoryRequest = new GamesHistoryRequest(MY_ID);
 
 
-        LocalDateTime matchStart = LocalDateTime.of(2023, 10, 24, 14, 30, 0);
-        LocalDateTime matchEnd = LocalDateTime.of(2023, 10, 24, 14, 34, 21);
-        gameModels.add(new GameModel(1, 100, 200, 100, matchStart, matchEnd));
-        gameModels.add(new GameModel(2, 100, 200, -1, matchStart, matchEnd));
-        gameModels.add(new GameModel(3, 100, 200, 200, matchStart, matchEnd));
-        gameModels.add(new GameModel(3, 100, 200, 200, matchStart, matchEnd));
-        gameModels.add(new GameModel(3, 100, 200, 200, matchStart, matchEnd));
-        gameModels.add(new GameModel(3, 100, 200, 200, matchStart, matchEnd));
-    }
+        clientManager.send(gamesHistoryRequest, EndPoint.PLAYER_GAMES_HISTORY, response ->
+        {
+
+            GamesHistoryResponse gamesHistoryResponse = JsonUtils.fromJson(response, GamesHistoryResponse.class);
+
+            gameModels2 = gamesHistoryResponse.getGameModels();
+
+            Platform.runLater(this::displayGames);
+
+        });
+
+        System.out.println("Line after send");
+
+}
 
     public void displayGames() {
         gameRowsContainer.getChildren().clear();
 
-        for (GameModel game : gameModels) {
+        for (GameHistory game : gameModels2) {
             HBox row = createGameRow(game);
             gameRowsContainer.getChildren().add(row);
         }
     }
 
-    private HBox createGameRow(GameModel game) {
+    private HBox createGameRow(GameHistory game) {
         HBox row = new HBox();
         row.setAlignment(Pos.CENTER_LEFT);
         row.setPrefHeight(60);
@@ -116,9 +123,15 @@ public class PlayerStateController implements Initializable {
                 break;
         }
 
-        Label opponentLabel = new Label("Player " + (game.getPlayerOneId() == MY_ID ? game.getPlayerTwoId() : game.getPlayerOneId()));
-        Label dateLabel = new Label(game.getStartTime().format(DateTimeFormatter.ofPattern("MMM dd, yyyy")));
-        Label durationLabel = new Label(game.getDuration());
+        Label opponentLabel = new Label("Player " + (game.getPlayerXId() == MY_ID ? game.getPlayerOId() : game.getPlayerXId()));
+       long time = game.getGameDate();
+        LocalDateTime dateTime = Instant
+                .ofEpochMilli(time)
+                .atZone(ZoneId.systemDefault())
+                .toLocalDateTime();
+        Label dateLabel = new Label(dateTime.format(DateTimeFormatter.ofPattern("MMM dd, yyyy")));
+
+        Label durationLabel = new Label("no time");
         resultContainer.prefWidthProperty().bind(row.widthProperty().divide(4));
         opponentLabel.prefWidthProperty().bind(row.widthProperty().divide(4));
         dateLabel.prefWidthProperty().bind(row.widthProperty().divide(4));
