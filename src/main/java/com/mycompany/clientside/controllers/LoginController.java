@@ -68,6 +68,11 @@ public class LoginController implements Initializable {
 
     @FXML
     private void handelForgetPassHyperLink(ActionEvent event) {
+        try {
+            App.setRoot(Screens.FORGOT_SCREEN);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @FXML
