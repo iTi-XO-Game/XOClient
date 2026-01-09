@@ -11,9 +11,8 @@ import com.mycompany.clientside.client.EndPoint;
 import com.mycompany.clientside.client.JsonUtils;
 import com.mycompany.clientside.client.StatusCode;
 import com.mycompany.clientside.models.AuthRequest;
-import com.mycompany.clientside.models.AuthResponsse;
+import com.mycompany.clientside.models.AuthResponse;
 import java.io.IOException;
-import java.io.InputStream;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.application.Platform;
@@ -77,7 +76,7 @@ public class LoginController implements Initializable {
 
                             try {
 
-                                AuthResponsse loginResponse = JsonUtils.fromJson(response, AuthResponsse.class);
+                                AuthResponse loginResponse = JsonUtils.fromJson(response, AuthResponse.class);
                                 Platform.runLater(() -> {
                                     if (loginResponse.getStatusCode() == StatusCode.ERROR) {
                                         Alert alert = new Alert(Alert.AlertType.ERROR);
