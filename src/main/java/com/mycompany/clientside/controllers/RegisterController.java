@@ -15,6 +15,7 @@ import com.mycompany.clientside.models.AuthResponse;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -56,22 +57,7 @@ public class RegisterController implements Initializable {
         if (!validateData()) {
             return;
         }
-        ClientManager clientManager = ClientManager.getInstance();
-        clientManager.send(new AuthRequest(userNameTxt.getText(), passTxt.getText()), EndPoint.REGISTER, (response) -> {
-            AuthResponse authResponse = JsonUtils.fromJson(response, AuthResponse.class);
-            if (authResponse.getStatusCode() == StatusCode.ERROR) {
-                Alert alert = new Alert(Alert.AlertType.ERROR);
-                alert.setTitle("An Error Ocurred");
-                alert.setHeaderText(authResponse.getErrorMessage());
-                alert.showAndWait();
-            } else {
-                try {
-                    App.setRoot(Screens.HOME_SCREEN);
-                } catch (IOException ex) {
-                    // todo add alert!
-                }
-            }
-        });
+        createAccount();
     }
 
     @FXML
@@ -83,32 +69,55 @@ public class RegisterController implements Initializable {
         }
     }
 
+    private void createAccount() {
+        errorMessageLabel.setManaged(false);
+        errorMessageLabel.setVisible(false);
+
+        ClientManager clientManager = ClientManager.getInstance();
+        clientManager.send(new AuthRequest(userNameTxt.getText(), passTxt.getText()), EndPoint.REGISTER, (response) -> {
+            AuthResponse authResponse = JsonUtils.fromJson(response, AuthResponse.class);
+
+            Platform.runLater(() -> {
+                if (authResponse.getStatusCode() == StatusCode.ERROR) {
+                    Alert alert = new Alert(Alert.AlertType.ERROR);
+                    alert.setTitle("An Error Ocurred");
+                    alert.setHeaderText(authResponse.getErrorMessage());
+                    alert.showAndWait();
+                } else {
+                    try {
+                        App.setRoot(Screens.HOME_SCREEN);
+                    } catch (IOException ex) {
+                        // todo add alert!
+                    }
+                }
+            });
+        });
+    }
+
     private boolean validateData() {
-    String userName = userNameTxt.getText();
-    String password = passTxt.getText();
-    String confirmPass = conformPassTxt.getText();
-    boolean isValid = true;
-    StringBuilder errorMessage = new StringBuilder();
+        String userName = userNameTxt.getText();
+        String password = passTxt.getText();
+        String confirmPass = conformPassTxt.getText();
+        boolean isValid = true;
+        StringBuilder errorMessage = new StringBuilder();
+        if (userName.isBlank()) {
+            errorMessage.append("User Name Can't Be Empty\n");
+            isValid = false;
+        }
+        if (password.isEmpty()) {
+            errorMessage.append("Password Can't Be Empty\n");
+            isValid = false;
+        } else if (!confirmPass.equals(password)) {
+            errorMessage.append("Passwords Don't Match");
+            isValid = false;
+        }
 
-    if (userName.isBlank()) {
-        errorMessage.append("User Name Can't Be Empty\n");
-        isValid = false;
+        if (!isValid) {
+            errorMessageLabel.setVisible(true);
+            errorMessageLabel.setManaged(true);
+            errorMessageLabel.setText(errorMessage.toString());
+        }
+        return isValid;
     }
-    if (password.isBlank()) {
-        errorMessage.append("Password Can't Be Empty\n");
-        isValid = false;
-    }
-    if (!confirmPass.equals(password)) {
-        errorMessage.append("Passwords Don't Match\n");
-        isValid = false;
-    }
-
-    if (!isValid) {
-        errorMessageLabel.setManaged(true);
-        errorMessageLabel.setText(errorMessage.toString().trim());
-    }
-    return isValid;
-}
-
 
 }

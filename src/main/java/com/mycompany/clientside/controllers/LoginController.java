@@ -70,34 +70,31 @@ public class LoginController implements Initializable {
         ClientManager clientManager = ClientManager.getInstance();
 
         AuthRequest loginRequest = new AuthRequest(usernameTxt.getText(), passTxt.getText());
-        clientManager
-                .send(loginRequest, EndPoint.LOGIN,
-                        response -> {
+        clientManager.send(loginRequest, EndPoint.LOGIN, response -> {
+            try {
+                AuthResponse loginResponse = JsonUtils.fromJson(response, AuthResponse.class);
+                
+                Platform.runLater(() -> {
+                    if (loginResponse.getStatusCode() == StatusCode.ERROR) {
+                        Alert alert = new Alert(Alert.AlertType.ERROR);
+                        alert.setTitle("An Error Ocurred");
+                        alert.setHeaderText(loginResponse.getErrorMessage());
+                        alert.showAndWait();
+                    } else {
 
-                            try {
+                        try {
+                            //consider showing the user some animations before navigating...
+                            App.setRoot(Screens.HOME_SCREEN);
 
-                                AuthResponse loginResponse = JsonUtils.fromJson(response, AuthResponse.class);
-                                Platform.runLater(() -> {
-                                    if (loginResponse.getStatusCode() == StatusCode.ERROR) {
-                                        Alert alert = new Alert(Alert.AlertType.ERROR);
-                                        alert.setTitle("An Error Ocurred");
-                                        alert.setHeaderText(loginResponse.getErrorMessage());
-                                        alert.showAndWait();
-                                    } else {
+                        } catch (IOException ex) {
+                        }
+                    }
+                });
+            } catch (Exception e) {
 
-                                        try {
-                                            //consider showing the user some animations before navigating...
-                                            App.setRoot(Screens.HOME_SCREEN);
+            }
 
-                                        } catch (IOException ex) {
-                                        }
-                                    }
-                                });
-                            } catch (Exception e) {
-
-                            }
-
-                        });
+        });
     }
 
     @FXML
@@ -112,14 +109,14 @@ public class LoginController implements Initializable {
     @FXML
     void togglePassword(ActionEvent event) {
         if (isPasswordVisible) {
-            
+
             passTxt.setText(passTxtPlain.getText());
             passTxt.setVisible(true);
             passTxtPlain.setVisible(false);
 
             updateIcon("/com/mycompany/clientside/images/show_password_eye.png");
         } else {
-          
+
             passTxtPlain.setText(passTxt.getText());
             passTxtPlain.setVisible(true);
             passTxt.setVisible(false);
@@ -128,7 +125,6 @@ public class LoginController implements Initializable {
         }
         isPasswordVisible = !isPasswordVisible;
     }
-
 
     private void updateIcon(String path) {
         Image img = new Image(getClass().getResource(path).toExternalForm());
