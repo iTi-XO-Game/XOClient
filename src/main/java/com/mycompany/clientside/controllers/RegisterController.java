@@ -23,7 +23,10 @@ import javafx.scene.control.Alert;
 
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 
 /**
  * FXML Controller class
@@ -35,13 +38,23 @@ public class RegisterController implements Initializable {
     @FXML
     private TextField userNameTxt;
     @FXML
-    private TextField passTxt;
-    @FXML
-    private TextField conformPassTxt;
-    @FXML
     private Button createAccountBtn;
     @FXML
     private Label errorMessageLabel;
+    @FXML
+    private ImageView confirmEyeIcon;
+    @FXML
+    private ImageView eyeIcon;
+    @FXML
+    private PasswordField confirmPassTxtHidden;
+    @FXML
+    private TextField confirmPassTxtPlain;
+    @FXML
+    private PasswordField passTxtHidden;
+    @FXML
+    private TextField passTxtPlain;
+    boolean isPasswordVisible;
+    boolean isConfirmPasswordVisible;
 
     /**
      * Initializes the controller class.
@@ -49,6 +62,8 @@ public class RegisterController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         errorMessageLabel.setManaged(false);
+        isPasswordVisible = false;
+        isConfirmPasswordVisible = false;
         // TODO
     }
 
@@ -69,12 +84,58 @@ public class RegisterController implements Initializable {
         }
     }
 
+    @FXML
+    void toggleConfirmPassword(ActionEvent event) {
+        if (isConfirmPasswordVisible) {
+            confirmPassTxtPlain.setVisible(false);
+            confirmPassTxtHidden.setVisible(true);
+            confirmPassTxtHidden.setText(confirmPassTxtPlain.getText());
+            isConfirmPasswordVisible = !isConfirmPasswordVisible;
+            updateConfirmPasswordIcon("/com/mycompany/clientside/images/show_password_eye.png");
+
+        } else {
+            confirmPassTxtHidden.setVisible(false);
+            confirmPassTxtPlain.setVisible(true);
+            confirmPassTxtPlain.setText(confirmPassTxtHidden.getText());
+            isConfirmPasswordVisible = !isConfirmPasswordVisible;
+            updateConfirmPasswordIcon("/com/mycompany/clientside/images/hide_password_eye.png");
+
+        }
+    }
+
+    @FXML
+    void togglePassword(ActionEvent event) {
+        if (isPasswordVisible) {
+            passTxtHidden.setText(passTxtPlain.getText());
+            passTxtPlain.setVisible(false);
+            passTxtHidden.setVisible(true);
+            isPasswordVisible = !isPasswordVisible;
+            updatePasswordIcon("/com/mycompany/clientside/images/show_password_eye.png");
+        } else {
+            passTxtPlain.setText(passTxtHidden.getText());
+            passTxtHidden.setVisible(false);
+            passTxtPlain.setVisible(true);
+            isPasswordVisible = !isPasswordVisible;
+            updatePasswordIcon("/com/mycompany/clientside/images/hide_password_eye.png");
+        }
+    }
+
+    private void updateConfirmPasswordIcon(String path) {
+        Image img = new Image(getClass().getResource(path).toExternalForm());
+        confirmEyeIcon.setImage(img);
+    }
+
+    private void updatePasswordIcon(String path) {
+        Image img = new Image(getClass().getResource(path).toExternalForm());
+        eyeIcon.setImage(img);
+    }
+
     private void createAccount() {
         errorMessageLabel.setManaged(false);
         errorMessageLabel.setVisible(false);
 
         ClientManager clientManager = ClientManager.getInstance();
-        clientManager.send(new AuthRequest(userNameTxt.getText(), passTxt.getText()), EndPoint.REGISTER, (response) -> {
+        clientManager.send(new AuthRequest(userNameTxt.getText(), getPassword()), EndPoint.REGISTER, (response) -> {
             AuthResponse authResponse = JsonUtils.fromJson(response, AuthResponse.class);
 
             Platform.runLater(() -> {
@@ -91,7 +152,7 @@ public class RegisterController implements Initializable {
                         alert.showAndWait();
                         App.setRoot(Screens.LOGIN_SCREEN);
                     } catch (IOException ex) {
-                        
+
                     }
                 }
             });
@@ -100,8 +161,8 @@ public class RegisterController implements Initializable {
 
     private boolean validateData() {
         String userName = userNameTxt.getText();
-        String password = passTxt.getText();
-        String confirmPass = conformPassTxt.getText();
+        String password = getPassword();
+        String confirmPass = getConfirmationPassword();
         boolean isValid = true;
         StringBuilder errorMessage = new StringBuilder();
         if (userName.isBlank()) {
@@ -124,4 +185,17 @@ public class RegisterController implements Initializable {
         return isValid;
     }
 
+    private String getPassword() {
+        if (isPasswordVisible) {
+            return passTxtPlain.getText();
+        }
+        return passTxtHidden.getText();
+    }
+
+    private String getConfirmationPassword() {
+        if (isConfirmPasswordVisible) {
+            return confirmPassTxtPlain.getText();
+        }
+        return confirmPassTxtHidden.getText();
+    }
 }
