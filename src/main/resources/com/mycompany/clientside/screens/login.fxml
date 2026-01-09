@@ -28,7 +28,7 @@
                      <children>
                         <PasswordField fx:id="passTxt" promptText="Enter your password" styleClass="input" />
                         <TextField fx:id="passTxtPlain" promptText="Enter your password" styleClass="input" />
-                        <Button mnemonicParsing="false" onAction="#togglePassword" style="-fx-background-color: transparent;" StackPane.alignment="CENTER_RIGHT">
+                        <Button mnemonicParsing="false" onAction="#togglePassword" styleClass="toggle-button" StackPane.alignment="CENTER_RIGHT">
                            <graphic>
                               <ImageView fx:id="eyeIcon" fitHeight="15.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
                                  <image>
