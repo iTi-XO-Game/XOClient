@@ -11,7 +11,7 @@ import com.mycompany.clientside.client.StatusCode;
  * @author Depogramming
  */
 
-public class LoginResponse {
+public class AuthResponsse {
     private StatusCode statusCode;
     private String errorMessage;
     private static Integer id;
@@ -38,7 +38,7 @@ public class LoginResponse {
     }
 
     public static void setId(int id) {
-        LoginResponse.id = id;
+        AuthResponsse.id = id;
     }
 
     public String getUserName() {
@@ -46,17 +46,17 @@ public class LoginResponse {
     }
 
     public void setUserName(String userName) {
-        LoginResponse.userName = userName;
+        AuthResponsse.userName = userName;
     }
 
-    public LoginResponse(StatusCode statusCode, String errorMessage, Integer id, String userName) {
+    public AuthResponsse(StatusCode statusCode, String errorMessage, Integer id, String userName) {
         this.statusCode = statusCode;
         this.errorMessage = errorMessage;
-        LoginResponse.id = id;
-        LoginResponse.userName = userName;
+        AuthResponsse.id = id;
+        AuthResponsse.userName = userName;
     }
 
-    public LoginResponse() {
+    public AuthResponsse() {
     }
 
 }

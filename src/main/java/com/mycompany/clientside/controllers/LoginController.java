@@ -10,8 +10,8 @@ import com.mycompany.clientside.client.ClientManager;
 import com.mycompany.clientside.client.EndPoint;
 import com.mycompany.clientside.client.JsonUtils;
 import com.mycompany.clientside.client.StatusCode;
-import com.mycompany.clientside.models.LoginRequest;
-import com.mycompany.clientside.models.LoginResponse;
+import com.mycompany.clientside.models.AuthRequest;
+import com.mycompany.clientside.models.AuthResponsse;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
@@ -70,14 +70,14 @@ public class LoginController implements Initializable {
         // todo Sending demo
         ClientManager clientManager = ClientManager.getInstance();
 
-        LoginRequest loginRequest = new LoginRequest(usernameTxt.getText(), passTxt.getText());
+        AuthRequest loginRequest = new AuthRequest(usernameTxt.getText(), passTxt.getText());
         clientManager
                 .send(loginRequest, EndPoint.LOGIN,
                         response -> {
 
                             try {
 
-                                LoginResponse loginResponse = JsonUtils.fromJson(response, LoginResponse.class);
+                                AuthResponsse loginResponse = JsonUtils.fromJson(response, AuthResponsse.class);
                                 Platform.runLater(() -> {
                                     if (loginResponse.getStatusCode() == StatusCode.ERROR) {
                                         Alert alert = new Alert(Alert.AlertType.ERROR);
