@@ -13,14 +13,15 @@ import java.io.File;
 
 public class EndGameVideo
 {
-    public static void showEndGameVideo(String eventMessage, boolean isdraw)
-    {
+
+    public static void showEndGameVideo(String eventMessage, boolean isdraw) {
+
         String videoPath;
 
         if (isdraw)
-            videoPath = "draw.mp4";
+            videoPath = "do you feel anything_ Leonardo DiCaprio.mp4";
         else
-            videoPath = "win.mp4";
+            videoPath = "Obama Out! (Drops Mic).mp4";
         File file = new File(videoPath);
 
         Media media = new Media(EndGameVideo.class.getResource("/com/mycompany/clientside/Videos/" + videoPath).toExternalForm());
@@ -41,10 +42,13 @@ public class EndGameVideo
         videoStage.setOnCloseRequest(event ->
         {
             mediaPlayer.stop();
+            mediaPlayer.dispose();
         });
         mediaPlayer.setOnEndOfMedia(() ->
         {
             mediaPlayer.stop();
+            mediaPlayer.dispose();
+
             videoStage.close();
         });
     }
