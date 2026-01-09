@@ -23,6 +23,7 @@ import javafx.scene.control.Alert;
 
 import javafx.scene.control.Button;
 import javafx.scene.control.Hyperlink;
+import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
@@ -49,6 +50,10 @@ public class LoginController implements Initializable {
     private Hyperlink createAccountHyperLink;
     @FXML
     private ImageView eyeIcon;
+    @FXML
+    private Label userNameErrorMessageLabel;
+    @FXML
+    private Label passwordErrorMessageLabel;
     boolean isPasswordVisible;
 
     /**
@@ -56,6 +61,7 @@ public class LoginController implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        disableErrorMessages();
         isPasswordVisible = false;
         passTxtPlain.setVisible(false);
     }
@@ -66,14 +72,18 @@ public class LoginController implements Initializable {
 
     @FXML
     private void handelLogin(ActionEvent event) {
-        // todo Sending demo
+
+        if (!validateData()) {
+            return;
+        }
+
         ClientManager clientManager = ClientManager.getInstance();
 
-        AuthRequest loginRequest = new AuthRequest(usernameTxt.getText(), getPassowrd());
+        AuthRequest loginRequest = new AuthRequest(usernameTxt.getText(), getPassword());
         clientManager.send(loginRequest, EndPoint.LOGIN, response -> {
             try {
                 AuthResponse loginResponse = JsonUtils.fromJson(response, AuthResponse.class);
-                
+
                 Platform.runLater(() -> {
                     if (loginResponse.getStatusCode() == StatusCode.ERROR) {
                         Alert alert = new Alert(Alert.AlertType.ERROR);
@@ -131,10 +141,65 @@ public class LoginController implements Initializable {
         eyeIcon.setImage(img);
     }
 
-    private String getPassowrd(){
-        if(isPasswordVisible){
+    private String getPassword() {
+        if (isPasswordVisible) {
             return passTxtPlain.getText();
         }
         return passTxt.getText();
     }
+
+    private boolean validateData() {
+        String userName = usernameTxt.getText();
+        String password = getPassword();
+        boolean isValid = true;
+        if (userName.isBlank()) {
+            userNameErrorMessageLabel.setText("User Name Can't Be Empty");
+            isValid = false;
+            enableUserNameError();
+        } else if (userName.length() < 3) {
+            userNameErrorMessageLabel.setText("User Name Length Must Be Bigger Than 3");
+            enableUserNameError();
+            isValid = false;
+        } else {
+            disableUserNameError();
+        }
+        if (password.isEmpty()) {
+            passwordErrorMessageLabel.setText("Password Can't Be Empty");
+            isValid = false;
+            enablePasswordError();
+        } else if (password.length() < 6) {
+            passwordErrorMessageLabel.setText("Password Length Must Be Higher Than 6");
+            isValid = false;
+            enablePasswordError();
+        } else {
+            disablePasswordError();
+        }
+        return isValid;
+    }
+
+    private void disableErrorMessages() {
+        disableUserNameError();
+        disablePasswordError();
+    }
+
+    private void enableUserNameError() {
+        userNameErrorMessageLabel.setManaged(true);
+        userNameErrorMessageLabel.setVisible(true);
+    }
+
+    private void enablePasswordError() {
+        passwordErrorMessageLabel.setManaged(true);
+        passwordErrorMessageLabel.setVisible(true);
+    }
+
+    private void disableUserNameError() {
+        userNameErrorMessageLabel.setManaged(false);
+        userNameErrorMessageLabel.setVisible(false);
+    }
+
+    private void disablePasswordError() {
+        passwordErrorMessageLabel.setManaged(false);
+        passwordErrorMessageLabel.setVisible(false);
+    }
+
 }

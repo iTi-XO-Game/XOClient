@@ -62,15 +62,11 @@ public class RegisterController implements Initializable {
     boolean isPasswordVisible;
     boolean isConfirmPasswordVisible;
 
-    /**
-     * Initializes the controller class.
-     */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         disableErrorMessages();
         isPasswordVisible = false;
         isConfirmPasswordVisible = false;
-        // TODO
     }
 
     @FXML
@@ -124,16 +120,6 @@ public class RegisterController implements Initializable {
             isPasswordVisible = !isPasswordVisible;
             updatePasswordIcon("/com/mycompany/clientside/images/hide_password_eye.png");
         }
-    }
-
-    private void updateConfirmPasswordIcon(String path) {
-        Image img = new Image(getClass().getResource(path).toExternalForm());
-        confirmEyeIcon.setImage(img);
-    }
-
-    private void updatePasswordIcon(String path) {
-        Image img = new Image(getClass().getResource(path).toExternalForm());
-        eyeIcon.setImage(img);
     }
 
     private void createAccount() {
@@ -236,6 +222,16 @@ public class RegisterController implements Initializable {
         confirmPasswordErrorMessageLabel.setManaged(false);
         confirmPasswordErrorMessageLabel.setVisible(false);
 
+    }
+
+    private void updateConfirmPasswordIcon(String path) {
+        Image img = new Image(getClass().getResource(path).toExternalForm());
+        confirmEyeIcon.setImage(img);
+    }
+
+    private void updatePasswordIcon(String path) {
+        Image img = new Image(getClass().getResource(path).toExternalForm());
+        eyeIcon.setImage(img);
     }
 
     private String getPassword() {
