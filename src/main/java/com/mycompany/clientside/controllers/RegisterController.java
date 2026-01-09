@@ -21,6 +21,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
 
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 
 /**
@@ -38,19 +39,25 @@ public class RegisterController implements Initializable {
     private TextField conformPassTxt;
     @FXML
     private Button createAccountBtn;
+    @FXML
+    private Label errorMessageLabel;
 
     /**
      * Initializes the controller class.
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        errorMessageLabel.setManaged(false);
         // TODO
     }
 
     @FXML
     private void handelCreateAccount(ActionEvent event) {
+        if (!validateData()) {
+            return;
+        }
         ClientManager clientManager = ClientManager.getInstance();
-        clientManager.send(new AuthRequest("1", "2"), EndPoint.REGISTER, (response) -> {
+        clientManager.send(new AuthRequest(userNameTxt.getText(), passTxt.getText()), EndPoint.REGISTER, (response) -> {
             AuthResponse authResponse = JsonUtils.fromJson(response, AuthResponse.class);
             if (authResponse.getStatusCode() == StatusCode.ERROR) {
                 Alert alert = new Alert(Alert.AlertType.ERROR);
@@ -75,5 +82,33 @@ public class RegisterController implements Initializable {
             // todo add alert!
         }
     }
+
+    private boolean validateData() {
+    String userName = userNameTxt.getText();
+    String password = passTxt.getText();
+    String confirmPass = conformPassTxt.getText();
+    boolean isValid = true;
+    StringBuilder errorMessage = new StringBuilder();
+
+    if (userName.isBlank()) {
+        errorMessage.append("User Name Can't Be Empty\n");
+        isValid = false;
+    }
+    if (password.isBlank()) {
+        errorMessage.append("Password Can't Be Empty\n");
+        isValid = false;
+    }
+    if (!confirmPass.equals(password)) {
+        errorMessage.append("Passwords Don't Match\n");
+        isValid = false;
+    }
+
+    if (!isValid) {
+        errorMessageLabel.setManaged(true);
+        errorMessageLabel.setText(errorMessage.toString().trim());
+    }
+    return isValid;
+}
+
 
 }
