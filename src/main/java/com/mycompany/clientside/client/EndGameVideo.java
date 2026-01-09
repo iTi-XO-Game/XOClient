@@ -21,7 +21,7 @@ public class EndGameVideo
         if (isdraw)
             videoPath = "do you feel anything_ Leonardo DiCaprio.mp4";
         else
-            videoPath = "Obama Out! (Drops Mic).mp4";
+            videoPath = "Cristiano Ronaldo SIUUU!!!.mp4";
         File file = new File(videoPath);
 
         Media media = new Media(EndGameVideo.class.getResource("/com/mycompany/clientside/Videos/" + videoPath).toExternalForm());
