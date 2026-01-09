@@ -46,33 +46,36 @@ public class PlayerStateController implements Initializable {
      * Initializes the controller class.
      */
 
-    ArrayList<GameModel> gameModels;
     List<GameHistory> gameModels2 = new ArrayList<>();
+    ClientManager clientManager ;
+
     @FXML
     private VBox gameRowsContainer;
 
     //thinking on getting that value from the constructor
-    private final int MY_ID = 100;
+    private int MY_ID ;
     @FXML
     private Button navigateBackButton;
 
     @Override
-    public void initialize(URL url, ResourceBundle rb) {
-        System.out.println("Line 57");
+    public void initialize(URL url, ResourceBundle rb)
+    {
+        clientManager = ClientManager.getInstance();
 
-        gameModels = new ArrayList<>();
+//        clientManager.send(null,EndPoint.PLAYER_ID,responseJson -> {
+//            MY_ID = JsonUtils.fromJson(responseJson,int.class);
+//        });
+
+        MY_ID = 3;
+
         gettingGamesHistory();
-
     }
 
     //this function should fill the data from the database
     private void gettingGamesHistory() {
 
-        ClientManager clientManager = ClientManager.getInstance();
 
         GamesHistoryRequest gamesHistoryRequest = new GamesHistoryRequest(MY_ID);
-
-
         clientManager.send(gamesHistoryRequest, EndPoint.PLAYER_GAMES_HISTORY, response ->
         {
 
@@ -83,8 +86,6 @@ public class PlayerStateController implements Initializable {
             Platform.runLater(this::displayGames);
 
         });
-
-        System.out.println("Line after send");
 
 }
 
@@ -111,17 +112,16 @@ public class PlayerStateController implements Initializable {
         resultContainer.setMaxWidth(Double.MAX_VALUE);
         HBox.setHgrow(resultContainer, Priority.ALWAYS);
 
-        switch (game.getWinnerId()) {
-            case -1:
-                setupStatusLabel(resultLabel, "Draw", "#F1F5F9", "#64748B");
-                break;
-            case MY_ID:
-                setupStatusLabel(resultLabel, "Victory", "#E6F9ED", "#2ECC71");
-                break;
-            default:
-                setupStatusLabel(resultLabel, "Defeat", "#FEE2E2", "#EF4444");
-                break;
+        if (game.getWinnerId() == null) {
+            setupStatusLabel(resultLabel, "Draw", "#F1F5F9", "#64748B");
+
+        } else if (game.getWinnerId() == MY_ID) {
+            setupStatusLabel(resultLabel, "Victory", "#E6F9ED", "#2ECC71");
+
+        } else {
+            setupStatusLabel(resultLabel, "Defeat", "#FEE2E2", "#EF4444");
         }
+
 
         Label opponentLabel = new Label("Player " + (game.getPlayerXId() == MY_ID ? game.getPlayerOId() : game.getPlayerXId()));
        long time = game.getGameDate();
@@ -144,7 +144,8 @@ public class PlayerStateController implements Initializable {
         durationLabel.setMaxWidth(Double.MAX_VALUE);
         HBox.setHgrow(durationLabel, Priority.ALWAYS);
 
-        row.getChildren().addAll(resultContainer, opponentLabel, dateLabel, durationLabel);
+        row.getChildren().addAll(resultContainer, opponentLabel, dateLabel,durationLabel);
+
 
         return row;
     }
