@@ -85,9 +85,13 @@ public class RegisterController implements Initializable {
                     alert.showAndWait();
                 } else {
                     try {
-                        App.setRoot(Screens.HOME_SCREEN);
+                        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                        alert.setTitle("Account Creation");
+                        alert.setHeaderText("Account Created Successfully!");
+                        alert.showAndWait();
+                        App.setRoot(Screens.LOGIN_SCREEN);
                     } catch (IOException ex) {
-                        // todo add alert!
+                        
                     }
                 }
             });
