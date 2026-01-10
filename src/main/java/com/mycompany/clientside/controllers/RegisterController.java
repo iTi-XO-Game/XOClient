@@ -9,7 +9,7 @@ import com.mycompany.clientside.Screens;
 import com.mycompany.clientside.client.ClientManager;
 import com.mycompany.clientside.client.EndPoint;
 import com.mycompany.clientside.client.JsonUtils;
-import com.mycompany.clientside.client.StatusCode;
+import com.mycompany.clientside.models.StatusCode;
 import com.mycompany.clientside.models.AuthRequest;
 import com.mycompany.clientside.models.AuthResponse;
 import java.io.IOException;
@@ -36,7 +36,7 @@ import javafx.scene.image.ImageView;
 public class RegisterController implements Initializable {
 
     @FXML
-    private TextField userNameTxt;
+    private TextField usernameTxt;
     @FXML
     private Button createAccountBtn;
 
@@ -57,7 +57,7 @@ public class RegisterController implements Initializable {
     @FXML
     private Label confirmPasswordErrorMessageLabel;
     @FXML
-    private Label userNameErrorMessageLabel;
+    private Label usernameErrorMessageLabel;
 
     boolean isPasswordVisible;
     boolean isConfirmPasswordVisible;
@@ -93,14 +93,14 @@ public class RegisterController implements Initializable {
             confirmPassTxtHidden.setVisible(true);
             confirmPassTxtHidden.setText(confirmPassTxtPlain.getText());
             isConfirmPasswordVisible = !isConfirmPasswordVisible;
-            updateConfirmPasswordIcon("/com/mycompany/clientside/images/show_password_eye.png");
+            updateConfirmPasswordIcon("images/show_password_eye.png");
 
         } else {
             confirmPassTxtHidden.setVisible(false);
             confirmPassTxtPlain.setVisible(true);
             confirmPassTxtPlain.setText(confirmPassTxtHidden.getText());
             isConfirmPasswordVisible = !isConfirmPasswordVisible;
-            updateConfirmPasswordIcon("/com/mycompany/clientside/images/hide_password_eye.png");
+            updateConfirmPasswordIcon("images/hide_password_eye.png");
 
         }
     }
@@ -112,13 +112,13 @@ public class RegisterController implements Initializable {
             passTxtPlain.setVisible(false);
             passTxtHidden.setVisible(true);
             isPasswordVisible = !isPasswordVisible;
-            updatePasswordIcon("/com/mycompany/clientside/images/show_password_eye.png");
+            updatePasswordIcon("images/show_password_eye.png");
         } else {
             passTxtPlain.setText(passTxtHidden.getText());
             passTxtHidden.setVisible(false);
             passTxtPlain.setVisible(true);
             isPasswordVisible = !isPasswordVisible;
-            updatePasswordIcon("/com/mycompany/clientside/images/hide_password_eye.png");
+            updatePasswordIcon("images/hide_password_eye.png");
         }
     }
 
@@ -126,9 +126,14 @@ public class RegisterController implements Initializable {
         disableErrorMessages();
 
         ClientManager clientManager = ClientManager.getInstance();
-        clientManager.send(new AuthRequest(userNameTxt.getText(), getPassword()), EndPoint.REGISTER, (response) -> {
+        
+        AuthRequest authRequest = new AuthRequest(usernameTxt.getText(), getPassword());
+
+        System.out.println("authRequest");
+        clientManager.send(authRequest, EndPoint.REGISTER, (response) -> {
             AuthResponse authResponse = JsonUtils.fromJson(response, AuthResponse.class);
 
+        System.out.println("runLater");
             Platform.runLater(() -> {
                 if (authResponse.getStatusCode() == StatusCode.ERROR) {
                     Alert alert = new Alert(Alert.AlertType.ERROR);
@@ -151,20 +156,20 @@ public class RegisterController implements Initializable {
     }
 
     private boolean validateData() {
-        String userName = userNameTxt.getText();
+        String username = usernameTxt.getText();
         String password = getPassword();
         String confirmPass = getConfirmationPassword();
         boolean isValid = true;
-        if (userName.isBlank()) {
-            userNameErrorMessageLabel.setText("User Name Can't Be Empty");
+        if (username.isBlank()) {
+            usernameErrorMessageLabel.setText("User Name Can't Be Empty");
             isValid = false;
-            enableUserNameError();
-        } else if (userName.length() < 3) {
-            userNameErrorMessageLabel.setText("User Name Length Must Be Bigger Than 3");
-            enableUserNameError();
+            enableusernameError();
+        } else if (username.length() < 3) {
+            usernameErrorMessageLabel.setText("User Name Length Must Be Bigger Than 3");
+            enableusernameError();
             isValid = false;
         } else {
-            disableUserNameError();
+            disableusernameError();
         }
         if (password.isEmpty()) {
             passwordErrorMessageLabel.setText("Password Can't Be Empty");
@@ -188,14 +193,14 @@ public class RegisterController implements Initializable {
     }
 
     private void disableErrorMessages() {
-        disableUserNameError();
+        disableusernameError();
         disablePasswordError();
         disableConfirmPasswordError();
     }
 
-    private void enableUserNameError() {
-        userNameErrorMessageLabel.setManaged(true);
-        userNameErrorMessageLabel.setVisible(true);
+    private void enableusernameError() {
+        usernameErrorMessageLabel.setManaged(true);
+        usernameErrorMessageLabel.setVisible(true);
     }
 
     private void enablePasswordError() {
@@ -208,9 +213,9 @@ public class RegisterController implements Initializable {
         confirmPasswordErrorMessageLabel.setVisible(true);
     }
 
-    private void disableUserNameError() {
-        userNameErrorMessageLabel.setManaged(false);
-        userNameErrorMessageLabel.setVisible(false);
+    private void disableusernameError() {
+        usernameErrorMessageLabel.setManaged(false);
+        usernameErrorMessageLabel.setVisible(false);
     }
 
     private void disablePasswordError() {
@@ -225,12 +230,12 @@ public class RegisterController implements Initializable {
     }
 
     private void updateConfirmPasswordIcon(String path) {
-        Image img = new Image(getClass().getResource(path).toExternalForm());
+        Image img = new Image(App.class.getResource(path).toExternalForm());
         confirmEyeIcon.setImage(img);
     }
 
     private void updatePasswordIcon(String path) {
-        Image img = new Image(getClass().getResource(path).toExternalForm());
+        Image img = new Image(App.class.getResource(path).toExternalForm());
         eyeIcon.setImage(img);
     }
 

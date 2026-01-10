@@ -4,8 +4,6 @@
  */
 package com.mycompany.clientside.models;
 
-import com.mycompany.clientside.client.StatusCode;
-
 /**
  *
  * @author Depogramming
@@ -15,7 +13,7 @@ public class AuthResponse {
     private StatusCode statusCode;
     private String errorMessage;
     private static Integer id;
-    private static String userName;
+    private static String username;
 
     public StatusCode getStatusCode() {
         return statusCode;
@@ -41,19 +39,19 @@ public class AuthResponse {
         AuthResponse.id = id;
     }
 
-    public static String getUserName() {
-        return userName;
+    public static String getusername() {
+        return username;
     }
 
-    public void setUserName(String userName) {
-        AuthResponse.userName = userName;
+    public void setusername(String username) {
+        AuthResponse.username = username;
     }
 
-    public AuthResponse(StatusCode statusCode, String errorMessage, Integer id, String userName) {
+    public AuthResponse(StatusCode statusCode, String errorMessage, Integer id, String username) {
         this.statusCode = statusCode;
         this.errorMessage = errorMessage;
         AuthResponse.id = id;
-        AuthResponse.userName = userName;
+        AuthResponse.username = username;
     }
 
     public AuthResponse() {

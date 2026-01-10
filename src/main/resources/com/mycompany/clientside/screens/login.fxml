@@ -21,9 +21,9 @@
                <children>
                   <Label styleClass="title" text="Login to Play" />
                   <Label styleClass="subtitle" text="Enter your credentials to continue your winning streak." />
-                  <Label styleClass="field-label" text="Username" />
+                  <Label styleClass="field-label" text="username" />
                   <TextField fx:id="usernameTxt" promptText="Enter your username" styleClass="input" />
-                  <Label fx:id="userNameErrorMessageLabel" prefHeight="130.0" prefWidth="310.0" styleClass="error-message" />
+                  <Label fx:id="usernameErrorMessageLabel" prefHeight="130.0" prefWidth="310.0" styleClass="error-message" />
                   <Label styleClass="field-label" text="Password" />
                   <StackPane>
                      <children>

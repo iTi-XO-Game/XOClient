@@ -20,9 +20,9 @@
                <children>
                   <Label styleClass="title" text="Create Account" />
                   <Label styleClass="subtitle" text="Join the fun! Enter your details to start playing." />
-                  <Label styleClass="field-label" text="Username" />
-                  <TextField fx:id="userNameTxt" prefHeight="36.0" promptText="Choose a unique username" styleClass="input" />
-                  <Label fx:id="userNameErrorMessageLabel" prefHeight="130.0" prefWidth="310.0" styleClass="error-message" />
+                  <Label styleClass="field-label" text="username" />
+                  <TextField fx:id="usernameTxt" prefHeight="36.0" promptText="Choose a unique username" styleClass="input" />
+                  <Label fx:id="usernameErrorMessageLabel" prefHeight="130.0" prefWidth="310.0" styleClass="error-message" />
                   <Label styleClass="field-label" text="Password" />
                   <StackPane>
                      <children>
