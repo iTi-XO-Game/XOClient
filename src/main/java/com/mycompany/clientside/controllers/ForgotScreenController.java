@@ -13,6 +13,8 @@ import com.mycompany.clientside.client.EndPoint;
 import com.mycompany.clientside.client.JsonUtils;
 import com.mycompany.clientside.client.MyAlert;
 import com.mycompany.clientside.models.AuthRequest;
+import com.mycompany.clientside.models.Player;
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -102,9 +104,6 @@ public class ForgotScreenController implements Initializable {
         if (!validateData()) return;
 
         String theSecretKey = secretTxt.getText();
-        System.out.println(theSecretKey);
-
-
 
         if(Objects.equals(theSecretKey, "ITI"))
         {
@@ -118,15 +117,26 @@ public class ForgotScreenController implements Initializable {
 
             AtomicReference<Boolean> updateDone = new AtomicReference<>(false);
 
-            clientManager.send(authRequest, EndPoint.UPDATA_USER_PASS,responseJson ->
+
+            clientManager.send(authRequest, EndPoint.UPDATE_USER_PASS, responseJson ->
             {
+                System.out.println("This Receive from server1: " + responseJson);
                 updateDone.set(JsonUtils.fromJson(responseJson, Boolean.class));
+
+                Platform.runLater(()->
+                {
+                    System.out.println("This Receive from server2: " + updateDone);
+                    if(updateDone.get())
+                        navigateToLogin(null);
+                    else
+                        MyAlert.show(Alert.AlertType.ERROR,"username Not Found","Can't Find This username","Enter Valid username");
+
+                });
+
             });
 
-            if(updateDone.get())
-                navigateToLogin(null);
-            else
-                MyAlert.show(Alert.AlertType.ERROR,"Username Not Found","Can't Find This Username","Enter Valid Username");
+
+
 
         }
         else
@@ -162,11 +172,16 @@ public class ForgotScreenController implements Initializable {
         if (username.isEmpty())
         {
             usernameLabel.setText("Username can't be empty");
-            enableUsernameEror();
+            enableusernameEror();
+            isValid = false;
+        }else if (username.length() < 3)
+        {
+            usernameLabel.setText("User Name Length Must Be Bigger Than 3");
+            enableusernameEror();
             isValid = false;
         }
         else {
-            disableUsernameEror();
+            disableusernameEror();
         }
 
 
@@ -175,7 +190,13 @@ public class ForgotScreenController implements Initializable {
             passwordErrorMessageLabel.setText("Password can't be empty");
             enablePasswordError();
             isValid = false;
-        } else {
+        }else if (password.length() < 7)
+        {
+            passwordErrorMessageLabel.setText("Password Length Must Be Higher Than 6");
+            enablePasswordError();
+            isValid = false;
+        }
+        else {
             disablePasswordError();
         }
 
@@ -183,7 +204,8 @@ public class ForgotScreenController implements Initializable {
             confirmPasswordErrorMessageLabel.setText("Passwords don't match");
             enableConfirmPasswordError();
             isValid = false;
-        } else {
+        } else
+        {
             disableConfirmPasswordError();
         }
 
@@ -204,7 +226,7 @@ public class ForgotScreenController implements Initializable {
         disableSecretError();
         disablePasswordError();
         disableConfirmPasswordError();
-        disableUsernameEror();
+        disableusernameEror();
     }
 
     private void enableSecretError() {
@@ -238,12 +260,12 @@ public class ForgotScreenController implements Initializable {
     }
 
 
-    private void enableUsernameEror() {
+    private void enableusernameEror() {
         usernameLabel.setManaged(true);
         usernameLabel.setVisible(true);
     }
 
-    private void disableUsernameEror() {
+    private void disableusernameEror() {
         usernameLabel.setManaged(false);
         usernameLabel.setVisible(false);
     }
