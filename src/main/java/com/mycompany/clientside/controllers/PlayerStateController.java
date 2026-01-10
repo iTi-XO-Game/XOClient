@@ -131,20 +131,16 @@ public class PlayerStateController implements Initializable {
                 .toLocalDateTime();
         Label dateLabel = new Label(dateTime.format(DateTimeFormatter.ofPattern("MMM dd, yyyy")));
 
-        Label durationLabel = new Label("no time");
         resultContainer.prefWidthProperty().bind(row.widthProperty().divide(4));
         opponentLabel.prefWidthProperty().bind(row.widthProperty().divide(4));
         dateLabel.prefWidthProperty().bind(row.widthProperty().divide(4));
-        durationLabel.prefWidthProperty().bind(row.widthProperty().divide(4));
 
         opponentLabel.setMaxWidth(Double.MAX_VALUE);
         HBox.setHgrow(opponentLabel, Priority.ALWAYS);
         dateLabel.setMaxWidth(Double.MAX_VALUE);
         HBox.setHgrow(dateLabel, Priority.ALWAYS);
-        durationLabel.setMaxWidth(Double.MAX_VALUE);
-        HBox.setHgrow(durationLabel, Priority.ALWAYS);
 
-        row.getChildren().addAll(resultContainer, opponentLabel, dateLabel,durationLabel);
+        row.getChildren().addAll(resultContainer, opponentLabel, dateLabel);
 
 
         return row;
