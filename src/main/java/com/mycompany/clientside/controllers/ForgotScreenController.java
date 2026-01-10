@@ -120,24 +120,21 @@ public class ForgotScreenController implements Initializable {
 
             clientManager.send(authRequest, EndPoint.UPDATE_USER_PASS, responseJson ->
             {
-                System.out.println("This Receive from server1: " + responseJson);
                 updateDone.set(JsonUtils.fromJson(responseJson, Boolean.class));
 
                 Platform.runLater(()->
                 {
-                    System.out.println("This Receive from server2: " + updateDone);
                     if(updateDone.get())
+                    {
+                        MyAlert.show(Alert.AlertType.CONFIRMATION,"Update The Password ","Password State","Now The Tassword Updated (:");
                         navigateToLogin(null);
+                    }
                     else
                         MyAlert.show(Alert.AlertType.ERROR,"username Not Found","Can't Find This username","Enter Valid username");
 
                 });
 
             });
-
-
-
-
         }
         else
         {
