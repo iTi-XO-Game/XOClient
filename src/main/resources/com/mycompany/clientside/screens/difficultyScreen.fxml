@@ -1,22 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.Insets?>
-<?import javafx.scene.control.Button?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.control.ToggleButton?>
-<?import javafx.scene.control.ToggleGroup?>
-<?import javafx.scene.layout.HBox?>
-<?import javafx.scene.layout.StackPane?>
-<?import javafx.scene.layout.VBox?>
-<?import javafx.scene.shape.Circle?>
-<?import javafx.scene.text.Font?>
-<?import javafx.scene.image.Image?>
-<?import javafx.scene.image.ImageView?>
-<?import java.net.URL?>
+<?import java.net.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.shape.*?>
+<?import javafx.scene.text.*?>
 
-<StackPane minHeight="480.0" minWidth="640.0" prefHeight="480.0" prefWidth="640.0"
-           xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1"
-           fx:controller="com.mycompany.clientside.controllers.DifficultyScreenController">
+<StackPane minHeight="480.0" minWidth="640.0" prefHeight="480.0" prefWidth="640.0" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.mycompany.clientside.controllers.DifficultyScreenController">
 
     <stylesheets>
         <URL value="@../styles/difficultyScreen.css" />
@@ -31,7 +23,7 @@
         <!-- Character Avatar -->
         <StackPane prefHeight="80.0" prefWidth="80.0">
             <Circle radius="40.0" styleClass="avatar-circle" />
-            <Label text="👤" styleClass="avatar-emoji">
+            <Label styleClass="avatar-emoji" text="👤">
                 <font>
                     <Font size="35.0" />
                 </font>
@@ -40,12 +32,12 @@
 
         <!-- Title -->
         <VBox alignment="CENTER" spacing="3.0">
-            <Label text="Vs. NPC" styleClass="title-main">
+            <Label styleClass="title-main" text="Vs. NPC">
                 <font>
                     <Font name="System Bold" size="28.0" />
                 </font>
             </Label>
-            <Label text="Challenge the AI Master!" styleClass="title-subtitle">
+            <Label styleClass="title-subtitle" text="Challenge the AI Master!">
                 <font>
                     <Font size="12.0" />
                 </font>
@@ -60,7 +52,7 @@
 
             <!-- Difficulty Selection -->
             <VBox alignment="CENTER" spacing="10.0">
-                <Label text="SELECT DIFFICULTY" styleClass="difficulty-label">
+                <Label styleClass="difficulty-label" text="SELECT DIFFICULTY">
                     <font>
                         <Font name="System Bold" size="10.0" />
                     </font>
@@ -71,35 +63,22 @@
                         <ToggleGroup fx:id="difficultyGroup" />
                     </fx:define>
 
-                    <ToggleButton text="Easy"
-                                  onAction="#clickEasy"
-                                  prefHeight="35.0"
-                                  prefWidth="90.0"
-                                  selected="true"
-                                  styleClass="difficulty-button-easy"
-                                  toggleGroup="$difficultyGroup">
+                    <ToggleButton onAction="#clickEasy" prefHeight="35.0" prefWidth="90.0" selected="true" styleClass="difficulty-button-easy" text="Easy">
+                        <font>
+                            <Font name="System Bold" size="11.0" />
+                        </font>
+                  <toggleGroup>
+                     <ToggleGroup fx:id="difficultyGroup" />
+                  </toggleGroup>
+                    </ToggleButton>
+
+                    <ToggleButton onAction="#clickMedium" prefHeight="35.0" prefWidth="90.0" styleClass="difficulty-button-medium" text="Medium" toggleGroup="$difficultyGroup">
                         <font>
                             <Font name="System Bold" size="11.0" />
                         </font>
                     </ToggleButton>
 
-                    <ToggleButton text="Medium"
-                                  onAction="#clickMedium"
-                                  prefHeight="35.0"
-                                  prefWidth="90.0"
-                                  styleClass="difficulty-button-medium"
-                                  toggleGroup="$difficultyGroup">
-                        <font>
-                            <Font name="System Bold" size="11.0" />
-                        </font>
-                    </ToggleButton>
-
-                    <ToggleButton text="Hard"
-                                  onAction="#clickHard"
-                                  prefHeight="35.0"
-                                  prefWidth="90.0"
-                                  styleClass="difficulty-button-hard"
-                                  toggleGroup="$difficultyGroup">
+                    <ToggleButton onAction="#clickHard" prefHeight="35.0" prefWidth="90.0" styleClass="difficulty-button-hard" text="Hard" toggleGroup="$difficultyGroup">
                         <font>
                             <Font name="System Bold" size="11.0" />
                         </font>
@@ -108,22 +87,14 @@
             </VBox>
 
             <!-- Record Game Button -->
-            <Button text="⏺  Record Game"
-                    onAction="#clickRecordGame"
-                    prefHeight="40.0"
-                    prefWidth="270.0"
-                    styleClass="record-button">
+            <Button onAction="#clickRecordGame" prefHeight="40.0" prefWidth="270.0" styleClass="record-button" text="⏺  Record Game">
                 <font>
                     <Font name="System Bold" size="12.0" />
                 </font>
             </Button>
 
             <!-- Play Game Button -->
-            <Button text="▶  Play Game"
-                    onAction="#clickPlayGame"
-                    prefHeight="45.0"
-                    prefWidth="270.0"
-                    styleClass="play-button">
+            <Button onAction="#clickPlayGame" prefHeight="45.0" prefWidth="270.0" styleClass="play-button" text="▶  Play Game">
                 <font>
                     <Font name="System Bold" size="14.0" />
                 </font>
@@ -131,10 +102,7 @@
         </VBox>
 
         <!-- Back to Menu Link -->
-        <Button text="Back to Menu"
-                onAction="#backToMenu"
-                prefHeight="25.0"
-                styleClass="back-button">
+        <Button onAction="#backToMenu" prefHeight="25.0" styleClass="back-button" text="Back to Menu">
             <graphic>
                 <ImageView fitHeight="31.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true" smooth="true">
                     <Image url="@../images/arrow_back.png" />
