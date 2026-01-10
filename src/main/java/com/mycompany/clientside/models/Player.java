@@ -9,31 +9,39 @@ package com.mycompany.clientside.models;
  * @author Depogramming
  */
 public class Player {
-    private final int id;
-    private final String userName;
-    private final int wins;
-    private final int draws;
-    private final int losses;
+
+    private int id;
+    private String username;
+    private int wins;
+    private int draws;
+    private int losses;
+    private boolean playing;
+
 
     public int getDraws() {
         return draws;
     }
-    private final boolean isInGame;
+
     public int getId() {
         return id;
     }
 
-    public Player(int id, String userName, int wins, int losses, boolean inGame, int draws) {
+    public Player(int id, String userName, int wins, int losses, int draws, boolean playing) {
         this.id = id;
-        this.userName = userName;
+        this.username = userName;
         this.wins = wins;
         this.losses = losses;
-        this.isInGame = inGame;
+        this.playing = playing;
         this.draws = draws;
     }
 
-    public String getUserName() {
-        return userName;
+    //todo delete when auth is done
+    public static Player getDummyPlayer(int id) {
+        return new Player(id,"hossam " + id,10,5,6,false);
+    }
+
+    public String getUsername() {
+        return username;
     }
 
     public int getWins() {
@@ -44,7 +52,31 @@ public class Player {
         return losses;
     }
 
-    public boolean isIsInGame(){
-        return this.isInGame;
+    public boolean isPlaying() {
+        return this.playing;
+    }
+    
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public void setWins(int wins) {
+        this.wins = wins;
+    }
+
+    public void setDraws(int draws) {
+        this.draws = draws;
+    }
+
+    public void setLosses(int losses) {
+        this.losses = losses;
+    }
+
+    public void setPlaying(boolean playing) {
+        this.playing = playing;
     }
 }

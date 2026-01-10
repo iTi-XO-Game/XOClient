@@ -12,14 +12,10 @@ import java.util.Optional;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.Node;
-import javafx.scene.Parent;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.ToggleGroup;
-import javafx.stage.Stage;
 
 /**
  * FXML Controller class
@@ -58,21 +54,18 @@ public class DifficultyScreenController implements Initializable {
     @FXML
     private void clickEasy(ActionEvent event) {
         currentDifficulty = Difficulty.Easy;
-        System.out.println(currentDifficulty.toString());
 
     }
 
     @FXML
     private void clickMedium(ActionEvent event) {
         currentDifficulty = Difficulty.Mid;
-        System.out.println(currentDifficulty.toString());
 
     }
 
     @FXML
     private void clickHard(ActionEvent event) {
         currentDifficulty = Difficulty.Hard;
-        System.out.println(currentDifficulty.toString());
 
     }
 

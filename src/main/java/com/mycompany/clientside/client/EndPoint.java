@@ -6,7 +6,7 @@ package com.mycompany.clientside.client;
 
 /**
  *
- * @author lenovo
+ * @author Hossam
  */
 public enum EndPoint {
     
@@ -14,18 +14,16 @@ public enum EndPoint {
     REGISTER("REGISTER"),
     LOGOUT("LOGOUT"),
     
-    SEND_CHALLENGE("SEND_CHALLENGE"),
-    RECEIVE_CHALLENGE("RECEIVE_CHALLENGE"),
-    ONLINE_USERS("ONLINE_USERS"),
-    JOIN_GAME("JOIN_GAME"),
-    LEAVE_GAME("LEAVE_GAME");
+    LOBBY("LOBBY"), // 1 listener
+    CHALLENGE("CHALLENGE"), // 1 listener
+    GAME("GAME");
     
     private final String code;
     
-    private EndPoint(String code) {
+    EndPoint(String code) {
         this.code = code;
     }
-    
+
     public String getCode() {
         return code;
     }

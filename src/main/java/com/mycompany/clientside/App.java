@@ -1,5 +1,6 @@
 package com.mycompany.clientside;
 
+import com.mycompany.clientside.client.ClientManager;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -19,6 +20,7 @@ public class App extends Application {
     public void start(Stage stage) throws IOException {
         scene = new Scene(loadFXML(Screens.LOGIN_SCREEN));
         stage.setMaximized(true);
+        stage.setOnCloseRequest(e -> ClientManager.getInstance().sendLogout());
         stage.setScene(scene);
         stage.show();
     }

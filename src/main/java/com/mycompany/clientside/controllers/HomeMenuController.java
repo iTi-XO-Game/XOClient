@@ -6,6 +6,7 @@ package com.mycompany.clientside.controllers;
 
 import com.mycompany.clientside.App;
 import com.mycompany.clientside.Screens;
+import com.mycompany.clientside.client.ClientManager;
 import java.io.IOException;
 import java.net.URL;
 import java.util.Optional;
@@ -20,7 +21,7 @@ import javafx.scene.control.ButtonType;
 /**
  * FXML Controller class
  *
- * @author lenovo
+ * @author Hossam
  */
 public class HomeMenuController implements Initializable {
 
@@ -60,6 +61,7 @@ public class HomeMenuController implements Initializable {
         Optional<ButtonType> result = alert.showAndWait();
 
         if (result.isPresent() && result.get() == confirmBtn) {
+            ClientManager.getInstance().sendLogout();
             try {
                 App.setRoot(Screens.LOGIN_SCREEN);
             } catch (IOException ex) {
@@ -89,9 +91,9 @@ public class HomeMenuController implements Initializable {
     @FXML
     private void onOnlineModeClick(ActionEvent event) {
         try {
-            App.setRoot(Screens.ONLINE_MULTIPLAYER);
+            App.setRoot(Screens.ONLINE_MULTIPLAYER_SCREEN);
         } catch (IOException ex) {
-            ex.printStackTrace();
+            //ex.printStackTrace();
         }
     }
 

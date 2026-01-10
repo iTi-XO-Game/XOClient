@@ -26,7 +26,7 @@ import javafx.scene.layout.VBox;
 /**
  * FXML Controller class
  *
- * @author lenovo
+ * @author Hossam
  */
 public class GameScreenController implements Initializable {
 

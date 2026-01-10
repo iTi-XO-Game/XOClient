@@ -6,6 +6,7 @@ package com.mycompany.clientside.controllers;
 
 import com.mycompany.clientside.App;
 import com.mycompany.clientside.Screens;
+import com.mycompany.clientside.client.ChallengeManager;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -43,6 +44,7 @@ public class RegisterController implements Initializable {
     @FXML
     private void handelCreateAccount(ActionEvent event) {
         // todo
+        ChallengeManager.getInstance().listenToChallenges();
         try {
             App.setRoot(Screens.HOME_SCREEN);
         } catch (IOException ex) {

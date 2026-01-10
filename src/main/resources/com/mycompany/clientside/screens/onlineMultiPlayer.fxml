@@ -10,7 +10,7 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.VBox?>
 
-<AnchorPane id="AnchorPane" prefHeight="400.0" prefWidth="600.0" styleClass="mainFxmlClass" stylesheets="@../styles/onlinemultplayer.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.mycompany.clientside.controllers.OnlineMultPlayerController">
+<AnchorPane id="AnchorPane" prefHeight="400.0" prefWidth="600.0" styleClass="mainFxmlClass" stylesheets="@../styles/onlinemultplayer.css" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.mycompany.clientside.controllers.OnlineMultiPlayerController">
    <children>
       <BorderPane prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #FFF9F5;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <top>
@@ -47,7 +47,7 @@
                   </HBox>
                   <HBox alignment="TOP_CENTER" maxHeight="-Infinity" maxWidth="-Infinity" styleClass="status-container" VBox.vgrow="NEVER">
                      <children>
-                        <Label fx:id="onlinePlayersCount" styleClass="status-number" text="12" />
+                        <Label fx:id="onlinePlayersCount" styleClass="status-number" text="0" />
                         <Label styleClass="status-text" text=" Players Online" />
                      </children>
                      <VBox.margin>
@@ -64,27 +64,15 @@
                                        <children>
                                           <HBox alignment="CENTER" fillHeight="false" prefHeight="62.0" prefWidth="498.0" styleClass="challenge-card">
                                              <children>
-                                                <VBox prefHeight="78.0" prefWidth="198.0">
+                                                <VBox prefHeight="78.0" prefWidth="220.0">
                                                    <children>
-                                                      <Label styleClass="opponent-name" text="Ali Eldeep">
+                                                      <Label prefHeight="35.0" styleClass="opponent-name" text="No online players">
                                                          <VBox.margin>
                                                             <Insets bottom="6.0" />
                                                          </VBox.margin>
                                                       </Label>
-                                                      <HBox prefHeight="44.0" prefWidth="144.0" VBox.vgrow="ALWAYS">
-                                                         <children>
-                                                            <Label minHeight="-Infinity" minWidth="-Infinity" styleClass="opponent-wins" text="W:12" HBox.hgrow="ALWAYS">
-                                                               <HBox.margin>
-                                                                  <Insets right="15.0" />
-                                                               </HBox.margin>
-                                                            </Label>
-                                                            <Label prefHeight="43.0" styleClass="opponent-loses" text="L:10" HBox.hgrow="ALWAYS" />
-                                                         </children>
-                                                      </HBox>
                                                    </children>
                                                 </VBox>
-                                                <Pane prefHeight="200.0" prefWidth="200.0" HBox.hgrow="ALWAYS" />
-                                                <Button mnemonicParsing="false" prefHeight="51.0" prefWidth="203.0" styleClass="challenge-button" text="Challenge" />
                                              </children>
                                              <padding>
                                                 <Insets bottom="20.0" left="20.0" right="10.0" top="20.0" />

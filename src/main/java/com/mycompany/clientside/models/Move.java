@@ -6,7 +6,7 @@ package com.mycompany.clientside.models;
 
 /**
  *
- * @author lenovo
+ * @author Hossam
  */
 public class Move {
     private final String Player;
