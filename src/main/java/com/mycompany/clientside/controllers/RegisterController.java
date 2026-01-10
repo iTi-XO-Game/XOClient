@@ -36,7 +36,7 @@ import javafx.scene.image.ImageView;
 public class RegisterController implements Initializable {
 
     @FXML
-    private TextField userNameTxt;
+    private TextField usernameTxt;
     @FXML
     private Button createAccountBtn;
 
@@ -57,7 +57,7 @@ public class RegisterController implements Initializable {
     @FXML
     private Label confirmPasswordErrorMessageLabel;
     @FXML
-    private Label userNameErrorMessageLabel;
+    private Label usernameErrorMessageLabel;
 
     boolean isPasswordVisible;
     boolean isConfirmPasswordVisible;
@@ -126,7 +126,7 @@ public class RegisterController implements Initializable {
         disableErrorMessages();
 
         ClientManager clientManager = ClientManager.getInstance();
-        clientManager.send(new AuthRequest(userNameTxt.getText(), getPassword()), EndPoint.REGISTER, (response) -> {
+        clientManager.send(new AuthRequest(usernameTxt.getText(), getPassword()), EndPoint.REGISTER, (response) -> {
             AuthResponse authResponse = JsonUtils.fromJson(response, AuthResponse.class);
 
             Platform.runLater(() -> {
@@ -151,20 +151,20 @@ public class RegisterController implements Initializable {
     }
 
     private boolean validateData() {
-        String userName = userNameTxt.getText();
+        String username = usernameTxt.getText();
         String password = getPassword();
         String confirmPass = getConfirmationPassword();
         boolean isValid = true;
-        if (userName.isBlank()) {
-            userNameErrorMessageLabel.setText("User Name Can't Be Empty");
+        if (username.isBlank()) {
+            usernameErrorMessageLabel.setText("User Name Can't Be Empty");
             isValid = false;
-            enableUserNameError();
-        } else if (userName.length() < 3) {
-            userNameErrorMessageLabel.setText("User Name Length Must Be Bigger Than 3");
-            enableUserNameError();
+            enableusernameError();
+        } else if (username.length() < 3) {
+            usernameErrorMessageLabel.setText("User Name Length Must Be Bigger Than 3");
+            enableusernameError();
             isValid = false;
         } else {
-            disableUserNameError();
+            disableusernameError();
         }
         if (password.isEmpty()) {
             passwordErrorMessageLabel.setText("Password Can't Be Empty");
@@ -188,14 +188,14 @@ public class RegisterController implements Initializable {
     }
 
     private void disableErrorMessages() {
-        disableUserNameError();
+        disableusernameError();
         disablePasswordError();
         disableConfirmPasswordError();
     }
 
-    private void enableUserNameError() {
-        userNameErrorMessageLabel.setManaged(true);
-        userNameErrorMessageLabel.setVisible(true);
+    private void enableusernameError() {
+        usernameErrorMessageLabel.setManaged(true);
+        usernameErrorMessageLabel.setVisible(true);
     }
 
     private void enablePasswordError() {
@@ -208,9 +208,9 @@ public class RegisterController implements Initializable {
         confirmPasswordErrorMessageLabel.setVisible(true);
     }
 
-    private void disableUserNameError() {
-        userNameErrorMessageLabel.setManaged(false);
-        userNameErrorMessageLabel.setVisible(false);
+    private void disableusernameError() {
+        usernameErrorMessageLabel.setManaged(false);
+        usernameErrorMessageLabel.setVisible(false);
     }
 
     private void disablePasswordError() {

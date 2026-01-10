@@ -51,7 +51,7 @@ public class LoginController implements Initializable {
     @FXML
     private ImageView eyeIcon;
     @FXML
-    private Label userNameErrorMessageLabel;
+    private Label usernameErrorMessageLabel;
     @FXML
     private Label passwordErrorMessageLabel;
     boolean isPasswordVisible;
@@ -154,19 +154,19 @@ public class LoginController implements Initializable {
     }
 
     private boolean validateData() {
-        String userName = usernameTxt.getText();
+        String username = usernameTxt.getText();
         String password = getPassword();
         boolean isValid = true;
-        if (userName.isBlank()) {
-            userNameErrorMessageLabel.setText("User Name Can't Be Empty");
+        if (username.isBlank()) {
+            usernameErrorMessageLabel.setText("User Name Can't Be Empty");
             isValid = false;
-            enableUserNameError();
-        } else if (userName.length() < 3) {
-            userNameErrorMessageLabel.setText("User Name Length Must Be Bigger Than 3");
-            enableUserNameError();
+            enableusernameError();
+        } else if (username.length() < 3) {
+            usernameErrorMessageLabel.setText("User Name Length Must Be Bigger Than 3");
+            enableusernameError();
             isValid = false;
         } else {
-            disableUserNameError();
+            disableusernameError();
         }
         if (password.isEmpty()) {
             passwordErrorMessageLabel.setText("Password Can't Be Empty");
@@ -183,13 +183,13 @@ public class LoginController implements Initializable {
     }
 
     private void disableErrorMessages() {
-        disableUserNameError();
+        disableusernameError();
         disablePasswordError();
     }
 
-    private void enableUserNameError() {
-        userNameErrorMessageLabel.setManaged(true);
-        userNameErrorMessageLabel.setVisible(true);
+    private void enableusernameError() {
+        usernameErrorMessageLabel.setManaged(true);
+        usernameErrorMessageLabel.setVisible(true);
     }
 
     private void enablePasswordError() {
@@ -197,9 +197,9 @@ public class LoginController implements Initializable {
         passwordErrorMessageLabel.setVisible(true);
     }
 
-    private void disableUserNameError() {
-        userNameErrorMessageLabel.setManaged(false);
-        userNameErrorMessageLabel.setVisible(false);
+    private void disableusernameError() {
+        usernameErrorMessageLabel.setManaged(false);
+        usernameErrorMessageLabel.setVisible(false);
     }
 
     private void disablePasswordError() {

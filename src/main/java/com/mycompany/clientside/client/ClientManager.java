@@ -97,6 +97,7 @@ public class ClientManager {
         }
         
         String messageJson = JsonUtils.toJson(request);
+
         int requestId = requestIdGenerator.incrementAndGet();
         
         requestCallbacks.put(requestId, callback);

@@ -24,12 +24,12 @@
                   <Label styleClass="field-label" text="The Secret Key" />
                   <TextField fx:id="secretTxt" prefHeight="36.0" promptText="Rember The Secret Key" styleClass="input" />
                   <Label fx:id="secretErrorMessageLabel" prefHeight="130.0" prefWidth="310.0" styleClass="error-message" />
-                  <Label text="Username">
+                  <Label text="username">
                      <font>
                         <Font name="System Bold" size="15.0" />
                      </font>
                   </Label>
-                  <TextField fx:id="usernameField" promptText="Enter The Username" />
+                  <TextField fx:id="usernameField" promptText="Enter The username" />
                   <Label fx:id="usernameLabel" prefHeight="130.0" prefWidth="310.0" styleClass="error-message" />
                   <Label styleClass="field-label" text="Password" />
                   <StackPane>

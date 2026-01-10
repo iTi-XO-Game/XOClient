@@ -9,11 +9,11 @@ package com.mycompany.clientside.models;
  * @author Depogramming
  */
 public class AuthRequest {
-    private String userName;
+    private String username;
     private String password;
 
-    public AuthRequest(String userName, String password) {
-        this.userName = userName;
+    public AuthRequest(String username, String password) {
+        this.username = username;
         this.password = password;
     }
 }
