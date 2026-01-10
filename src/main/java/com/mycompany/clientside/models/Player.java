@@ -10,7 +10,7 @@ package com.mycompany.clientside.models;
  */
 public class Player {
     private final int id;
-    private final String userName;
+    private final String username;
     private final int wins;
     private final int draws;
     private final int losses;
@@ -23,17 +23,17 @@ public class Player {
         return id;
     }
 
-    public Player(int id, String userName, int wins, int losses, boolean inGame, int draws) {
+    public Player(int id, String username, int wins, int losses, boolean inGame, int draws) {
         this.id = id;
-        this.userName = userName;
+        this.username = username;
         this.wins = wins;
         this.losses = losses;
         this.isInGame = inGame;
         this.draws = draws;
     }
 
-    public String getUserName() {
-        return userName;
+    public String getusername() {
+        return username;
     }
 
     public int getWins() {
