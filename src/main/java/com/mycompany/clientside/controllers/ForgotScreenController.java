@@ -11,6 +11,7 @@ import com.mycompany.clientside.Screens;
 import com.mycompany.clientside.client.ClientManager;
 import com.mycompany.clientside.client.EndPoint;
 import com.mycompany.clientside.client.JsonUtils;
+import com.mycompany.clientside.client.MyAlert;
 import com.mycompany.clientside.models.AuthRequest;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -103,9 +104,11 @@ public class ForgotScreenController implements Initializable {
         String theSecretKey = secretTxt.getText();
         System.out.println(theSecretKey);
 
+
+
         if(Objects.equals(theSecretKey, "ITI"))
         {
-            //send request to update the pass for that username
+//            send request to update the pass for that username
             ClientManager clientManager = ClientManager.getInstance();
 
             String username = usernameField.getText();
@@ -120,7 +123,10 @@ public class ForgotScreenController implements Initializable {
                 updateDone.set(JsonUtils.fromJson(responseJson, Boolean.class));
             });
 
-
+            if(updateDone.get())
+                navigateToLogin(null);
+            else
+                MyAlert.show(Alert.AlertType.ERROR,"Username Not Found","Can't Find This Username","Enter Valid Username");
 
         }
         else
