@@ -120,11 +120,11 @@ public class GameScreenController implements Initializable {
                 btn.setDisable(true);
             });
 
-            Platform.runLater(()->
-            {
+//            Platform.runLater(()->
+//            {
                 EndGameVideo.showEndGameVideo(currentPlayer + " Wins!",false);
                 restartGame();
-            });
+//            });
             return;
         }
 
@@ -136,11 +136,11 @@ public class GameScreenController implements Initializable {
             playerOCard.getStyleClass().remove("current-player");
             turnXLabel.setVisible(false);
             turnOLabel.setVisible(false);
-            Platform.runLater(()->
-            {
+//            Platform.runLater(()->
+//            {
                 EndGameVideo.showEndGameVideo("It is a Draw!",true);
                 restartGame();
-            });
+//            });
 
             return;
         }
