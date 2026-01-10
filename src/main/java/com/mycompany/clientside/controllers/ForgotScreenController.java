@@ -4,9 +4,14 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.Objects;
 import java.util.ResourceBundle;
+import java.util.concurrent.atomic.AtomicReference;
 
 import com.mycompany.clientside.App;
 import com.mycompany.clientside.Screens;
+import com.mycompany.clientside.client.ClientManager;
+import com.mycompany.clientside.client.EndPoint;
+import com.mycompany.clientside.client.JsonUtils;
+import com.mycompany.clientside.models.AuthRequest;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -46,6 +51,10 @@ public class ForgotScreenController implements Initializable {
 
     private boolean isPasswordVisible;
     private boolean isConfirmPasswordVisible;
+    @FXML
+    private TextField usernameField;
+    @FXML
+    private Label usernameLabel;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -57,7 +66,6 @@ public class ForgotScreenController implements Initializable {
         confirmPassTxtPlain.setVisible(false);
     }
 
-    // ================= TOGGLE PASSWORD =================
     @FXML
     private void togglePassword(ActionEvent event) {
         if (isPasswordVisible) {
@@ -73,7 +81,6 @@ public class ForgotScreenController implements Initializable {
         }
     }
 
-    // ================= TOGGLE CONFIRM PASSWORD =================
     @FXML
     private void toggleConfirmPassword(ActionEvent event) {
         if (isConfirmPasswordVisible) {
@@ -98,7 +105,22 @@ public class ForgotScreenController implements Initializable {
 
         if(Objects.equals(theSecretKey, "ITI"))
         {
-            System.out.println("Done");
+            //send request to update the pass for that username
+            ClientManager clientManager = ClientManager.getInstance();
+
+            String username = usernameField.getText();
+            String pass = getPassword();
+
+            AuthRequest authRequest = new AuthRequest(username,pass);
+
+            AtomicReference<Boolean> updateDone = new AtomicReference<>(false);
+
+            clientManager.send(authRequest, EndPoint.UPDATA_USER_PASS,responseJson ->
+            {
+                updateDone.set(JsonUtils.fromJson(responseJson, Boolean.class));
+            });
+
+
 
         }
         else
@@ -110,7 +132,6 @@ public class ForgotScreenController implements Initializable {
         }
     }
 
-    // ================= NAVIGATE LOGIN =================
     @FXML
     private void navigateToLogin(ActionEvent event) {
         try {
@@ -120,7 +141,6 @@ public class ForgotScreenController implements Initializable {
         }
     }
 
-    // ================= VALIDATION =================
     private boolean validateData() {
         boolean isValid = true;
 
@@ -131,6 +151,18 @@ public class ForgotScreenController implements Initializable {
         } else {
             disableSecretError();
         }
+
+        String username = usernameField.getText();
+        if (username.isEmpty())
+        {
+            usernameLabel.setText("Username can't be empty");
+            enableUsernameEror();
+            isValid = false;
+        }
+        else {
+            disableUsernameEror();
+        }
+
 
         String password = getPassword();
         if (password.isEmpty()) {
@@ -152,7 +184,6 @@ public class ForgotScreenController implements Initializable {
         return isValid;
     }
 
-    // ================= GETTERS =================
     private String getPassword() {
         return isPasswordVisible ? passTxtPlain.getText() : passTxtHidden.getText();
     }
@@ -163,11 +194,11 @@ public class ForgotScreenController implements Initializable {
                 : confirmPassTxtHidden.getText();
     }
 
-    // ================= ERRORS HANDLING =================
     private void disableErrorMessages() {
         disableSecretError();
         disablePasswordError();
         disableConfirmPasswordError();
+        disableUsernameEror();
     }
 
     private void enableSecretError() {
@@ -198,5 +229,16 @@ public class ForgotScreenController implements Initializable {
     private void disableConfirmPasswordError() {
         confirmPasswordErrorMessageLabel.setManaged(false);
         confirmPasswordErrorMessageLabel.setVisible(false);
+    }
+
+
+    private void enableUsernameEror() {
+        usernameLabel.setManaged(true);
+        usernameLabel.setVisible(true);
+    }
+
+    private void disableUsernameEror() {
+        usernameLabel.setManaged(false);
+        usernameLabel.setVisible(false);
     }
 }
