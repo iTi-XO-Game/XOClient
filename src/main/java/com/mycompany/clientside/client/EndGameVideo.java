@@ -144,9 +144,9 @@ public class EndGameVideo {
         });
 
         videoStage.show();
-        Platform.runLater(() -> {
+//        Platform.runLater(() -> {
             mediaPlayer.play();
             System.out.println("Video playing...");
-        });
+//        });
     }
 }
