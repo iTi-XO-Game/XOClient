@@ -22,9 +22,17 @@ import javafx.scene.layout.Priority;
 import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
-
 import javafx.geometry.Pos;
 import javafx.scene.shape.SVGPath;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.mycompany.clientside.models.GameRecord;
+import com.mycompany.clientside.models.GamesWrapper;
+import com.mycompany.clientside.models.Move;
+import java.io.File;
+import java.io.FileReader;
+import java.io.FileWriter;
+import javafx.scene.image.ImageView;
 
 /**
  * FXML Controller class
@@ -33,80 +41,185 @@ import javafx.scene.shape.SVGPath;
  */
 public class ReplaysController implements Initializable {
 
-
     @FXML
     private Button playVideoBtn;
     @FXML
     private Button delBtn;
     @FXML
     private VBox gamesContainer;
+    @FXML
+    private Label emptyLabel;
+
+    private static final String RECORD_FILE = "games_record.json";
+    private GamesWrapper wrapper;
 
     /**
      * Initializes the controller class.
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-         addGame("Apr 24, 2024, 02:15 PM");
-         addGame("Apr 23, 2024, 11:51 AM");
-         addGame("Apr 22, 2024, 09:40 PM");
-    } 
-    
-    
-private void addGame(String dateTime) {
-    HBox row = new HBox(10);
-    row.setAlignment(Pos.CENTER_LEFT);
+        loadRecordedGames();
+        updateEmptyState();
+    }
 
-    Label date = new Label(dateTime);
-    date.getStyleClass().add("small-text");
+    private void updateEmptyState() {
+        boolean isEmpty = gamesContainer.getChildren().isEmpty();
 
-    Region spacer = new Region();
-    HBox.setHgrow(spacer, Priority.ALWAYS);
+        emptyLabel.setVisible(isEmpty);
+        emptyLabel.setManaged(isEmpty);
+    }
 
-    SVGPath playIcon = new SVGPath();
-    playIcon.setContent("M8 5v14l11-7z");
-    playIcon.setFill(Color.WHITE);
+    private void loadRecordedGames() {
+        Gson gson = new Gson();
+        File file = new File(RECORD_FILE);
 
-    Button playBtn = new Button("Play");
-    playBtn.setGraphic(playIcon);
-    playBtn.getStyleClass().add("primary-btn");
-
-    SVGPath deleteIcon = new SVGPath();
-    deleteIcon.setContent("M3 6h18M8 6V4h8v2M6 6l1 14h10l1-14");
-    deleteIcon.setFill(Color.WHITE);
-
-    Button deleteBtn = new Button("Delete");
-    deleteBtn.setGraphic(deleteIcon);
-    deleteBtn.getStyleClass().add("login-btn");
-
-    deleteBtn.setOnAction(e -> {
-        int index = gamesContainer.getChildren().indexOf(row);
-        if (index > 0) {
-            if (gamesContainer.getChildren().get(index - 1) instanceof Separator) {
-                gamesContainer.getChildren().remove(index - 1);
-            }
+        if (!file.exists()) {
+            updateEmptyState();
+            return;
         }
+
+        try (FileReader reader = new FileReader(file)) {
+            wrapper = gson.fromJson(reader, GamesWrapper.class);
+
+            if (wrapper == null || wrapper.getGames().isEmpty()) {
+                updateEmptyState();
+                return;
+            }
+
+            for (GameRecord game : wrapper.getGames()) {
+                addGame(game);
+            }
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void addGame(GameRecord game) {
+
+        HBox row = new HBox(10);
+        row.setAlignment(Pos.CENTER_LEFT);
+
+        Label date = new Label(game.getGameName());
+        date.getStyleClass().add("small-text");
+
+        Region spacer = new Region();
+        HBox.setHgrow(spacer, Priority.ALWAYS);
+
+        Button playBtn = createIconButton(
+                "Play",
+                "/com/mycompany/clientside/images/play.png",
+                "primary-btn"
+        );
+
+        Button deleteBtn = createIconButton(
+                "Delete",
+                "/com/mycompany/clientside/images/delete.png",
+                "login-btn"
+        );
+
+        playBtn.setOnAction(e -> {
+            playReplay(game);
+        });
+
+        deleteBtn.setOnAction(e -> {
+            deleteGame(game, row);
+        });
+
+        row.getChildren().addAll(date, spacer, playBtn, deleteBtn);
+
+        if (!gamesContainer.getChildren().isEmpty()) {
+            gamesContainer.getChildren().add(new Separator());
+        }
+        gamesContainer.getChildren().add(row);
+
+    }
+
+    private void saveWrapperToFile() {
+        Gson gson = new GsonBuilder().setPrettyPrinting().create();
+
+        try (FileWriter writer = new FileWriter(RECORD_FILE)) {
+            gson.toJson(wrapper, writer);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void playReplay(GameRecord game) {
+        System.out.println(" replays controller Moves from game: " + game.getMoves().size());
+        for (Move m : game.getMoves()) {
+            System.out.println(m.getPlayer() + " -> " + m.getRow() + "," + m.getCol());
+        }
+        try {
+            ReplayGameScreenController.setReplayMoves(game.getMoves());
+            App.setRoot(Screens.REPLAY_GAME_SCREEN);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    private Button createIconButton(String text, String iconPath, String styleClass) {
+
+        ImageView icon = null;
+
+        try {
+            icon = new ImageView(
+                    new javafx.scene.image.Image(
+                            getClass().getResourceAsStream(iconPath)
+                    )
+            );
+
+            icon.setFitWidth(14);
+            icon.setFitHeight(14);
+            icon.setPreserveRatio(true);
+
+        } catch (Exception e) {
+            System.out.println("Icon not found: " + iconPath);
+        }
+
+        Label label = new Label(text);
+        label.setTextFill(Color.WHITE);
+
+        HBox content;
+        if (icon != null) {
+            content = new HBox(5, icon, label);
+        } else {
+            content = new HBox(label);
+        }
+
+        content.setAlignment(Pos.CENTER);
+
+        Button button = new Button();
+        button.setGraphic(content);
+        button.getStyleClass().add(styleClass);
+
+        return button;
+    }
+
+    private void deleteGame(GameRecord game, HBox row) {
+
+        int index = gamesContainer.getChildren().indexOf(row);
+
+        if (index + 1 < gamesContainer.getChildren().size()
+                && gamesContainer.getChildren().get(index + 1) instanceof Separator) {
+
+            gamesContainer.getChildren().remove(index + 1);
+
+        } else if (index - 1 >= 0
+                && gamesContainer.getChildren().get(index - 1) instanceof Separator) {
+
+            gamesContainer.getChildren().remove(index - 1);
+        }
+
         gamesContainer.getChildren().remove(row);
-    });
 
-    row.getChildren().addAll(date, spacer, playBtn, deleteBtn);
+        wrapper.getGames().remove(game);
+        saveWrapperToFile();
+        updateEmptyState();
 
-    if (!gamesContainer.getChildren().isEmpty()) {
-        gamesContainer.getChildren().add(new Separator());
     }
 
-    gamesContainer.getChildren().add(row);
-}
-
-
-    @FXML
-    private void handelPlayVideo(ActionEvent event) {
-    }
-
-    @FXML
-    private void handelDelVideo(ActionEvent event) {
-    }
-
-    
     @FXML
     private void navigateBack(ActionEvent event) {
         try {
@@ -115,4 +228,5 @@ private void addGame(String dateTime) {
             // todo make an alert!
         }
     }
+
 }

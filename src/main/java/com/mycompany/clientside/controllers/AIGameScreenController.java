@@ -4,11 +4,20 @@
  */
 package com.mycompany.clientside.controllers;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.mycompany.clientside.App;
 import com.mycompany.clientside.Screens;
+import com.mycompany.clientside.models.GameRecord;
+import com.mycompany.clientside.models.GamesWrapper;
 import com.mycompany.clientside.models.Move;
+import java.io.File;
+import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.net.URL;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -34,7 +43,12 @@ public class AIGameScreenController implements Initializable {
     private final String X = "X";
     private final String O = "O";
     private static int difficulty;
-    
+
+    ///to see if the game is recorded or not
+
+    private static final String RECORD_FILE = "games_record.json";
+    private static boolean recordMode = false;
+
     @FXML
     private Label npcLabel;
 
@@ -70,9 +84,12 @@ public class AIGameScreenController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         switch (difficulty) {
-            case 0 -> npcLabel.setText("Easy NPC");
-            case 1 -> npcLabel.setText("Medium NPC");
-            case 2 -> npcLabel.setText("Undefeatable NPC");
+            case 0 ->
+                npcLabel.setText("Easy NPC");
+            case 1 ->
+                npcLabel.setText("Medium NPC");
+            case 2 ->
+                npcLabel.setText("Undefeatable NPC");
         }
         board = new Button[][]{
             {b00, b01, b02},
@@ -89,9 +106,19 @@ public class AIGameScreenController implements Initializable {
         turnXLabel.setVisible(true);
 
     }
-    
+
     public static void setDifficulty(int difficulty) {
         AIGameScreenController.difficulty = difficulty;
+    }
+
+    public static void setRecordMode(boolean record) {
+        recordMode = record;
+    }
+
+    private String generateGameName() {
+        DateTimeFormatter formatter
+                = DateTimeFormatter.ofPattern("yyyy-MM-dd_HH-mm-ss");
+        return LocalDateTime.now().format(formatter);
     }
 
     @FXML
@@ -135,6 +162,7 @@ public class AIGameScreenController implements Initializable {
                 btn.setDisable(true);
             });
             showEndGameAlert(currentPlayer + " Wins!");
+            saveGameToFile();
 
             return;
         }
@@ -178,7 +206,8 @@ public class AIGameScreenController implements Initializable {
                             availableMoves.add(new int[]{i, j});
                         }
                     }
-                }   Random random = new Random();
+                }
+                Random random = new Random();
                 int[] choice = availableMoves.get(random.nextInt(availableMoves.size()));
                 aiMove = new Move(currentPlayer, choice[0], choice[1]);
                 break;
@@ -217,6 +246,7 @@ public class AIGameScreenController implements Initializable {
                 btn.setDisable(true);
             });
             showEndGameAlert(currentPlayer + " Wins!");
+            saveGameToFile();
 
             return;
         }
@@ -511,6 +541,60 @@ public class AIGameScreenController implements Initializable {
             }
         }
         return true;
+    }
+
+    private void saveGameToFile() {
+        if (!recordMode) {
+            return;
+        }
+
+        Gson gson = new GsonBuilder().setPrettyPrinting().create();
+        GamesWrapper wrapper;
+
+        File file = new File(RECORD_FILE);
+
+        try {
+
+            if (file.exists()) {
+                try (FileReader reader = new FileReader(file)) {
+                    wrapper = gson.fromJson(reader, GamesWrapper.class);
+                }
+                if (wrapper == null) {
+                    wrapper = new GamesWrapper();
+                }
+            } else {
+                wrapper = new GamesWrapper();
+            }
+
+            String gameName = generateGameName();
+
+            String diff;
+            diff = switch (difficulty) {
+                case 0 ->
+                    "Easy";
+                case 1 ->
+                    "Medium";
+                case 2 ->
+                    "Hard";
+                default ->
+                    "Unknown";
+            };
+
+            GameRecord record = new GameRecord(
+                    gameName,
+                    diff,
+                    new ArrayList<>(gameMoves)
+            );
+
+            wrapper.getGames().add(record);
+
+            try (FileWriter writer = new FileWriter(file)) {
+                gson.toJson(wrapper, writer);
+            }
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
 }

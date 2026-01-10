@@ -49,6 +49,12 @@
                   spacing="15"
                   prefWidth="500"
                   styleClass="card"/>
+            <Label fx:id="emptyLabel"
+                   text="No recorded games yet"
+                   visible="false"
+                   managed="false"
+                   styleClass="empty-text"/>
+
         </VBox>
     </center>
 
