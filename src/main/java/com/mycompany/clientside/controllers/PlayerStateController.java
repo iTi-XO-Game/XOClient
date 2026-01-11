@@ -43,16 +43,17 @@ public class PlayerStateController implements Initializable {
     /**
      * Initializes the controller class.
      */
-
     List<GameHistory> gameModels = new ArrayList<>();
-    PlayerWinsAndLoses playerWinsAndLoses;
-    ClientManager clientManager ;
+
+    ClientManager clientManager;
 
     @FXML
     private VBox gameRowsContainer;
 
-    //thinking on getting that value from the constructor
-    private int MY_ID ;
+    private int MY_ID;
+
+    private int wins = 0;
+    private int losses = 0;
     @FXML
     private Button navigateBackButton;
     @FXML
@@ -61,8 +62,7 @@ public class PlayerStateController implements Initializable {
     private Label losesCounterLabel;
 
     @Override
-    public void initialize(URL url, ResourceBundle rb)
-    {
+    public void initialize(URL url, ResourceBundle rb) {
         clientManager = ClientManager.getInstance();
 
         MY_ID = UserSession.getUserId();
@@ -73,34 +73,36 @@ public class PlayerStateController implements Initializable {
     private void gettingGamesHistory() {
 
         GamesHistoryRequest gamesHistoryRequest = new GamesHistoryRequest(MY_ID);
-        clientManager.send(gamesHistoryRequest, EndPoint.PLAYER_GAMES_HISTORY, response ->
-        {
+        clientManager.send(gamesHistoryRequest, EndPoint.PLAYER_GAMES_HISTORY, response
+                -> {
 
             GamesHistoryResponse gamesHistoryResponse = JsonUtils.fromJson(response, GamesHistoryResponse.class);
 
             gameModels = gamesHistoryResponse.getGameModels();
-            playerWinsAndLoses = gamesHistoryResponse.getPlayerWinsAndLoses();
 
-            int wins = playerWinsAndLoses.getWinsCounter();
-            int loses = playerWinsAndLoses.getLosesCounter();
+            wins = 0;
+            losses = 0;
+            for (GameHistory game : gameModels) {
+                if (game.getWinnerId() != null && game.getWinnerId() == MY_ID) {
+                    wins++;
+                } else if (game.getWinnerId() != null) {
+                    losses++;
+                }
+            }
 
-
-            Platform.runLater(()->
-            {
-                setWinsAndLosesLabels(wins,loses);
+            Platform.runLater(() -> {
+                setWinsAndLosesLabels(wins, losses);
                 displayGames();
             });
 
         });
-}
-
-    public void setWinsAndLosesLabels(int wins, int loses)
-    {
-
-        winCounterLabel.setText( wins + "");
-        losesCounterLabel.setText(loses + "");
     }
 
+    public void setWinsAndLosesLabels(int wins, int losses) {
+
+        winCounterLabel.setText(wins + "");
+        losesCounterLabel.setText(losses + "");
+    }
 
     public void displayGames() {
         gameRowsContainer.getChildren().clear();
@@ -135,14 +137,13 @@ public class PlayerStateController implements Initializable {
             setupStatusLabel(resultLabel, "Defeat", "#FEE2E2", "#EF4444");
         }
 
-
         Label opponentLabel = new Label("Player " + (game.getPlayerXId() == MY_ID ? game.getPlayerOId() : game.getPlayerXId()));
-       long time = game.getGameDate();
+        long time = game.getGameDate();
         LocalDateTime dateTime = Instant
                 .ofEpochMilli(time)
                 .atZone(ZoneId.systemDefault())
                 .toLocalDateTime();
-        Label dateLabel = new Label(dateTime.format(DateTimeFormatter.ofPattern("MMM dd, yyyy")));
+        Label dateLabel = new Label(dateTime.format(DateTimeFormatter.ofPattern("MMM dd, yyyy h:mm a")));
 
         resultContainer.prefWidthProperty().bind(row.widthProperty().divide(4));
         opponentLabel.prefWidthProperty().bind(row.widthProperty().divide(4));
@@ -154,7 +155,6 @@ public class PlayerStateController implements Initializable {
         HBox.setHgrow(dateLabel, Priority.ALWAYS);
 
         row.getChildren().addAll(resultContainer, opponentLabel, dateLabel);
-
 
         return row;
     }
