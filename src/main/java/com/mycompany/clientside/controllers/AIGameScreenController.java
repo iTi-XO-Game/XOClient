@@ -9,6 +9,7 @@ import com.google.gson.GsonBuilder;
 import com.google.gson.JsonSyntaxException;
 import com.mycompany.clientside.App;
 import com.mycompany.clientside.Screens;
+import com.mycompany.clientside.client.EndGameVideo;
 import com.mycompany.clientside.models.GameRecord;
 import com.mycompany.clientside.models.GamesWrapper;
 import com.mycompany.clientside.models.Move;
@@ -172,7 +173,8 @@ public class AIGameScreenController implements Initializable {
                 btn.setDisable(true);
             });
             saveGameToFile();
-            showEndGameAlert(currentPlayer + " Wins!");
+            
+            EndGameVideo.showEndGameVideo(currentPlayer + " Wins!",false);
 
             return;
         }
@@ -186,18 +188,15 @@ public class AIGameScreenController implements Initializable {
             turnXLabel.setVisible(false);
             turnOLabel.setVisible(false);
             saveGameToFile();
-            showEndGameAlert("It is a Draw!");
+            
+            EndGameVideo.showEndGameVideo("It is a Draw!",true);
+            
             return;
         }
 
         currentPlayer = (currentPlayer.equals(X)) ? O : X;
 
         handleNPCMove();
-        //here, will just handle the ai logic..
-        // but first, I need to sout the current difficulty level (done)
-        //1. call a function to initiate the minmax logic, it should recieve a 3*3 matrix or something
-        //2. after getting the output from that function, print O on the specified output and do hossam's logic
-        //3. switch the current player to O
     }
 
     private void handleNPCMove() {
@@ -267,8 +266,10 @@ public class AIGameScreenController implements Initializable {
             forEachButton((btn) -> {
                 btn.setDisable(true);
             });
+            
             saveGameToFile();
-            showEndGameAlert(currentPlayer + " Wins!");
+            
+            EndGameVideo.showEndGameVideo(currentPlayer + " Wins!",false);
 
             return;
         }
@@ -281,8 +282,11 @@ public class AIGameScreenController implements Initializable {
             playerOCard.getStyleClass().remove("current-player");
             turnXLabel.setVisible(false);
             turnOLabel.setVisible(false);
+            
             saveGameToFile();
-            showEndGameAlert("It is a Draw!");
+            
+            EndGameVideo.showEndGameVideo("It is a Draw!",true);
+            
             return;
         }
 
@@ -328,25 +332,6 @@ public class AIGameScreenController implements Initializable {
                 || checkLine(board[0][2], board[1][1], board[2][0]);
     }
 
-    private void showEndGameAlert(String header) {
-
-        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-        alert.setTitle("Game Over");
-        alert.setHeaderText(header);
-        alert.setContentText("Restart the game?");
-
-        ButtonType restartBtn = new ButtonType("Restart");
-        ButtonType cancelBtn = new ButtonType("Cancel");
-
-        alert.getButtonTypes().setAll(restartBtn, cancelBtn);
-
-        Optional<ButtonType> result = alert.showAndWait();
-
-        if (result.isPresent() && result.get() == restartBtn) {
-            restartGame();
-        }
-    }
-
     private boolean checkLine(Button a, Button b, Button c) {
         String temp = a.getText();
 
@@ -362,19 +347,7 @@ public class AIGameScreenController implements Initializable {
 
     @FXML
     private void onRestartClick(ActionEvent event) {
-        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-        alert.setTitle("Restart Game?");
-        alert.setHeaderText("Are you sure you want to restart the game?");
-
-        ButtonType buttonYes = new ButtonType("confirm");
-        ButtonType buttonNo = new ButtonType("cancel");
-        alert.getButtonTypes().setAll(buttonYes, buttonNo);
-
-        Optional<ButtonType> result = alert.showAndWait();
-
-        if (result.isPresent() && result.get() == buttonYes) {
-            restartGame();
-        }
+        restartGame();
     }
 
     private void forEachButton(Consumer<Button> action) {
