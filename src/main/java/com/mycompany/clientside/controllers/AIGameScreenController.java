@@ -26,7 +26,6 @@ import java.util.Optional;
 import java.util.Random;
 import java.util.ResourceBundle;
 import java.util.function.Consumer;
-
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -173,13 +172,9 @@ public class AIGameScreenController implements Initializable {
             forEachButton((btn) -> {
                 btn.setDisable(true);
             });
-//            Platform.runLater(()->
-//            {
-                EndGameVideo.showEndGameVideo(currentPlayer + " Wins!",false);
-                //restartGame();
-//            });
             saveGameToFile();
-            //showEndGameAlert(currentPlayer + " Wins!");
+            
+            EndGameVideo.showEndGameVideo(currentPlayer + " Wins!",false);
 
             return;
         }
@@ -192,24 +187,16 @@ public class AIGameScreenController implements Initializable {
             playerOCard.getStyleClass().remove("current-player");
             turnXLabel.setVisible(false);
             turnOLabel.setVisible(false);
-//            Platform.runLater(()->
-//            {
-                EndGameVideo.showEndGameVideo("It is a Draw!",true);
-                //restartGame();
-//            });
             saveGameToFile();
-            //showEndGameAlert("It is a Draw!");
+            
+            EndGameVideo.showEndGameVideo("It is a Draw!",true);
+            
             return;
         }
 
         currentPlayer = (currentPlayer.equals(X)) ? O : X;
 
         handleNPCMove();
-        //here, will just handle the ai logic..
-        // but first, I need to sout the current difficulty level (done)
-        //1. call a function to initiate the minmax logic, it should recieve a 3*3 matrix or something
-        //2. after getting the output from that function, print O on the specified output and do hossam's logic
-        //3. switch the current player to O
     }
 
     private void handleNPCMove() {
@@ -279,13 +266,10 @@ public class AIGameScreenController implements Initializable {
             forEachButton((btn) -> {
                 btn.setDisable(true);
             });
-//            Platform.runLater(()->
-//            {
-                EndGameVideo.showEndGameVideo(currentPlayer + " Wins!",false);
-                //restartGame();
-//            });
+            
             saveGameToFile();
-            //showEndGameAlert(currentPlayer + " Wins!");
+            
+            EndGameVideo.showEndGameVideo(currentPlayer + " Wins!",false);
 
             return;
         }
@@ -298,13 +282,11 @@ public class AIGameScreenController implements Initializable {
             playerOCard.getStyleClass().remove("current-player");
             turnXLabel.setVisible(false);
             turnOLabel.setVisible(false);
-//            Platform.runLater(()->
-//            {
-                EndGameVideo.showEndGameVideo("It is a Draw!",true);
-                //restartGame();
-//            });
+            
             saveGameToFile();
-            //showEndGameAlert("It is a Draw!");
+            
+            EndGameVideo.showEndGameVideo("It is a Draw!",true);
+            
             return;
         }
 
@@ -365,19 +347,7 @@ public class AIGameScreenController implements Initializable {
 
     @FXML
     private void onRestartClick(ActionEvent event) {
-        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-        alert.setTitle("Restart Game?");
-        alert.setHeaderText("Are you sure you want to restart the game?");
-
-        ButtonType buttonYes = new ButtonType("confirm");
-        ButtonType buttonNo = new ButtonType("cancel");
-        alert.getButtonTypes().setAll(buttonYes, buttonNo);
-
-        Optional<ButtonType> result = alert.showAndWait();
-
-        if (result.isPresent() && result.get() == buttonYes) {
-            restartGame();
-        }
+        restartGame();
     }
 
     private void forEachButton(Consumer<Button> action) {

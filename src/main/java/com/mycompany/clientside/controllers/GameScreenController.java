@@ -14,8 +14,6 @@ import java.util.ArrayList;
 import java.util.Optional;
 import java.util.ResourceBundle;
 import java.util.function.Consumer;
-
-import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -120,11 +118,7 @@ public class GameScreenController implements Initializable {
                 btn.setDisable(true);
             });
 
-//            Platform.runLater(()->
-//            {
-                EndGameVideo.showEndGameVideo(currentPlayer + " Wins!",false);
-                restartGame();
-//            });
+            EndGameVideo.showEndGameVideo(currentPlayer + " Wins!",false);
             return;
         }
 
@@ -136,11 +130,8 @@ public class GameScreenController implements Initializable {
             playerOCard.getStyleClass().remove("current-player");
             turnXLabel.setVisible(false);
             turnOLabel.setVisible(false);
-//            Platform.runLater(()->
-//            {
-                EndGameVideo.showEndGameVideo("It is a Draw!",true);
-                restartGame();
-//            });
+            
+            EndGameVideo.showEndGameVideo("It is a Draw!",true);
 
             return;
         }
@@ -199,19 +190,7 @@ public class GameScreenController implements Initializable {
 
     @FXML
     private void onRestartClick(ActionEvent event) {
-        Alert alert = new Alert(AlertType.CONFIRMATION);
-        alert.setTitle("Restart Game?");
-        alert.setHeaderText("Are you sure you want to restart the game?");
-
-        ButtonType buttonYes = new ButtonType("confirm");
-        ButtonType buttonNo = new ButtonType("cancel");
-        alert.getButtonTypes().setAll(buttonYes, buttonNo);
-
-        Optional<ButtonType> result = alert.showAndWait();
-
-        if (result.isPresent() && result.get() == buttonYes) {
-            restartGame();
-        }
+        restartGame();
     }
 
     private void forEachButton(Consumer<Button> action) {
