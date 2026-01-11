@@ -67,7 +67,6 @@ public class ClientManager {
 
                 String responseJson = response.substring(secondSplit + 1);
 
-                System.out.println(responseJson);
                 
                 int requestId ;
                 try {
@@ -77,7 +76,6 @@ public class ClientManager {
                 }
                 
                 ClientCallback requestCallback = requestCallbacks.remove(requestId);
-                System.out.println("After call back");
 
                 if (requestCallback != null){
                     executor.submit(() -> requestCallback.onSuccess(responseJson));
@@ -100,15 +98,12 @@ public class ClientManager {
         }
 
 
-        System.out.println("Befor json 100");
         String messageJson = JsonUtils.toJson(request);
-        System.out.println("after json 102");
 
         int requestId = requestIdGenerator.incrementAndGet();
         
         requestCallbacks.put(requestId, callback);
 
-        System.out.println(messageJson);
 
         writer.println(endPoint.getCode() + "|" + requestId + "|" + messageJson);
     }
