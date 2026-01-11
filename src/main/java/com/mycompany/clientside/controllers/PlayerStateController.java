@@ -7,15 +7,24 @@ package com.mycompany.clientside.controllers;
 import com.mycompany.clientside.App;
 import com.mycompany.clientside.Screens;
 import java.net.URL;
+import java.time.Instant;
 import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.util.List;
 import java.util.ResourceBundle;
+
+import com.mycompany.clientside.client.ClientManager;
+import com.mycompany.clientside.client.EndPoint;
+import com.mycompany.clientside.client.JsonUtils;
+import com.mycompany.clientside.models.*;
+import javafx.application.Platform;
 import javafx.fxml.Initializable;
 import java.util.ArrayList;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
-import com.mycompany.clientside.models.GameModel;
+
 import java.io.IOException;
 import javafx.scene.control.Label;
 import java.time.format.DateTimeFormatter;
@@ -34,45 +43,77 @@ public class PlayerStateController implements Initializable {
     /**
      * Initializes the controller class.
      */
-    ArrayList<GameModel> gameModels;
+    List<GameHistory> gameModels = new ArrayList<>();
+
+    ClientManager clientManager;
+
     @FXML
     private VBox gameRowsContainer;
 
-    //thinking on getting that value from the constructor
-    private final int MY_ID = 100;
+    private int MY_ID;
+
+    private int wins = 0;
+    private int losses = 0;
     @FXML
     private Button navigateBackButton;
+    @FXML
+    private Label winCounterLabel;
+    @FXML
+    private Label losesCounterLabel;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        clientManager = ClientManager.getInstance();
 
-        gameModels = new ArrayList<>();
+        MY_ID = UserSession.getUserId();
+
         gettingGamesHistory();
-        displayGames(gameModels);
     }
 
-    //this function should fill the data from the database
     private void gettingGamesHistory() {
-        LocalDateTime matchStart = LocalDateTime.of(2023, 10, 24, 14, 30, 0);
-        LocalDateTime matchEnd = LocalDateTime.of(2023, 10, 24, 14, 34, 21);
-        gameModels.add(new GameModel(1, 100, 200, 100, matchStart, matchEnd));
-        gameModels.add(new GameModel(2, 100, 200, -1, matchStart, matchEnd));
-        gameModels.add(new GameModel(3, 100, 200, 200, matchStart, matchEnd));
-        gameModels.add(new GameModel(3, 100, 200, 200, matchStart, matchEnd));
-        gameModels.add(new GameModel(3, 100, 200, 200, matchStart, matchEnd));
-        gameModels.add(new GameModel(3, 100, 200, 200, matchStart, matchEnd));
+
+        GamesHistoryRequest gamesHistoryRequest = new GamesHistoryRequest(MY_ID);
+        clientManager.send(gamesHistoryRequest, EndPoint.PLAYER_GAMES_HISTORY, response
+                -> {
+
+            GamesHistoryResponse gamesHistoryResponse = JsonUtils.fromJson(response, GamesHistoryResponse.class);
+
+            gameModels = gamesHistoryResponse.getGameModels();
+
+            wins = 0;
+            losses = 0;
+            for (GameHistory game : gameModels) {
+                if (game.getWinnerId() != null && game.getWinnerId() == MY_ID) {
+                    wins++;
+                } else if (game.getWinnerId() != null) {
+                    losses++;
+                }
+            }
+
+            Platform.runLater(() -> {
+                setWinsAndLosesLabels(wins, losses);
+                displayGames();
+            });
+
+        });
     }
 
-    public void displayGames(ArrayList<GameModel> gameModels) {
+    public void setWinsAndLosesLabels(int wins, int losses) {
+
+        winCounterLabel.setText(wins + "");
+        losesCounterLabel.setText(losses + "");
+    }
+
+    public void displayGames() {
         gameRowsContainer.getChildren().clear();
 
-        for (GameModel game : gameModels) {
+        for (GameHistory game : gameModels) {
             HBox row = createGameRow(game);
             gameRowsContainer.getChildren().add(row);
         }
     }
 
-    private HBox createGameRow(GameModel game) {
+    private HBox createGameRow(GameHistory game) {
         HBox row = new HBox();
         row.setAlignment(Pos.CENTER_LEFT);
         row.setPrefHeight(60);
@@ -86,34 +127,34 @@ public class PlayerStateController implements Initializable {
         resultContainer.setMaxWidth(Double.MAX_VALUE);
         HBox.setHgrow(resultContainer, Priority.ALWAYS);
 
-        switch (game.getWinnerId()) {
-            case -1:
-                setupStatusLabel(resultLabel, "Draw", "#F1F5F9", "#64748B");
-                break;
-            case MY_ID:
-                setupStatusLabel(resultLabel, "Victory", "#E6F9ED", "#2ECC71");
-                break;
-            default:
-                setupStatusLabel(resultLabel, "Defeat", "#FEE2E2", "#EF4444");
-                break;
+        if (game.getWinnerId() == null) {
+            setupStatusLabel(resultLabel, "Draw", "#F1F5F9", "#64748B");
+
+        } else if (game.getWinnerId() == MY_ID) {
+            setupStatusLabel(resultLabel, "Victory", "#E6F9ED", "#2ECC71");
+
+        } else {
+            setupStatusLabel(resultLabel, "Defeat", "#FEE2E2", "#EF4444");
         }
 
-        Label opponentLabel = new Label("Player " + (game.getPlayerOneId() == MY_ID ? game.getPlayerTwoId() : game.getPlayerOneId()));
-        Label dateLabel = new Label(game.getStartTime().format(DateTimeFormatter.ofPattern("MMM dd, yyyy")));
-        Label durationLabel = new Label(game.getDuration());
+        Label opponentLabel = new Label("Player " + (game.getPlayerXId() == MY_ID ? game.getPlayerOId() : game.getPlayerXId()));
+        long time = game.getGameDate();
+        LocalDateTime dateTime = Instant
+                .ofEpochMilli(time)
+                .atZone(ZoneId.systemDefault())
+                .toLocalDateTime();
+        Label dateLabel = new Label(dateTime.format(DateTimeFormatter.ofPattern("MMM dd, yyyy h:mm a")));
+
         resultContainer.prefWidthProperty().bind(row.widthProperty().divide(4));
         opponentLabel.prefWidthProperty().bind(row.widthProperty().divide(4));
         dateLabel.prefWidthProperty().bind(row.widthProperty().divide(4));
-        durationLabel.prefWidthProperty().bind(row.widthProperty().divide(4));
 
         opponentLabel.setMaxWidth(Double.MAX_VALUE);
         HBox.setHgrow(opponentLabel, Priority.ALWAYS);
         dateLabel.setMaxWidth(Double.MAX_VALUE);
         HBox.setHgrow(dateLabel, Priority.ALWAYS);
-        durationLabel.setMaxWidth(Double.MAX_VALUE);
-        HBox.setHgrow(durationLabel, Priority.ALWAYS);
 
-        row.getChildren().addAll(resultContainer, opponentLabel, dateLabel, durationLabel);
+        row.getChildren().addAll(resultContainer, opponentLabel, dateLabel);
 
         return row;
     }
@@ -132,5 +173,4 @@ public class PlayerStateController implements Initializable {
             // todo add alert!
         }
     }
-
 }

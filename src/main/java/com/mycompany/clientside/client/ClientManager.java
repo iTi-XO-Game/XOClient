@@ -66,6 +66,7 @@ public class ClientManager {
                 String callbackId = response.substring(firstSplit + 1, secondSplit);
 
                 String responseJson = response.substring(secondSplit + 1);
+
                 
                 int requestId ;
                 try {
@@ -75,7 +76,7 @@ public class ClientManager {
                 }
                 
                 ClientCallback requestCallback = requestCallbacks.remove(requestId);
-                
+
                 if (requestCallback != null){
                     executor.submit(() -> requestCallback.onSuccess(responseJson));
                 }
@@ -95,12 +96,15 @@ public class ClientManager {
             callback.onFailure("Server Error. please, try again later!");
             return;
         }
-        
+
+
         String messageJson = JsonUtils.toJson(request);
+
         int requestId = requestIdGenerator.incrementAndGet();
         
         requestCallbacks.put(requestId, callback);
-        
+
+
         writer.println(endPoint.getCode() + "|" + requestId + "|" + messageJson);
     }
 
