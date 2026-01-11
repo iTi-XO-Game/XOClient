@@ -9,10 +9,10 @@ import com.mycompany.clientside.Screens;
 import com.mycompany.clientside.client.ClientManager;
 import com.mycompany.clientside.client.EndPoint;
 import com.mycompany.clientside.client.JsonUtils;
-import com.mycompany.clientside.models.AuthManager;
 import com.mycompany.clientside.models.LobbyData;
 import com.mycompany.clientside.models.LobbyData.LobbyAction;
 import com.mycompany.clientside.models.Player;
+import com.mycompany.clientside.models.UserSession;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
@@ -51,8 +51,12 @@ public class OnlineMultiPlayerController implements Initializable {
     private void listenToLobbyEvents() {
         ClientManager clientManager = ClientManager.getInstance();
 
-        Player currentPlayer = AuthManager.currentPlayer;
-        LobbyData request = new LobbyData(currentPlayer.getId(), LobbyAction.LISTEN, Player.getDummyPlayer(-1), new ArrayList<>());
+        Player currentPlayer = UserSession.currentPlayer;
+        LobbyData request = new LobbyData(
+                currentPlayer.getId(), 
+                LobbyAction.LISTEN, 
+                new Player(),
+                List.of());
 
         clientManager.sendListener(request, EndPoint.LOBBY, response -> {
 

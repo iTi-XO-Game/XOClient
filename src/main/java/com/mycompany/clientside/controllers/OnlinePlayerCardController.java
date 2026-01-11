@@ -5,8 +5,8 @@
 package com.mycompany.clientside.controllers;
 
 import com.mycompany.clientside.client.ChallengeManager;
-import com.mycompany.clientside.models.AuthManager;
 import com.mycompany.clientside.models.Player;
+import com.mycompany.clientside.models.UserSession;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.application.Platform;
@@ -48,13 +48,13 @@ public class OnlinePlayerCardController implements Initializable {
 
     public void setPlayer(Player player) {
         this.player = player;
-        if (player.getId() == AuthManager.currentPlayer.getId()) {
+        if (player.getId() == UserSession.currentPlayer.getId()) {
             challengeButton.setDisable(true);
             challengeButton.setVisible(false);
         }
         
         String username = player.getUsername();
-        if (player.getId() == AuthManager.currentPlayer.getId()) {
+        if (player.getId() == UserSession.currentPlayer.getId()) {
             username += " (You)";
         }
         

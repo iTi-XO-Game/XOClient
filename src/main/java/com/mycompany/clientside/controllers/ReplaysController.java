@@ -26,7 +26,6 @@ import com.google.gson.GsonBuilder;
 import com.google.gson.JsonSyntaxException;
 import com.mycompany.clientside.models.GameRecord;
 import com.mycompany.clientside.models.GamesWrapper;
-import com.mycompany.clientside.models.Move;
 import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
@@ -179,15 +178,12 @@ public class ReplaysController implements Initializable {
     }
 
     private void playReplay(GameRecord game) {
-        System.out.println(" replays controller Moves from game: " + game.getMoves().size());
-        for (Move m : game.getMoves()) {
-            System.out.println(m.getPlayer() + " -> " + m.getRow() + "," + m.getCol());
-        }
+        
         try {
             ReplayGameScreenController.setReplayMoves(game.getMoves());
             App.setRoot(Screens.REPLAY_GAME_SCREEN);
         } catch (IOException e) {
-            e.printStackTrace();
+            //e.printStackTrace();
         }
 
     }

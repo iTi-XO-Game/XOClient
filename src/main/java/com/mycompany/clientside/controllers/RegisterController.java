@@ -133,7 +133,6 @@ public class RegisterController implements Initializable {
         clientManager.send(authRequest, EndPoint.REGISTER, (response) -> {
             AuthResponse authResponse = JsonUtils.fromJson(response, AuthResponse.class);
 
-        System.out.println("runLater");
             Platform.runLater(() -> {
                 if (authResponse.getStatusCode() == StatusCode.ERROR) {
                     Alert alert = new Alert(Alert.AlertType.ERROR);

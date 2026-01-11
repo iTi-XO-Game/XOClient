@@ -1,6 +1,6 @@
 package com.mycompany.clientside.client;
 
-import com.mycompany.clientside.models.AuthManager;
+import com.mycompany.clientside.models.UserSession;
 import java.io.*;
 import java.net.Socket;
 import java.util.Map;
@@ -23,7 +23,7 @@ public class ClientManager {
 
     private final ExecutorService executor = Executors.newVirtualThreadPerTaskExecutor();
     private final AtomicBoolean isConnected = new AtomicBoolean(false);
-    
+
     private final AtomicInteger requestIdGenerator = new AtomicInteger(0);
 
     private enum CallbackType {
@@ -40,7 +40,8 @@ public class ClientManager {
         return INSTANCE;
     }
 
-    private ClientManager() {}
+    private ClientManager() {
+    }
 
     private void connectToServer() {
         if (!isConnected.compareAndSet(false, true)) {
@@ -51,7 +52,7 @@ public class ClientManager {
             socket = new Socket(IP_ADDRESS, PORT);
             reader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
             writer = new PrintWriter(socket.getOutputStream(), true);
-            
+
             executor.submit(this::receiveMessages);
 
         } catch (IOException ex) {
@@ -64,30 +65,35 @@ public class ClientManager {
             String response;
             while ((response = reader.readLine()) != null && !Thread.currentThread().isInterrupted()) {
 
+                System.out.println("response");
+                System.out.println(response);
+
                 int firstSplit = response.indexOf("|");
                 int secondSplit = response.indexOf("|", firstSplit + 1);
 
                 if (firstSplit == -1 || secondSplit == -1) {
                     continue;
                 }
-                
+
                 String endPointString = response.substring(0, firstSplit);
 
                 String callbackId = response.substring(firstSplit + 1, secondSplit);
 
                 String responseJson = response.substring(secondSplit + 1);
-                
+
                 int requestId;
                 try {
                     requestId = Integer.parseInt(callbackId);
                 } catch (NumberFormatException e) {
                     continue;
                 }
-                
+
                 ClientCallback requestCallback = requestCallbacks.remove(requestId);
                 ClientCallback listenerCallback = listenerCallbacks.get(endPointString);
 
-                if (responseJson.isBlank()) continue;
+                if (responseJson.isBlank()) {
+                    continue;
+                }
 
                 if (requestCallback != null) {
                     executor.submit(() -> requestCallback.onSuccess(responseJson));
@@ -96,7 +102,7 @@ public class ClientManager {
                 }
             }
         } catch (IOException ex) {
-            
+
         } finally {
             disconnect();
         }
@@ -119,7 +125,7 @@ public class ClientManager {
         connectToServer();
 
         if (!isConnected.get() || writer == null) {
-            if (endPoint != EndPoint.LOGOUT){
+            if (endPoint != EndPoint.LOGOUT) {
                 showServerDisconnectedAlert();
             }
             return;
@@ -127,11 +133,12 @@ public class ClientManager {
 
         String messageJson = JsonUtils.toJson(request);
         int requestId = requestIdGenerator.incrementAndGet();
-        
+
         String endPointCode = endPoint.getCode();
 
         switch (callbackType) {
-            case CallbackType.LISTENER ->{
+            case CallbackType.LISTENER -> {
+                System.out.println("LISTENER Added");
                 listenerCallbacks.put(endPointCode, callback);
                 requestId = -1;
             }
@@ -139,7 +146,11 @@ public class ClientManager {
                 requestCallbacks.put(requestId, callback);
         }
 
-        writer.println(endPointCode + "|" + requestId + "|" + messageJson);
+        String req = endPointCode + "|" + requestId + "|" + messageJson;
+        System.out.println("request");
+        System.out.println(req);
+
+        writer.println(req);
     }
 
     public void disconnect() {
@@ -187,10 +198,10 @@ public class ClientManager {
     }
 
     public void sendLogout() {
-        if (writer != null && AuthManager.currentPlayer != null) {
-            writer.println(EndPoint.LOGOUT.getCode() + "|" + -1 + "|" + AuthManager.currentPlayer.getId());
+        if (writer != null && UserSession.currentPlayer != null) {
+            writer.println(EndPoint.LOGOUT.getCode() + "|" + -1 + "|" + UserSession.currentPlayer.getId());
         }
-        AuthManager.currentPlayer = null;
+        UserSession.currentPlayer = null;
         listenerCallbacks.clear();
         requestCallbacks.clear();
     }

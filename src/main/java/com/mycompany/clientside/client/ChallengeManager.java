@@ -7,10 +7,10 @@ package com.mycompany.clientside.client;
 import com.mycompany.clientside.App;
 import com.mycompany.clientside.Screens;
 import com.mycompany.clientside.controllers.PlayerRequestScreenController;
-import com.mycompany.clientside.models.AuthManager;
 import com.mycompany.clientside.models.Challenge;
 import com.mycompany.clientside.models.Challenge.ChallengeAction;
 import com.mycompany.clientside.models.Player;
+import com.mycompany.clientside.models.UserSession;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -48,16 +48,15 @@ public class ChallengeManager {
     public void listenToChallenges() {
         ClientManager clientManager = ClientManager.getInstance();
 
-        Player player1 = AuthManager.currentPlayer;
-        // todo remove and make
-        Player player2 = Player.getDummyPlayer(-1);
+        Player player1 = UserSession.currentPlayer;
 
         Challenge request = new Challenge(
-                "", ChallengeAction.LISTEN, player1, player2, ""
+                "", ChallengeAction.LISTEN, player1, new Player(), ""
         );
 
         clientManager.sendListener(request, EndPoint.CHALLENGE,
                 response -> {
+                    
                     Challenge challenge = JsonUtils.fromJson(response, Challenge.class);
 
                     switch (challenge.getAction()) {
@@ -140,7 +139,7 @@ public class ChallengeManager {
         ClientManager clientManager = ClientManager.getInstance();
 
         this.resetPlayerCard = resetPlayerCard;
-        Player player1 = AuthManager.currentPlayer;
+        Player player1 = UserSession.currentPlayer;
         Challenge request = new Challenge(
                 UUID.randomUUID().toString(), ChallengeAction.SEND, player1, opponent, ""
         );
@@ -195,7 +194,7 @@ public class ChallengeManager {
             resetPlayerCard = null;
         }
 
-        Player player = AuthManager.currentPlayer;
+        Player player = UserSession.currentPlayer;
         Challenge request = new Challenge(
                 challenge.getId(), ChallengeAction.CANCEL, player, challenge.getReceiver(), ""
         );
@@ -210,7 +209,7 @@ public class ChallengeManager {
         pendingChallenges.remove(challenge.getId());
         ClientManager clientManager = ClientManager.getInstance();
 
-        Player player = AuthManager.currentPlayer;
+        Player player = UserSession.currentPlayer;
         Challenge request = new Challenge(
                 challenge.getId(), ChallengeAction.DECLINE, player, challenge.getSender(), ""
         );
@@ -241,7 +240,7 @@ public class ChallengeManager {
         
         ClientManager clientManager = ClientManager.getInstance();
 
-        Player player = AuthManager.currentPlayer;
+        Player player = UserSession.currentPlayer;
         Challenge request = new Challenge(
                 challenge.getId(), ChallengeAction.ACCEPT, player, challenge.getSender(), ""
         );

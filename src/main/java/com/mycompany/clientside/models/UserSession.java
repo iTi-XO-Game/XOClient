@@ -10,8 +10,9 @@ package com.mycompany.clientside.models;
  */
 public class UserSession {
 
-    private static Integer userId;
-    private static String username;
+    private static volatile Integer userId;
+    private static volatile String username;
+    public static volatile Player currentPlayer;
 
     public static Integer getUserId() {
         return userId;
@@ -27,5 +28,13 @@ public class UserSession {
 
     public static void setUsername(String username) {
         UserSession.username = username;
+    }
+
+    public static Player getCurrentPlayer() {
+        return currentPlayer;
+    }
+
+    public static void setCurrentPlayer(Player currentPlayer) {
+        UserSession.currentPlayer = currentPlayer;
     }
 }
