@@ -16,6 +16,7 @@ import java.util.ResourceBundle;
 import com.mycompany.clientside.client.ClientManager;
 import com.mycompany.clientside.client.EndPoint;
 import com.mycompany.clientside.client.JsonUtils;
+import com.mycompany.clientside.models.AuthResponse;
 import com.mycompany.clientside.models.GameHistory;
 import com.mycompany.clientside.models.GamesHistoryRequest;
 import com.mycompany.clientside.models.GamesHistoryResponse;
@@ -27,6 +28,7 @@ import javafx.geometry.Pos;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
 import com.mycompany.clientside.models.GameModel;
+import com.mycompany.clientside.models.UserSession;
 import java.io.IOException;
 import javafx.scene.control.Label;
 import java.time.format.DateTimeFormatter;
@@ -62,11 +64,7 @@ public class PlayerStateController implements Initializable {
     {
         clientManager = ClientManager.getInstance();
 
-//        clientManager.send(null,EndPoint.PLAYER_ID,responseJson -> {
-//            MY_ID = JsonUtils.fromJson(responseJson,int.class);
-//        });
-
-        MY_ID = 3;
+        MY_ID = UserSession.getUserId();
 
         gettingGamesHistory();
     }
