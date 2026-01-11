@@ -16,9 +16,7 @@ import java.util.ResourceBundle;
 import com.mycompany.clientside.client.ClientManager;
 import com.mycompany.clientside.client.EndPoint;
 import com.mycompany.clientside.client.JsonUtils;
-import com.mycompany.clientside.models.GameHistory;
-import com.mycompany.clientside.models.GamesHistoryRequest;
-import com.mycompany.clientside.models.GamesHistoryResponse;
+import com.mycompany.clientside.models.*;
 import javafx.application.Platform;
 import javafx.fxml.Initializable;
 import java.util.ArrayList;
@@ -26,7 +24,7 @@ import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
-import com.mycompany.clientside.models.UserSession;
+
 import java.io.IOException;
 import javafx.scene.control.Label;
 import java.time.format.DateTimeFormatter;
@@ -46,7 +44,8 @@ public class PlayerStateController implements Initializable {
      * Initializes the controller class.
      */
 
-    List<GameHistory> gameModels2 = new ArrayList<>();
+    List<GameHistory> gameModels = new ArrayList<>();
+    PlayerWinsAndLoses playerWinsAndLoses;
     ClientManager clientManager ;
 
     @FXML
@@ -56,6 +55,10 @@ public class PlayerStateController implements Initializable {
     private int MY_ID ;
     @FXML
     private Button navigateBackButton;
+    @FXML
+    private Label winCounterLabel;
+    @FXML
+    private Label losesCounterLabel;
 
     @Override
     public void initialize(URL url, ResourceBundle rb)
@@ -67,9 +70,7 @@ public class PlayerStateController implements Initializable {
         gettingGamesHistory();
     }
 
-    //this function should fill the data from the database
     private void gettingGamesHistory() {
-
 
         GamesHistoryRequest gamesHistoryRequest = new GamesHistoryRequest(MY_ID);
         clientManager.send(gamesHistoryRequest, EndPoint.PLAYER_GAMES_HISTORY, response ->
@@ -77,18 +78,34 @@ public class PlayerStateController implements Initializable {
 
             GamesHistoryResponse gamesHistoryResponse = JsonUtils.fromJson(response, GamesHistoryResponse.class);
 
-            gameModels2 = gamesHistoryResponse.getGameModels();
+            gameModels = gamesHistoryResponse.getGameModels();
+            playerWinsAndLoses = gamesHistoryResponse.getPlayerWinsAndLoses();
 
-            Platform.runLater(this::displayGames);
+            int wins = playerWinsAndLoses.getWinsCounter();
+            int loses = playerWinsAndLoses.getLosesCounter();
+
+
+            Platform.runLater(()->
+            {
+                setWinsAndLosesLabels(wins,loses);
+                displayGames();
+            });
 
         });
-
 }
+
+    public void setWinsAndLosesLabels(int wins, int loses)
+    {
+
+        winCounterLabel.setText( wins + "");
+        losesCounterLabel.setText(loses + "");
+    }
+
 
     public void displayGames() {
         gameRowsContainer.getChildren().clear();
 
-        for (GameHistory game : gameModels2) {
+        for (GameHistory game : gameModels) {
             HBox row = createGameRow(game);
             gameRowsContainer.getChildren().add(row);
         }
@@ -156,5 +173,4 @@ public class PlayerStateController implements Initializable {
             // todo add alert!
         }
     }
-
 }

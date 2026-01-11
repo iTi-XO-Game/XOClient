@@ -1,24 +1,34 @@
 package com.mycompany.clientside.models;
 
-import java.util.ArrayList;
+import java.util.List;
 
 public class GamesHistoryResponse
 {
-    private ArrayList<GameHistory> gameModels;
+    private List<GameHistory> gameModels;
+    private PlayerWinsAndLoses playerWinsAndLoses;
 
     public GamesHistoryResponse(){}
 
-    public GamesHistoryResponse(ArrayList<GameHistory> data)
+    public GamesHistoryResponse(List<GameHistory> data, PlayerWinsAndLoses playerWinsAndLoses)
     {
         gameModels = data;
+        this.playerWinsAndLoses = playerWinsAndLoses;
     }
 
-    public ArrayList<GameHistory> getGameModels() {
+    public List<GameHistory> getGameModels() {
         return gameModels;
     }
 
-    public void setGameModels(ArrayList<GameHistory> data)
+    public void setGameModels(List<GameHistory> data)
     {
         gameModels = data;
+    }
+
+    public PlayerWinsAndLoses getPlayerWinsAndLoses() {
+        return playerWinsAndLoses;
+    }
+
+    public void setPlayerWinsAndLoses(PlayerWinsAndLoses playerWinsAndLoses) {
+        this.playerWinsAndLoses = playerWinsAndLoses;
     }
 }
