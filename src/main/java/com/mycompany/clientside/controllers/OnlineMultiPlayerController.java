@@ -12,9 +12,6 @@ import com.mycompany.clientside.client.JsonUtils;
 import com.mycompany.clientside.models.AuthManager;
 import com.mycompany.clientside.models.LobbyData;
 import com.mycompany.clientside.models.LobbyData.LobbyAction;
-import static com.mycompany.clientside.models.LobbyData.LobbyAction.ADD_ONE;
-import static com.mycompany.clientside.models.LobbyData.LobbyAction.ERROR;
-import static com.mycompany.clientside.models.LobbyData.LobbyAction.REMOVE_ONE;
 import com.mycompany.clientside.models.Player;
 import java.io.IOException;
 import java.net.URL;
@@ -60,7 +57,6 @@ public class OnlineMultiPlayerController implements Initializable {
         clientManager.sendListener(request, EndPoint.LOBBY, response -> {
 
             LobbyData lobby = JsonUtils.fromJson(response, LobbyData.class);
-            
 
             Platform.runLater(() -> {
 
@@ -71,17 +67,20 @@ public class OnlineMultiPlayerController implements Initializable {
                     case ADD_ONE -> {
                         Player updatedPlayer = lobby.getUpdatedPlayer();
                         OnlinePlayerCardController controller = playerControllers.get(updatedPlayer.getId());
-                        if (controller != null)
-                        controller.setPlayer(updatedPlayer);
-                        else 
-                        addPlayer(lobby.getUpdatedPlayer());
+                        if (controller != null) {
+                            controller.setPlayer(updatedPlayer);
+                        } else {
+                            addPlayer(lobby.getUpdatedPlayer());
+                        }
                     }
 
                     case REMOVE_ONE -> {
                         Player updatedPlayer = lobby.getUpdatedPlayer();
                         OnlinePlayerCardController controller = playerControllers.remove(updatedPlayer.getId());
-                        playersContainer.getChildren()
-                                .remove(controller.getRoot());
+                        if (controller != null) {
+                            playersContainer.getChildren()
+                                    .remove(controller.getRoot());
+                        }
                     }
 
                     case ERROR -> {

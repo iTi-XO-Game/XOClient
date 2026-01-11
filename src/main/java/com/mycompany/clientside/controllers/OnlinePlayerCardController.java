@@ -16,7 +16,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
 
 /**
  * FXML Controller class
@@ -26,7 +26,7 @@ import javafx.scene.layout.HBox;
 public class OnlinePlayerCardController implements Initializable {
 
     @FXML
-    private HBox cardRoot;
+    private VBox cardRoot;
     @FXML
     private Label nameLabel;
     @FXML
