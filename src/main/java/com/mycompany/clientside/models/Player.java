@@ -32,7 +32,7 @@ public class Player {
         this.draws = draws;
     }
 
-    public String getusername() {
+    public String getUsername() {
         return username;
     }
 

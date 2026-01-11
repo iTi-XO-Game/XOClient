@@ -39,7 +39,7 @@ public class AuthResponse {
         this.id = id;
     }
 
-    public String getusername() {
+    public String getUsername() {
         return username;
     }
 

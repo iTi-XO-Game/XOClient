@@ -108,7 +108,8 @@ public class OnlineMultPlayerController implements Initializable {
                     btn.setText("In Game");
                 }
                 // 3. Set the data
-                nameLabel.setText(p.getusername());
+                nameLabel.setText(p.getUsername());
+                
                 winsLabel.setText("W:" + p.getWins());
                 losesLabel.setText("L:" + p.getLosses());
 
