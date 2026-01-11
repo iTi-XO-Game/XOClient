@@ -23,7 +23,7 @@ public class ClientManager {
 
     private final ExecutorService executor = Executors.newVirtualThreadPerTaskExecutor();
     private final AtomicBoolean isConnected = new AtomicBoolean(false);
-
+    
     private final AtomicInteger requestIdGenerator = new AtomicInteger(0);
 
     private enum CallbackType {
@@ -40,19 +40,18 @@ public class ClientManager {
         return INSTANCE;
     }
 
-    private ClientManager() {
-    }
+    private ClientManager() {}
 
     private void connectToServer() {
         if (!isConnected.compareAndSet(false, true)) {
             return;
         }
-        
+
         try {
             socket = new Socket(IP_ADDRESS, PORT);
             reader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
             writer = new PrintWriter(socket.getOutputStream(), true);
-
+            
             executor.submit(this::receiveMessages);
 
         } catch (IOException ex) {
@@ -71,13 +70,12 @@ public class ClientManager {
                 if (firstSplit == -1 || secondSplit == -1) {
                     continue;
                 }
-
+                
                 String endPointString = response.substring(0, firstSplit);
 
                 String callbackId = response.substring(firstSplit + 1, secondSplit);
 
                 String responseJson = response.substring(secondSplit + 1);
-
                 
                 int requestId;
                 try {
@@ -85,7 +83,7 @@ public class ClientManager {
                 } catch (NumberFormatException e) {
                     continue;
                 }
-
+                
                 ClientCallback requestCallback = requestCallbacks.remove(requestId);
                 ClientCallback listenerCallback = listenerCallbacks.get(endPointString);
 
@@ -98,7 +96,7 @@ public class ClientManager {
                 }
             }
         } catch (IOException ex) {
-
+            
         } finally {
             disconnect();
         }
@@ -174,7 +172,7 @@ public class ClientManager {
     public boolean isConnected() {
         return isConnected.get();
     }
-    
+
     public void removeListener(String endPointCode) {
         listenerCallbacks.remove(endPointCode);
     }
@@ -187,7 +185,7 @@ public class ClientManager {
             alert.showAndWait();
         });
     }
-    
+
     public void sendLogout() {
         if (writer != null && AuthManager.currentPlayer != null) {
             writer.println(EndPoint.LOGOUT.getCode() + "|" + -1 + "|" + AuthManager.currentPlayer.getId());

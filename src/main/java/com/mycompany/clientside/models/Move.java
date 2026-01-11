@@ -4,21 +4,33 @@
  */
 package com.mycompany.clientside.models;
 
+import com.google.gson.annotations.SerializedName;
+
 /**
  *
  * @author Hossam
  */
 public class Move {
+
     private final String Player;
     private final int ColIndex;
     private final int rowIndex;
-    
+
     public Move(String player, int rowIndex, int colIndex) {
         this.Player = player;
         this.rowIndex = rowIndex;
         this.ColIndex = colIndex;
     }
-    public String getPlayer() { return Player; }
-    public int getRow() { return rowIndex; }
-    public int getCol() { return ColIndex; }
+
+    public String getPlayer() {
+        return Player;
+    }
+
+    public int getRow() {
+        return rowIndex;
+    }
+
+    public int getCol() {
+        return ColIndex;
+    }
 }

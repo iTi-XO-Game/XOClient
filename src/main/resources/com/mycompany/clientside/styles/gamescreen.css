@@ -223,3 +223,10 @@
         #15803d
     );
 }
+
+
+.recordingLabel {
+    -fx-font-weight: bold;
+    -fx-text-fill: #24346b;
+    -fx-font-size: 16px;
+}

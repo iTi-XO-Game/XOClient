@@ -1,20 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.Insets?>
-<?import javafx.scene.control.Button?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.control.ScrollPane?>
-<?import javafx.scene.control.TextField?>
-<?import javafx.scene.image.Image?>
-<?import javafx.scene.image.ImageView?>
-<?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.layout.BorderPane?>
-<?import javafx.scene.layout.HBox?>
-<?import javafx.scene.layout.StackPane?>
-<?import javafx.scene.layout.VBox?>
-<?import javafx.scene.text.Font?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
 
-<AnchorPane id="AnchorPane" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.mycompany.clientside.controllers.PlayerStateController">
+<AnchorPane id="AnchorPane" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.mycompany.clientside.controllers.PlayerStateController">
     <children>
         <BorderPane prefHeight="415.0" prefWidth="607.0" style="-fx-background-color: #F8FAFC;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
             <top>
@@ -72,7 +64,7 @@
                                                                 <VBox prefHeight="46.0" prefWidth="28.0">
                                                                     <children>
                                                                         <Label style="-fx-text-fill: #95a5a6; -fx-font-size: 11px; -fx-font-weight: bold;" text="Wins" />
-                                                                        <Label style="-fx-text-fill: #2c3e50; -fx-font-size: 20px; -fx-font-weight: bold;" text="24" />
+                                                                        <Label fx:id="winCounterLabel" style="-fx-text-fill: #2c3e50; -fx-font-size: 20px; -fx-font-weight: bold;" text="24" />
                                                                     </children>
                                                                     <HBox.margin>
                                                                         <Insets left="6.0" />
@@ -94,7 +86,7 @@
                                                                 <VBox prefHeight="46.0" prefWidth="28.0">
                                                                     <children>
                                                                         <Label style="-fx-text-fill: #95a5a6; -fx-font-size: 11px; -fx-font-weight: bold;" text="Loses" />
-                                                                        <Label style="-fx-text-fill: #2c3e50; -fx-font-size: 20px; -fx-font-weight: bold;" text="24" />
+                                                                        <Label fx:id="losesCounterLabel" style="-fx-text-fill: #2c3e50; -fx-font-size: 20px; -fx-font-weight: bold;" text="24" />
                                                                     </children>
                                                                     <HBox.margin>
                                                                         <Insets left="6.0" />
@@ -139,7 +131,6 @@
                                                         <Label maxWidth="1.7976931348623157E308" prefHeight="34.0" prefWidth="99.0" style="-fx-text-fill: #64748B; -fx-font-size: 12; -fx-font-weight: bold; -fx-text-overrun: CLIP;" text="RESULT" HBox.hgrow="ALWAYS" />
                                                         <Label maxWidth="1.7976931348623157E308" prefHeight="42.0" prefWidth="99.0" style="-fx-text-fill: #64748B; -fx-font-size: 12; -fx-font-weight: bold; -fx-text-overrun: CLIP;" text="OPPONENT" HBox.hgrow="ALWAYS" />
                                                         <Label maxWidth="1.7976931348623157E308" prefHeight="42.0" prefWidth="99.0" style="-fx-text-fill: #64748B; -fx-font-size: 12; -fx-font-weight: bold; -fx-text-overrun: CLIP;" text="DATE" HBox.hgrow="ALWAYS" />
-                                                        <Label maxWidth="1.7976931348623157E308" prefHeight="42.0" prefWidth="99.0" style="-fx-text-fill: #64748B; -fx-font-size: 12; -fx-font-weight: bold; -fx-text-overrun: CLIP;" text="DURATION" HBox.hgrow="ALWAYS" />
                                                     </children>
                                                     <VBox.margin>
                                                         <Insets bottom="15.0" top="20.0" />

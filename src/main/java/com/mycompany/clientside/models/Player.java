@@ -26,9 +26,9 @@ public class Player {
         return id;
     }
 
-    public Player(int id, String userName, int wins, int losses, int draws, boolean playing) {
+    public Player(int id, String username, int wins, int losses, int draws, boolean playing) {
         this.id = id;
-        this.username = userName;
+        this.username = username;
         this.wins = wins;
         this.losses = losses;
         this.playing = playing;
@@ -37,7 +37,7 @@ public class Player {
 
     //todo delete when auth is done
     public static Player getDummyPlayer(int id) {
-        return new Player(id,"hossam " + id,10,5,6,false);
+        return new Player(id,"DummyPlayer " + id,10,5,6,false);
     }
 
     public String getUsername() {
@@ -55,7 +55,7 @@ public class Player {
     public boolean isPlaying() {
         return this.playing;
     }
-    
+
     public void setId(int id) {
         this.id = id;
     }

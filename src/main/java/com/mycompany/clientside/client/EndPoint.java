@@ -13,11 +13,15 @@ public enum EndPoint {
     LOGIN("LOGIN"),
     REGISTER("REGISTER"),
     LOGOUT("LOGOUT"),
-    
+
+
     LOBBY("LOBBY"), // 1 listener
     CHALLENGE("CHALLENGE"), // 1 listener
-    GAME("GAME");
-    
+    GAME("GAME"),
+
+    UPDATE_USER_PASS("UPDATE_USER_PASS"),
+    PLAYER_GAMES_HISTORY("PLAYER_GAMES_HISTORY");
+
     private final String code;
     
     EndPoint(String code) {
