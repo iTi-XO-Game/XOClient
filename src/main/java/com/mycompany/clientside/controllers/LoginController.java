@@ -12,6 +12,7 @@ import com.mycompany.clientside.client.JsonUtils;
 import com.mycompany.clientside.models.StatusCode;
 import com.mycompany.clientside.models.AuthRequest;
 import com.mycompany.clientside.models.AuthResponse;
+import com.mycompany.clientside.models.UserSession;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -92,6 +93,8 @@ public class LoginController implements Initializable {
                     } else {
 
                         try {
+                            UserSession.setUserId(loginResponse.getId());
+                            UserSession.setUsername(loginResponse.getusername());
                             //consider showing the user some animations before navigating...
                             App.setRoot(Screens.HOME_SCREEN);
 
@@ -118,7 +121,7 @@ public class LoginController implements Initializable {
     @FXML
     void togglePassword(ActionEvent event) {
         if (isPasswordVisible) {
-            
+
             passTxt.setText(passTxtPlain.getText());
             passTxt.setVisible(true);
             passTxtPlain.setVisible(false);
