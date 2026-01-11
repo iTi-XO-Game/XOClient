@@ -9,7 +9,6 @@ import com.mycompany.clientside.models.Player;
 import java.net.URL;
 import java.util.ResourceBundle;
 import java.util.function.Consumer;
-import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -77,16 +76,19 @@ public class PlayerRequestScreenController implements Initializable {
     @FXML
     private void declineChallenge(ActionEvent event) {
         sendDecline.accept(challenge);
+        closeDialog();
     }
 
     @FXML
     private void acceptChallenge(ActionEvent event) {
         sendAccept.accept(challenge);
+        closeDialog();
     }
 
     @FXML
     private void cancelChallenge(ActionEvent event) {
         sendCancel.accept(challenge);
+        closeDialog();
     }
 
     public void setChallengeData(Challenge challenge, Player player) {
@@ -99,10 +101,8 @@ public class PlayerRequestScreenController implements Initializable {
         challengerWinRate.setText("Win Rate: " + String.format("%.1f", winRate) + "%");
     }
     
-    public void closeDialog() {
-        Platform.runLater(() -> {
-            Stage stage = (Stage) root.getScene().getWindow();
-            stage.close();
-        });   
+    private void closeDialog() {
+        Stage stage = (Stage) root.getScene().getWindow();
+        stage.close();  
     }
 }

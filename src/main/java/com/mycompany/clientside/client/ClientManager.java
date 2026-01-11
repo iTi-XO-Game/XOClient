@@ -1,7 +1,6 @@
 package com.mycompany.clientside.client;
 
 import com.mycompany.clientside.models.AuthManager;
-import com.mycompany.clientside.models.LogoutRequest;
 import java.io.*;
 import java.net.Socket;
 import java.util.Map;
@@ -22,7 +21,7 @@ public class ClientManager {
     private volatile BufferedReader reader;
     private volatile PrintWriter writer;
 
-    private volatile ExecutorService executor;
+    private final ExecutorService executor = Executors.newVirtualThreadPerTaskExecutor();
     private final AtomicBoolean isConnected = new AtomicBoolean(false);
 
     private final AtomicInteger requestIdGenerator = new AtomicInteger(0);
@@ -48,8 +47,7 @@ public class ClientManager {
         if (!isConnected.compareAndSet(false, true)) {
             return;
         }
-
-        executor = Executors.newVirtualThreadPerTaskExecutor();
+        
         try {
             socket = new Socket(IP_ADDRESS, PORT);
             reader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
@@ -107,11 +105,15 @@ public class ClientManager {
     }
 
     public <T> void send(T request, EndPoint endPoint, ClientCallback callback) {
-        forwardToServer(request, endPoint, callback, CallbackType.REQUEST);
+        executor.submit(() -> {
+            forwardToServer(request, endPoint, callback, CallbackType.REQUEST);
+        });
     }
 
     public <T> void sendListener(T request, EndPoint endPoint, ClientCallback callback) {
-        forwardToServer(request, endPoint, callback, CallbackType.LISTENER);
+        executor.submit(() -> {
+            forwardToServer(request, endPoint, callback, CallbackType.LISTENER);
+        });
     }
 
     private <T> void forwardToServer(T request, EndPoint endPoint, ClientCallback callback, CallbackType callbackType) {
@@ -119,7 +121,9 @@ public class ClientManager {
         connectToServer();
 
         if (!isConnected.get() || writer == null) {
-            showServerDisconnectedAlert();
+            if (endPoint != EndPoint.LOGOUT){
+                showServerDisconnectedAlert();
+            }
             return;
         }
 
@@ -163,21 +167,12 @@ public class ClientManager {
         }
         socket = null;
 
-        if (executor != null) {
-            executor.shutdownNow();
-            executor = null;
-        }
-
         requestCallbacks.forEach((id, call) -> call.onFailure());
         requestCallbacks.clear();
     }
 
     public boolean isConnected() {
         return isConnected.get();
-    }
-    
-    public void removeAllListeners() {
-        listenerCallbacks.clear();
     }
     
     public void removeListener(String endPointCode) {
@@ -193,14 +188,12 @@ public class ClientManager {
         });
     }
     
-    //todo test
     public void sendLogout() {
-        LogoutRequest logoutRequest = new LogoutRequest(AuthManager.currentPlayer);
-        send(
-                logoutRequest, EndPoint.LOGOUT, ignored -> {}
-        );
+        if (writer != null && AuthManager.currentPlayer != null) {
+            writer.println(EndPoint.LOGOUT.getCode() + "|" + -1 + "|" + AuthManager.currentPlayer.getId());
+        }
         AuthManager.currentPlayer = null;
-        removeAllListeners();
+        listenerCallbacks.clear();
         requestCallbacks.clear();
     }
 }

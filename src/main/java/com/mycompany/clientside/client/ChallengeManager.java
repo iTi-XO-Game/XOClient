@@ -12,6 +12,8 @@ import com.mycompany.clientside.models.Challenge;
 import com.mycompany.clientside.models.Challenge.ChallengeAction;
 import com.mycompany.clientside.models.Player;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
@@ -22,6 +24,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import javafx.stage.WindowEvent;
 
 /**
  *
@@ -40,7 +43,7 @@ public class ChallengeManager {
 
     private Runnable resetPlayerCard;
     private final Map<String, Stage> openedDialogs = new ConcurrentHashMap<>();
-    private final Map<String, Challenge> acceptedChallenge = new ConcurrentHashMap<>();
+    private final Map<String, Challenge> pendingChallenges = new ConcurrentHashMap<>();
 
     public void listenToChallenges() {
         ClientManager clientManager = ClientManager.getInstance();
@@ -59,33 +62,42 @@ public class ChallengeManager {
 
                     switch (challenge.getAction()) {
                         case ChallengeAction.SEND -> {
+                            pendingChallenges.put(challenge.getId(), challenge);
                             Platform.runLater(() -> {
                                 showChallengeReceived(challenge);
                             });
                         }
-                        case ChallengeAction.ACCEPT ->
+                        case ChallengeAction.ACCEPT -> {
+                            closeDialog(challenge);
                             sendGame(challenge);
+                        }
                         case ChallengeAction.DECLINE -> {
-                            if (resetPlayerCard != null) {
-                                resetPlayerCard.run();
-                                resetPlayerCard = null;
-                            }
-                            Stage stage = openedDialogs.remove(challenge.getId());
-                            if (stage != null) {
-                                stage.close();
-                            }
+                            closeDialog(challenge);
                         }
                         case ChallengeAction.CANCEL -> {
-                            Stage stage = openedDialogs.remove(challenge.getId());
-                            if (stage != null) {
-                                stage.close();
-                            }
+                            closeDialog(challenge);
                         }
-                        case ChallengeAction.ERROR ->
+                        case ChallengeAction.ERROR -> {
+
                             showError(challenge);
+                        }
                     }
                 }
         );
+    }
+
+    private void closeDialog(Challenge challenge) {
+        pendingChallenges.remove(challenge.getId());
+        if (resetPlayerCard != null) {
+            resetPlayerCard.run();
+            resetPlayerCard = null;
+        }
+        Platform.runLater(() -> {
+            Stage stage = openedDialogs.remove(challenge.getId());
+            if (stage != null) {
+                stage.close();
+            }
+        });
     }
 
     private void showChallengeReceived(Challenge challenge) {
@@ -102,17 +114,21 @@ public class ChallengeManager {
             Stage stage = new Stage();
             stage.initModality(Modality.APPLICATION_MODAL);
 
-            openedDialogs.put(challenge.getId(), stage);
-            stage.setOnCloseRequest(e -> {
-                if (!acceptedChallenge.containsKey(challenge.getId())) {
-                    declineChallenge(challenge);
-                }
-            });
-
             stage.setTitle("Challenge Received!");
 
             Scene scene = new Scene(root);
             stage.setScene(scene);
+
+            stage.setOnCloseRequest(e -> {
+                new Thread(() -> {
+                    openedDialogs.remove(challenge.getId());
+                    if (pendingChallenges.remove(challenge.getId()) != null) {
+                        declineChallenge(challenge);
+                    }
+                }).start();
+            });
+
+            openedDialogs.put(challenge.getId(), stage);
             stage.show();
 
         } catch (IOException e) {
@@ -129,6 +145,7 @@ public class ChallengeManager {
                 UUID.randomUUID().toString(), ChallengeAction.SEND, player1, opponent, ""
         );
 
+        pendingChallenges.put(request.getId(), request);
         clientManager.send(request, EndPoint.CHALLENGE,
                 ignored -> {
                 }
@@ -147,16 +164,20 @@ public class ChallengeManager {
 
             Stage stage = new Stage();
             stage.initModality(Modality.APPLICATION_MODAL);
-            openedDialogs.put(challenge.getId(), stage);
-            stage.setOnCloseRequest(e -> {
-                if (!acceptedChallenge.containsKey(challenge.getId())) {
-                    cancelChallenge(challenge);
-                }
-            });
-            stage.setTitle("Challenge Received!");
+
+            stage.setTitle("Challenge sent!");
 
             Scene scene = new Scene(root);
             stage.setScene(scene);
+            stage.setOnCloseRequest(e -> {
+                new Thread(() -> {
+                    openedDialogs.remove(challenge.getId());
+                    if (pendingChallenges.remove(challenge.getId()) != null) {
+                        cancelChallenge(challenge);
+                    }
+                }).start();
+            });
+            openedDialogs.put(challenge.getId(), stage);
             stage.show();
 
         } catch (IOException e) {
@@ -165,6 +186,8 @@ public class ChallengeManager {
     }
 
     private void cancelChallenge(Challenge challenge) {
+        pendingChallenges.remove(challenge.getId());
+        
         ClientManager clientManager = ClientManager.getInstance();
 
         if (resetPlayerCard != null) {
@@ -184,6 +207,7 @@ public class ChallengeManager {
     }
 
     private void declineChallenge(Challenge challenge) {
+        pendingChallenges.remove(challenge.getId());
         ClientManager clientManager = ClientManager.getInstance();
 
         Player player = AuthManager.currentPlayer;
@@ -199,8 +223,9 @@ public class ChallengeManager {
 
     private void sendGame(Challenge challenge) {
 
-        acceptedChallenge.put(challenge.getId(), challenge);
+        pendingChallenges.remove(challenge.getId());
         closeAllDialogs();
+
         // todo send game to GAME endpoint
         Platform.runLater(() -> {
             try {
@@ -211,6 +236,9 @@ public class ChallengeManager {
     }
 
     private void acceptChallenge(Challenge challenge) {
+        pendingChallenges.remove(challenge.getId());
+        closeAllDialogs();
+        
         ClientManager clientManager = ClientManager.getInstance();
 
         Player player = AuthManager.currentPlayer;
@@ -226,8 +254,8 @@ public class ChallengeManager {
 
                     switch (chall.getAction()) {
                         case ChallengeAction.DONE -> {
-                            acceptedChallenge.put(challenge.getId(), challenge);
-                            closeAllDialogs();
+
+                            //todo
                             Platform.runLater(() -> {
                                 try {
                                     App.setRoot(Screens.GAME_SCREEN);
@@ -256,13 +284,15 @@ public class ChallengeManager {
         });
     }
 
-    private void closeAllDialogs() {
+    public void closeAllDialogs() {
         Platform.runLater(() -> {
-            openedDialogs.forEach((key, stage) -> {
-                stage.close();
-            });
-            openedDialogs.clear();
-            acceptedChallenge.clear();
+
+            List<Stage> stagesToClose = new ArrayList<>(openedDialogs.values());
+
+            for (Stage stage : stagesToClose) {
+                stage.fireEvent(new WindowEvent(stage, WindowEvent.WINDOW_CLOSE_REQUEST));
+            }
+
         });
     }
 }
