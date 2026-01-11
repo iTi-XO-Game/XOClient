@@ -8,13 +8,9 @@ import com.mycompany.clientside.App;
 import com.mycompany.clientside.Screens;
 import com.mycompany.clientside.models.Move;
 import java.io.IOException;
-import java.net.URL;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import java.util.ResourceBundle;
 import java.util.function.Consumer;
-import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.event.ActionEvent;
@@ -84,10 +80,6 @@ public class ReplayGameScreenController {
         };
 
         setupBoard();
-        System.out.println("Replay moves: " + replayMoves.size());
-        for (Move m : replayMoves) {
-            System.out.println(m.getPlayer() + " -> " + m.getRow() + "," + m.getCol());
-        }
         startReplay();
     }
 

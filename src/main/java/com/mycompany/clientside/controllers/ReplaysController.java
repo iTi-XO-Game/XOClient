@@ -23,6 +23,7 @@ import javafx.scene.paint.Color;
 import javafx.geometry.Pos;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.google.gson.JsonSyntaxException;
 import com.mycompany.clientside.models.GameRecord;
 import com.mycompany.clientside.models.GamesWrapper;
 import com.mycompany.clientside.models.Move;
@@ -72,13 +73,13 @@ public class ReplaysController implements Initializable {
     }
 
     private void loadRecordedGamesRunnable() {
-        Gson gson = new Gson();
-        File file = new File(RECORD_FILE);
+        File file = AIGameScreenController.getRecordFile();
 
         if (!file.exists()) {
             Platform.runLater(this::updateEmptyState);
             return;
         }
+        Gson gson = new Gson();
 
         try (FileReader reader = new FileReader(file)) {
             wrapper = gson.fromJson(reader, GamesWrapper.class);
@@ -95,8 +96,9 @@ public class ReplaysController implements Initializable {
                 updateEmptyState();
             });
 
-        } catch (IOException e) {
-            e.printStackTrace();
+        } catch (IOException | JsonSyntaxException e) {
+            System.err.println("Error reading game records: " + e.getMessage());
+            Platform.runLater(this::updateEmptyState);
         }
     }
 
@@ -141,12 +143,38 @@ public class ReplaysController implements Initializable {
     }
 
     private void saveWrapperToFile() {
-        Gson gson = new GsonBuilder().setPrettyPrinting().create();
 
-        try (FileWriter writer = new FileWriter(RECORD_FILE)) {
+        File file = AIGameScreenController.getRecordFile();
+        if (file == null) {
+            System.err.println("Unable to access record file for saving");
+            return;
+        }
+
+        if (wrapper == null || wrapper.getGames() == null) {
+            System.err.println("Invalid wrapper data");
+            return;
+        }
+
+        Gson gson = new GsonBuilder().setPrettyPrinting().create();
+        File tempFile = new File(file.getParent(), AIGameScreenController.TEMP_FILE_NAME);
+
+        try (FileWriter writer = new FileWriter(tempFile)) {
             gson.toJson(wrapper, writer);
+
+            if (file.exists() && !file.delete()) {
+                System.err.println("Failed to delete old file");
+                return;
+            }
+
+            if (!tempFile.renameTo(file)) {
+                System.err.println("Failed to save file");
+            }
+
         } catch (IOException e) {
-            e.printStackTrace();
+            System.err.println("Error saving game records: " + e.getMessage());
+        }
+        if (tempFile.exists()) {
+            tempFile.delete();
         }
     }
 

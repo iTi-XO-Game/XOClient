@@ -6,6 +6,7 @@ package com.mycompany.clientside.controllers;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.google.gson.JsonSyntaxException;
 import com.mycompany.clientside.App;
 import com.mycompany.clientside.Screens;
 import com.mycompany.clientside.models.GameRecord;
@@ -45,9 +46,9 @@ public class AIGameScreenController implements Initializable {
     private final String O = "O";
     private static int difficulty;
 
-    ///to see if the game is recorded or not
-
-    private static final String RECORD_FILE = "games_record.json";
+    private static final String APP_DIR_NAME = "TicTacToeReplays";
+    public static final String RECORD_FILE_NAME = "games_record.json";
+    public static final String TEMP_FILE_NAME = "games_record.tmp";
     private static volatile boolean recordMode = false;
 
     @FXML
@@ -85,19 +86,19 @@ public class AIGameScreenController implements Initializable {
     private boolean isAiMove = false;
     @FXML
     private Label recordingLabel;
-    
+
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        
+
         recordingLabel.setVisible(recordMode);
-        
+
         switch (difficulty) {
             case 0 ->
                 npcLabel.setText("Easy NPC");
             case 1 ->
                 npcLabel.setText("Medium NPC");
             case 2 ->
-                npcLabel.setText("Undefeatable NPC");
+                npcLabel.setText("Undefeatable");
         }
         board = new Button[][]{
             {b00, b01, b02},
@@ -128,7 +129,6 @@ public class AIGameScreenController implements Initializable {
                 = DateTimeFormatter.ofPattern("yyyy-MM-dd_HH-mm-ss");
         return LocalDateTime.now().format(formatter);
     }
-    
 
     @FXML
     private void handleMove(ActionEvent event) {
@@ -204,7 +204,7 @@ public class AIGameScreenController implements Initializable {
 
         new Thread(() -> {
             try {
-                Thread.sleep(300);
+                Thread.sleep(50);
             } catch (InterruptedException ex) {
             }
             Platform.runLater(this::handleNPCMoveRunnable);
@@ -287,7 +287,7 @@ public class AIGameScreenController implements Initializable {
         }
 
         currentPlayer = (currentPlayer.equals(X)) ? O : X;
-        
+
         isAiMove = false;
     }
 
@@ -583,50 +583,64 @@ public class AIGameScreenController implements Initializable {
         Gson gson = new GsonBuilder().setPrettyPrinting().create();
         GamesWrapper wrapper;
 
-        File file = new File(RECORD_FILE);
+        File file = getRecordFile();
+        if (file == null) {
+            System.err.println("Unable to access record file");
+            return;
+        }
 
-        try {
-
-            if (file.exists()) {
-                try (FileReader reader = new FileReader(file)) {
-                    wrapper = gson.fromJson(reader, GamesWrapper.class);
-                }
-                if (wrapper == null) {
-                    wrapper = new GamesWrapper();
-                }
-            } else {
+        if (file.exists()) {
+            try (FileReader reader = new FileReader(file)) {
+                wrapper = gson.fromJson(reader, GamesWrapper.class);
+            } catch (JsonSyntaxException | IOException e) {
+                System.err.println("Unable to read record file");
                 wrapper = new GamesWrapper();
             }
+        } else {
+            wrapper = new GamesWrapper();
+        }
 
-            String gameName = generateGameName();
+        String gameName = generateGameName();
 
-            String diff;
-            diff = switch (difficulty) {
-                case 0 ->
-                    "Easy";
-                case 1 ->
-                    "Medium";
-                case 2 ->
-                    "Hard";
-                default ->
-                    "Unknown";
-            };
+        String diff;
+        diff = switch (difficulty) {
+            case 0 ->
+                "Easy";
+            case 1 ->
+                "Medium";
+            case 2 ->
+                "Hard";
+            default ->
+                "Unknown";
+        };
 
-            GameRecord record = new GameRecord(
-                    gameName,
-                    diff,
-                    new ArrayList<>(gameMoves)
-            );
+        GameRecord record = new GameRecord(
+                gameName,
+                diff,
+                new ArrayList<>(gameMoves)
+        );
 
-            wrapper.getGames().add(record);
+        wrapper.getGames().add(record);
 
-            try (FileWriter writer = new FileWriter(file)) {
-                gson.toJson(wrapper, writer);
-            }
-
+        try (FileWriter writer = new FileWriter(file)) {
+            gson.toJson(wrapper, writer);
         } catch (IOException e) {
-            e.printStackTrace();
+            System.err.println("Failed to save game record: " + e.getMessage());
         }
     }
 
+    public static File getRecordFile() {
+        String userHome = System.getProperty("user.home");
+
+        File appDir = new File(userHome, APP_DIR_NAME);
+
+        if (!appDir.exists()) {
+            if (!appDir.mkdirs()) {
+                System.err.println("Failed to create application directory: " + appDir.getAbsolutePath());
+                return null;
+            }
+        }
+
+        return new File(appDir, RECORD_FILE_NAME);
+    }
 }
