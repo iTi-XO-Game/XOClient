@@ -24,6 +24,7 @@ import java.util.Optional;
 import java.util.Random;
 import java.util.ResourceBundle;
 import java.util.function.Consumer;
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -47,7 +48,7 @@ public class AIGameScreenController implements Initializable {
     ///to see if the game is recorded or not
 
     private static final String RECORD_FILE = "games_record.json";
-    private static boolean recordMode = false;
+    private static volatile boolean recordMode = false;
 
     @FXML
     private Label npcLabel;
@@ -81,8 +82,15 @@ public class AIGameScreenController implements Initializable {
     @FXML
     private Label turnOLabel;
 
+    private boolean isAiMove = false;
+    @FXML
+    private Label recordingLabel;
+    
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        
+        recordingLabel.setVisible(recordMode);
+        
         switch (difficulty) {
             case 0 ->
                 npcLabel.setText("Easy NPC");
@@ -120,15 +128,17 @@ public class AIGameScreenController implements Initializable {
                 = DateTimeFormatter.ofPattern("yyyy-MM-dd_HH-mm-ss");
         return LocalDateTime.now().format(formatter);
     }
+    
 
     @FXML
     private void handleMove(ActionEvent event) {
 
         Button clicked = (Button) event.getSource();
 
-        if (!clicked.getText().isBlank()) {
+        if (isAiMove || !clicked.getText().isBlank()) {
             return;
         }
+        isAiMove = true;
 
         clicked.setText(currentPlayer);
         saveMove(clicked, currentPlayer);
@@ -161,8 +171,8 @@ public class AIGameScreenController implements Initializable {
             forEachButton((btn) -> {
                 btn.setDisable(true);
             });
-            showEndGameAlert(currentPlayer + " Wins!");
             saveGameToFile();
+            showEndGameAlert(currentPlayer + " Wins!");
 
             return;
         }
@@ -175,6 +185,7 @@ public class AIGameScreenController implements Initializable {
             playerOCard.getStyleClass().remove("current-player");
             turnXLabel.setVisible(false);
             turnOLabel.setVisible(false);
+            saveGameToFile();
             showEndGameAlert("It is a Draw!");
             return;
         }
@@ -190,6 +201,17 @@ public class AIGameScreenController implements Initializable {
     }
 
     private void handleNPCMove() {
+
+        new Thread(() -> {
+            try {
+                Thread.sleep(300);
+            } catch (InterruptedException ex) {
+            }
+            Platform.runLater(this::handleNPCMoveRunnable);
+        }).start();
+    }
+
+    private void handleNPCMoveRunnable() {
         Move aiMove;
         switch (difficulty) {
             case 2:
@@ -245,8 +267,8 @@ public class AIGameScreenController implements Initializable {
             forEachButton((btn) -> {
                 btn.setDisable(true);
             });
-            showEndGameAlert(currentPlayer + " Wins!");
             saveGameToFile();
+            showEndGameAlert(currentPlayer + " Wins!");
 
             return;
         }
@@ -259,11 +281,14 @@ public class AIGameScreenController implements Initializable {
             playerOCard.getStyleClass().remove("current-player");
             turnXLabel.setVisible(false);
             turnOLabel.setVisible(false);
+            saveGameToFile();
             showEndGameAlert("It is a Draw!");
             return;
         }
 
         currentPlayer = (currentPlayer.equals(X)) ? O : X;
+        
+        isAiMove = false;
     }
 
     private void saveMove(Button clicked, String player) {
@@ -366,6 +391,7 @@ public class AIGameScreenController implements Initializable {
         playerOCard.getStyleClass().remove("current-player");
         turnXLabel.setVisible(true);
         turnOLabel.setVisible(false);
+        isAiMove = false;
         forEachButton((btn) -> {
             btn.setText("");
             btn.getStyleClass().remove("o-text");
@@ -544,6 +570,12 @@ public class AIGameScreenController implements Initializable {
     }
 
     private void saveGameToFile() {
+
+        new Thread(this::saveGameToFileRunnable).start();
+
+    }
+
+    private void saveGameToFileRunnable() {
         if (!recordMode) {
             return;
         }

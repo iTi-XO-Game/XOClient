@@ -3,19 +3,14 @@
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.layout.BorderPane?>
-<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
 
-<BorderPane xmlns="http://javafx.com/javafx/25"
-            xmlns:fx="http://javafx.com/fxml/1"
-            fx:controller="com.mycompany.clientside.controllers.ReplaysController"
-            stylesheets="@../styles/loginStyles.css"
-            styleClass="login-background"
-            prefWidth="600.0"
-            prefHeight="400.0">
+<BorderPane prefHeight="400.0" prefWidth="600.0" styleClass="login-background" stylesheets="@../styles/loginStyles.css" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.mycompany.clientside.controllers.ReplaysController">
 
     <top>
         <HBox prefHeight="59.0" prefWidth="600.0" style="-fx-background-color: white;" BorderPane.alignment="CENTER_LEFT">
@@ -31,29 +26,21 @@
         </HBox>
     </top>
     <center>
-        <VBox spacing="10"
-              alignment="TOP_CENTER"
-              BorderPane.alignment="TOP_CENTER">
+        <VBox alignment="TOP_CENTER" spacing="10" BorderPane.alignment="TOP_CENTER">
 
             <padding>
-                <Insets top="30" right="30" bottom="30" left="30"/>
+                <Insets bottom="30" left="30" right="30" top="30" />
             </padding>
 
             
-            <Label text="Recorded Games" styleClass="title"/>
-            <Label text="View and manage your recorded Tic Tac Toe games."
-                   styleClass="subtitle"/>
+            <Label styleClass="title" text="Recorded Games" />
+            <Label styleClass="subtitle" text="View and manage your recorded Tic Tac Toe games." />
 
-            
-            <VBox fx:id="gamesContainer"
-                  spacing="15"
-                  prefWidth="500"
-                  styleClass="card"/>
-            <Label fx:id="emptyLabel"
-                   text="No recorded games yet"
-                   visible="false"
-                   managed="false"
-                   styleClass="empty-text"/>
+            <Label fx:id="emptyLabel" styleClass="title" text="Loading Records..." />
+
+             <ScrollPane fx:id="gamesScrollPane" fitToWidth="true" hbarPolicy="NEVER" styleClass="games-scroll-pane" vbarPolicy="AS_NEEDED" VBox.vgrow="ALWAYS">
+                <VBox fx:id="gamesContainer" prefWidth="500" spacing="15" styleClass="cardX" />
+            </ScrollPane>
 
         </VBox>
     </center>

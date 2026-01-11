@@ -17,6 +17,57 @@
     -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.15), 20, 0, 0, 5);
 }
 
+/* ScrollPane styling */
+.games-scroll-pane {
+    -fx-background-color: transparent;
+    -fx-background-insets: 0;
+    -fx-padding: 0;
+}
+
+.games-scroll-pane > .viewport {
+    -fx-background-color: transparent;
+}
+
+/* Style the scrollbar */
+.games-scroll-pane .scroll-bar:vertical {
+    -fx-background-color: transparent;
+    -fx-padding: 0 5 0 5;
+}
+
+.games-scroll-pane .scroll-bar:vertical .track {
+    -fx-background-color: rgba(0, 0, 0, 0.05);
+    -fx-background-radius: 8;
+}
+
+.games-scroll-pane .scroll-bar:vertical .thumb {
+    -fx-background-color: rgba(0, 0, 0, 0.3);
+    -fx-background-radius: 8;
+    -fx-background-insets: 2;
+}
+
+.games-scroll-pane .scroll-bar:vertical .thumb:hover {
+    -fx-background-color: rgba(0, 0, 0, 0.5);
+}
+
+.games-scroll-pane .scroll-bar:vertical .thumb:pressed {
+    -fx-background-color: rgba(0, 0, 0, 0.6);
+}
+
+/* Hide scrollbar buttons */
+.games-scroll-pane .scroll-bar:vertical .increment-button,
+.games-scroll-pane .scroll-bar:vertical .decrement-button {
+    -fx-background-color: transparent;
+    -fx-padding: 0;
+    -fx-pref-height: 0;
+}
+
+.cardX {
+    -fx-background-color: white;
+    -fx-background-radius: 14;
+    -fx-padding: 25;
+}
+
+
 .title {
     -fx-font-size: 18;
     -fx-font-weight: bold;

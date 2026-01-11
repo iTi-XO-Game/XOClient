@@ -12,8 +12,6 @@ import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.geometry.Pos;
-
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.Separator;
@@ -23,7 +21,6 @@ import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.geometry.Pos;
-import javafx.scene.shape.SVGPath;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.mycompany.clientside.models.GameRecord;
@@ -32,6 +29,7 @@ import com.mycompany.clientside.models.Move;
 import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
+import javafx.application.Platform;
 import javafx.scene.image.ImageView;
 
 /**
@@ -59,22 +57,26 @@ public class ReplaysController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         loadRecordedGames();
-        updateEmptyState();
     }
 
     private void updateEmptyState() {
         boolean isEmpty = gamesContainer.getChildren().isEmpty();
 
+        emptyLabel.setText("No recorded games found.");
         emptyLabel.setVisible(isEmpty);
         emptyLabel.setManaged(isEmpty);
     }
 
     private void loadRecordedGames() {
+        new Thread(this::loadRecordedGamesRunnable).start();
+    }
+
+    private void loadRecordedGamesRunnable() {
         Gson gson = new Gson();
         File file = new File(RECORD_FILE);
 
         if (!file.exists()) {
-            updateEmptyState();
+            Platform.runLater(this::updateEmptyState);
             return;
         }
 
@@ -82,13 +84,16 @@ public class ReplaysController implements Initializable {
             wrapper = gson.fromJson(reader, GamesWrapper.class);
 
             if (wrapper == null || wrapper.getGames().isEmpty()) {
-                updateEmptyState();
+                Platform.runLater(this::updateEmptyState);
                 return;
             }
 
-            for (GameRecord game : wrapper.getGames()) {
-                addGame(game);
-            }
+            Platform.runLater(() -> {
+                for (GameRecord game : wrapper.getGames()) {
+                    addGame(game);
+                }
+                updateEmptyState();
+            });
 
         } catch (IOException e) {
             e.printStackTrace();
