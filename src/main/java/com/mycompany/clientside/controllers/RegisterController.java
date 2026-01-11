@@ -176,7 +176,7 @@ public class RegisterController implements Initializable {
             isValid = false;
             enablePasswordError();
         } else if (password.length() < 6) {
-            passwordErrorMessageLabel.setText("Password Length Must Be Higher Than 6");
+            passwordErrorMessageLabel.setText("Password Length Must Be 6 or more letters");
             isValid = false;
             enablePasswordError();
         } else {

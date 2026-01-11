@@ -99,7 +99,7 @@ public class LoginController implements Initializable {
 
                         try {
                             UserSession.setUserId(loginResponse.getId());
-                            UserSession.setUsername(loginResponse.getusername());
+                            UserSession.setUsername(loginResponse.getUsername());
                             //consider showing the user some animations before navigating...
                             App.setRoot(Screens.HOME_SCREEN);
 

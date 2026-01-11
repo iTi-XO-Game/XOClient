@@ -2,10 +2,7 @@ package com.mycompany.clientside.controllers;
 
 import java.io.IOException;
 import java.net.URL;
-import java.util.Objects;
 import java.util.ResourceBundle;
-import java.util.concurrent.atomic.AtomicReference;
-
 import com.mycompany.clientside.App;
 import com.mycompany.clientside.Screens;
 import com.mycompany.clientside.client.ClientManager;
@@ -13,12 +10,10 @@ import com.mycompany.clientside.client.EndPoint;
 import com.mycompany.clientside.client.JsonUtils;
 import com.mycompany.clientside.client.MyAlert;
 import com.mycompany.clientside.models.AuthRequest;
-import com.mycompany.clientside.models.Player;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-
 import javafx.scene.control.*;
 import javafx.scene.image.ImageView;
 
@@ -101,43 +96,39 @@ public class ForgotScreenController implements Initializable {
 
     @FXML
     private void handelCheck(ActionEvent event) {
-        if (!validateData()) return;
+        if (!validateData()) {
+            return;
+        }
 
         String theSecretKey = secretTxt.getText();
 
-        if(Objects.equals(theSecretKey, "ITI"))
-        {
-//            send request to update the pass for that username
+        if (theSecretKey.equals("ITI")) {
+
             ClientManager clientManager = ClientManager.getInstance();
 
             String username = usernameField.getText();
             String pass = getPassword();
 
-            AuthRequest authRequest = new AuthRequest(username,pass);
-
-            AtomicReference<Boolean> updateDone = new AtomicReference<>(false);
+            AuthRequest authRequest = new AuthRequest(username, pass);
 
 
-            clientManager.send(authRequest, EndPoint.UPDATE_USER_PASS, responseJson ->
-            {
-                updateDone.set(JsonUtils.fromJson(responseJson, Boolean.class));
+            clientManager.send(authRequest, EndPoint.UPDATE_USER_PASS, responseJson
+                    -> {
 
-                Platform.runLater(()->
-                {
-                    if(updateDone.get())
-                    {
-                        MyAlert.show(Alert.AlertType.CONFIRMATION,"Update The Password ","Password State","Now The Tassword Updated (:");
+                Platform.runLater(()
+                        -> {
+                    boolean isDone = JsonUtils.fromJson(responseJson, Boolean.class);
+                    if (isDone) {
+                        MyAlert.show(Alert.AlertType.CONFIRMATION, "Update The Password ", "Password State", "Now The Password Updated :)");
                         navigateToLogin(null);
+                    } else {
+                        MyAlert.show(Alert.AlertType.ERROR, "username Not Found", "Can't Find This username", "Enter Valid username");
                     }
-                    else
-                        MyAlert.show(Alert.AlertType.ERROR,"username Not Found","Can't Find This username","Enter Valid username");
 
                 });
 
             });
-        }
-        else
-        {
+        } else {
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("An Error Ocurred");
             alert.setHeaderText("Secret Key Is Wrong");
@@ -166,34 +157,28 @@ public class ForgotScreenController implements Initializable {
         }
 
         String username = usernameField.getText();
-        if (username.isEmpty())
-        {
+        if (username.isEmpty()) {
             usernameLabel.setText("Username can't be empty");
             enableusernameEror();
             isValid = false;
-        }else if (username.length() < 3)
-        {
+        } else if (username.length() < 3) {
             usernameLabel.setText("User Name Length Must Be Bigger Than 3");
             enableusernameEror();
             isValid = false;
-        }
-        else {
+        } else {
             disableusernameEror();
         }
-
 
         String password = getPassword();
         if (password.isEmpty()) {
             passwordErrorMessageLabel.setText("Password can't be empty");
             enablePasswordError();
             isValid = false;
-        }else if (password.length() < 7)
-        {
-            passwordErrorMessageLabel.setText("Password Length Must Be Higher Than 6");
+        } else if (password.length() < 6) {
+            passwordErrorMessageLabel.setText("Password Length Must Be 6 or more letters");
             enablePasswordError();
             isValid = false;
-        }
-        else {
+        } else {
             disablePasswordError();
         }
 
@@ -201,8 +186,7 @@ public class ForgotScreenController implements Initializable {
             confirmPasswordErrorMessageLabel.setText("Passwords don't match");
             enableConfirmPasswordError();
             isValid = false;
-        } else
-        {
+        } else {
             disableConfirmPasswordError();
         }
 
@@ -255,7 +239,6 @@ public class ForgotScreenController implements Initializable {
         confirmPasswordErrorMessageLabel.setManaged(false);
         confirmPasswordErrorMessageLabel.setVisible(false);
     }
-
 
     private void enableusernameEror() {
         usernameLabel.setManaged(true);

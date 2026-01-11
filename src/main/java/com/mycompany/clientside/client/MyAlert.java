@@ -12,5 +12,6 @@ public class MyAlert
         alert.setContentText(content);
 
         alert.show();
+        
     }
 }
