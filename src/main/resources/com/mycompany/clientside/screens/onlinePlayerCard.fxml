@@ -7,10 +7,9 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.VBox?>
 
-
-<VBox xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1">
+<VBox fx:id="cardRoot" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.mycompany.clientside.controllers.OnlinePlayerCardController">
    <children>
-      <HBox fx:id="cardRoot" alignment="CENTER" styleClass="challenge-card" stylesheets="@../styles/onlinemultplayer.css">
+      <HBox alignment="CENTER" styleClass="challenge-card" stylesheets="@../styles/onlinemultplayer.css">
           <VBox prefWidth="198.0">
               <Label fx:id="nameLabel" styleClass="opponent-name" text="Name" />
               <HBox VBox.vgrow="ALWAYS">
@@ -23,7 +22,7 @@
               </HBox>
           </VBox>
           <Pane HBox.hgrow="ALWAYS" />
-          <Button fx:id="challengeButton" styleClass="challenge-button" text="Challenge" />
+          <Button fx:id="challengeButton" onAction="#onChallengeClick" styleClass="challenge-button" text="Challenge" />
       </HBox>
       <Pane maxHeight="-Infinity" minHeight="-Infinity" prefHeight="10.0" prefWidth="200.0" style="-fx-background-color: transparent;" VBox.vgrow="NEVER" />
    </children>

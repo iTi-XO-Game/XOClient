@@ -47,7 +47,7 @@
                     
                 <VBox id="welcomeCard" alignment="CENTER" maxWidth="400" spacing="4">
                     <Label styleClass="title" text="Welcome Back!" />
-                    <Label styleClass="subTitle" text="Ready to chalenge your mind?" />
+                    <Label styleClass="subTitle" text="Ready to challenge your mind?" />
                     <VBox.margin>
                         <Insets top="12.0" />
                     </VBox.margin>

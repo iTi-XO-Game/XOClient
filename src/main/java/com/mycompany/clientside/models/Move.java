@@ -8,7 +8,7 @@ import com.google.gson.annotations.SerializedName;
 
 /**
  *
- * @author lenovo
+ * @author Hossam
  */
 public class Move {
 

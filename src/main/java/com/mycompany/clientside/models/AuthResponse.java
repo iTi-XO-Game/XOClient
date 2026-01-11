@@ -14,6 +14,8 @@ public class AuthResponse {
     private String errorMessage;
     private Integer id;
     private String username;
+    
+    private Player player;
 
     public StatusCode getStatusCode() {
         return statusCode;
@@ -55,6 +57,14 @@ public class AuthResponse {
     }
 
     public AuthResponse() {
+    }
+
+    public Player getPlayer() {
+        return player;
+    }
+
+    public void setPlayer(Player player) {
+        this.player = player;
     }
 
 }

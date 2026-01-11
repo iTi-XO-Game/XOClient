@@ -6,7 +6,7 @@ package com.mycompany.clientside;
 
 /**
  *
- * @author lenovo
+ * @author Hossam
  */
 public class Screens {
 
@@ -17,9 +17,9 @@ public class Screens {
     public static final String LOGIN_SCREEN = "screens/login";
     public static final String REGISTER_SCREEN = "screens/register";
     public static final String REPLAYS_SCREEN = "screens/replays";
-    public static final String ONLINE_MULTIPLAYER = "screens/onlineMultPlayer";
-    public static final String ONLINE_MULTIPLAYER_PLAYER_CARD = "/com/mycompany/clientside/screens/onlineMultiplayerPlayerCard";
-    public static final String PLAYER_REQUEST_SCREEN = "/com/mycompany/clientside/screens/playerRequestScreen";
+    public static final String ONLINE_MULTIPLAYER_SCREEN = "screens/onlineMultiPlayer";
+    public static final String ONLINE_PLAYER_CARD = "screens/onlinePlayerCard";
+    public static final String PLAYER_REQUEST_DIALOG = "screens/playerRequest";
     public static final String AI_GAME_SCREEN = "screens/AIGameScreen";
     public static final String FORGOT_SCREEN = "screens/ForgotScreen";
     public static final String REPLAY_GAME_SCREEN = "screens/replayGameScreen";

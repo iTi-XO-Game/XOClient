@@ -9,27 +9,32 @@ package com.mycompany.clientside.models;
  * @author Depogramming
  */
 public class Player {
-    private final int id;
-    private final String username;
-    private final int wins;
-    private final int draws;
-    private final int losses;
 
-    public int getDraws() {
-        return draws;
-    }
-    private final boolean isInGame;
-    public int getId() {
-        return id;
-    }
+    private int id;
+    private String username;
+    private int wins;
+    private int draws;
+    private int losses;
+    private boolean playing;
+    
+    
+    public Player(){}
 
-    public Player(int id, String username, int wins, int losses, boolean inGame, int draws) {
+    public Player(int id, String username, int wins, int losses, int draws, boolean playing) {
         this.id = id;
         this.username = username;
         this.wins = wins;
         this.losses = losses;
-        this.isInGame = inGame;
+        this.playing = playing;
         this.draws = draws;
+    }
+
+    public int getDraws() {
+        return draws;
+    }
+
+    public int getId() {
+        return id;
     }
 
     public String getUsername() {
@@ -44,7 +49,31 @@ public class Player {
         return losses;
     }
 
-    public boolean isIsInGame(){
-        return this.isInGame;
+    public boolean isPlaying() {
+        return this.playing;
+    }
+    
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public void setWins(int wins) {
+        this.wins = wins;
+    }
+
+    public void setDraws(int draws) {
+        this.draws = draws;
+    }
+
+    public void setLosses(int losses) {
+        this.losses = losses;
+    }
+
+    public void setPlaying(boolean playing) {
+        this.playing = playing;
     }
 }

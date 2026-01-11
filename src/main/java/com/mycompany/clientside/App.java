@@ -1,5 +1,6 @@
 package com.mycompany.clientside;
 
+import com.mycompany.clientside.client.ClientManager;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -21,6 +22,12 @@ public class App extends Application {
         stage.setMaximized(true);
         stage.setScene(scene);
         stage.show();
+    }
+    
+     @Override
+    public void stop() throws Exception {
+        ClientManager.getInstance().sendLogout();
+        super.stop();
     }
 
     public static void setRoot(String fxml) throws IOException {

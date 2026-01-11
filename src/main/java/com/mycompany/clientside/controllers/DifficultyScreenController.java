@@ -53,21 +53,18 @@ public class DifficultyScreenController implements Initializable {
     @FXML
     private void clickEasy(ActionEvent event) {
         currentDifficulty = Difficulty.Easy;
-        System.out.println(currentDifficulty.toString());
 
     }
 
     @FXML
     private void clickMedium(ActionEvent event) {
         currentDifficulty = Difficulty.Mid;
-        System.out.println(currentDifficulty.toString());
 
     }
 
     @FXML
     private void clickHard(ActionEvent event) {
         currentDifficulty = Difficulty.Hard;
-        System.out.println(currentDifficulty.toString());
 
     }
 

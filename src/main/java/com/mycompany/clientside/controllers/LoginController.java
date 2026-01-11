@@ -6,6 +6,7 @@ package com.mycompany.clientside.controllers;
 
 import com.mycompany.clientside.App;
 import com.mycompany.clientside.Screens;
+import com.mycompany.clientside.client.ChallengeManager;
 import com.mycompany.clientside.client.ClientManager;
 import com.mycompany.clientside.client.EndPoint;
 import com.mycompany.clientside.client.JsonUtils;
@@ -96,13 +97,12 @@ public class LoginController implements Initializable {
                         alert.setHeaderText(loginResponse.getErrorMessage());
                         alert.showAndWait();
                     } else {
-
+                        UserSession.setUserId(loginResponse.getId());
+                        UserSession.setUsername(loginResponse.getUsername());
+                        UserSession.setCurrentPlayer(loginResponse.getPlayer());
+                        ChallengeManager.getInstance().listenToChallenges();
                         try {
-                            UserSession.setUserId(loginResponse.getId());
-                            UserSession.setUsername(loginResponse.getUsername());
-                            //consider showing the user some animations before navigating...
                             App.setRoot(Screens.HOME_SCREEN);
-
                         } catch (IOException ex) {
                         }
                     }
