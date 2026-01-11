@@ -3,30 +3,64 @@
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Hyperlink?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.PasswordField?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 
-<AnchorPane id="AnchorPane" prefHeight="579.0" prefWidth="606.0" styleClass="register-background" stylesheets="@../styles/loginStyles.css" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.mycompany.clientside.controllers.RegisterController">
+<AnchorPane id="AnchorPane" prefHeight="579.0" prefWidth="606.0" styleClass="register-background" stylesheets="@../styles/loginStyles.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.mycompany.clientside.controllers.RegisterController">
    <children>
-      <StackPane styleClass="login-background" style="-fx-background-color: transparent;" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="150.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+      <StackPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="150.0" prefWidth="200.0" style="-fx-background-color: transparent;" styleClass="login-background" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
-            <VBox  maxHeight="428.0" maxWidth="360.0" spacing="12.0" styleClass="card">
+            <VBox maxHeight="428.0" maxWidth="360.0" spacing="12.0" styleClass="card">
                <children>
                   <Label styleClass="title" text="Create Account" />
                   <Label styleClass="subtitle" text="Join the fun! Enter your details to start playing." />
-                  <Label styleClass="field-label" text="Username" />
-                  <TextField fx:id="userNameTxt" prefHeight="36.0" promptText="Choose a unique username" styleClass="input" />
+                  <Label styleClass="field-label" text="username" />
+                  <TextField fx:id="usernameTxt" prefHeight="36.0" promptText="Choose a unique username" styleClass="input" />
+                  <Label fx:id="usernameErrorMessageLabel" prefHeight="130.0" prefWidth="310.0" styleClass="error-message" />
                   <Label styleClass="field-label" text="Password" />
-                  <TextField fx:id="passTxt" promptText="Create a strong password" styleClass="input" />
+                  <StackPane>
+                     <children>
+                        <TextField fx:id="passTxtPlain" promptText="Create a strong password" styleClass="input" />
+                        <PasswordField fx:id="passTxtHidden" promptText="Create a strong password" styleClass="input" />
+                        <Button mnemonicParsing="false" onAction="#togglePassword" styleClass="toggle-button" StackPane.alignment="CENTER_RIGHT">
+                           <graphic>
+                              <ImageView fx:id="eyeIcon" fitHeight="15.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../images/show_password_eye.png" />
+                                 </image>
+                              </ImageView>
+                           </graphic>
+                        </Button>
+                     </children>
+                  </StackPane>
+                  <Label fx:id="passwordErrorMessageLabel" prefHeight="130.0" prefWidth="310.0" styleClass="error-message" />
                   <Label styleClass="field-label" text="Confirm Password" />
-                  <TextField fx:id="conformPassTxt" promptText="Re-enter your password" styleClass="input" />
+                  <StackPane>
+                     <children>
+                        <TextField fx:id="confirmPassTxtPlain" promptText="Re-enter your password" styleClass="input" />
+                        <PasswordField fx:id="confirmPassTxtHidden" promptText="Re-enter your password" styleClass="input" />
+                        <Button mnemonicParsing="false" onAction="#toggleConfirmPassword" styleClass="toggle-button" StackPane.alignment="CENTER_RIGHT">
+                           <graphic>
+                              <ImageView fx:id="confirmEyeIcon" fitHeight="15.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../images/show_password_eye.png" />
+                                 </image>
+                              </ImageView>
+                           </graphic>
+                        </Button>
+                     </children>
+                  </StackPane>
+                  <Label fx:id="confirmPasswordErrorMessageLabel" prefHeight="130.0" prefWidth="310.0" styleClass="error-message" />
                   <Button fx:id="createAccountBtn" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#handelCreateAccount" prefHeight="42.0" styleClass="login-btn" text="Create Account" />
                   <HBox alignment="CENTER_LEFT">
                      <children>
-                        <Label  text="Already have an account?" />
+                        <Label text="Already have an account?" />
                         <Hyperlink fx:id="loginHyperLink" onAction="#navigateToLogin" styleClass="create-link" text="Log In" />
                      </children>
                   </HBox>
