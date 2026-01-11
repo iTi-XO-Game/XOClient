@@ -9,9 +9,10 @@ import com.mycompany.clientside.Screens;
 import com.mycompany.clientside.client.ClientManager;
 import com.mycompany.clientside.client.EndPoint;
 import com.mycompany.clientside.client.JsonUtils;
-import com.mycompany.clientside.client.StatusCode;
+import com.mycompany.clientside.models.StatusCode;
 import com.mycompany.clientside.models.AuthRequest;
 import com.mycompany.clientside.models.AuthResponse;
+import com.mycompany.clientside.models.UserSession;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -20,7 +21,6 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
-
 import javafx.scene.control.Button;
 import javafx.scene.control.Hyperlink;
 import javafx.scene.control.Label;
@@ -98,6 +98,8 @@ public class LoginController implements Initializable {
                     } else {
 
                         try {
+                            UserSession.setUserId(loginResponse.getId());
+                            UserSession.setUsername(loginResponse.getusername());
                             //consider showing the user some animations before navigating...
                             App.setRoot(Screens.HOME_SCREEN);
 
@@ -129,20 +131,20 @@ public class LoginController implements Initializable {
             passTxt.setVisible(true);
             passTxtPlain.setVisible(false);
 
-            updateIcon("/com/mycompany/clientside/images/show_password_eye.png");
+            updateIcon("images/show_password_eye.png");
         } else {
 
             passTxtPlain.setText(passTxt.getText());
             passTxtPlain.setVisible(true);
             passTxt.setVisible(false);
 
-            updateIcon("/com/mycompany/clientside/images/hide_password_eye.png");
+            updateIcon("images/hide_password_eye.png");
         }
         isPasswordVisible = !isPasswordVisible;
     }
 
     private void updateIcon(String path) {
-        Image img = new Image(getClass().getResource(path).toExternalForm());
+        Image img = new Image(App.class.getResource(path).toExternalForm());
         eyeIcon.setImage(img);
     }
 

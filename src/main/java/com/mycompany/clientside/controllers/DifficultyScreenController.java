@@ -12,14 +12,10 @@ import java.util.Optional;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.Node;
-import javafx.scene.Parent;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.ToggleGroup;
-import javafx.stage.Stage;
 
 /**
  * FXML Controller class
@@ -30,14 +26,13 @@ public class DifficultyScreenController implements Initializable {
 
     @FXML
     private ToggleGroup difficultyGroup;
+
     /**
      * Initializes the controller class.
      */
-
-    public enum Difficulty
-    {
-        Easy ,
-        Mid ,
+    public enum Difficulty {
+        Easy,
+        Mid,
         Hard
     }
 
@@ -78,14 +73,24 @@ public class DifficultyScreenController implements Initializable {
 
     @FXML
     private void clickRecordGame(ActionEvent event) {
+        //here handel when user click record 
+
+        try {
+            AIGameScreenController.setDifficulty(currentDifficulty.ordinal());
+            AIGameScreenController.setRecordMode(true);
+            App.setRoot(Screens.AI_GAME_SCREEN);
+        } catch (IOException ex) {
+            System.getLogger(DifficultyScreenController.class.getName()).log(System.Logger.Level.ERROR, (String) null, ex);
+        }
     }
 
     @FXML
     private void clickPlayGame(ActionEvent event) {
         try {
             AIGameScreenController.setDifficulty(currentDifficulty.ordinal());
+            AIGameScreenController.setRecordMode(false);//record mode is false
             App.setRoot(Screens.AI_GAME_SCREEN);
-            
+
         } catch (IOException ex) {
         }
     }
@@ -107,7 +112,8 @@ public class DifficultyScreenController implements Initializable {
             if (result.isPresent() && result.get() == buttonYes) {
                 App.setRoot(Screens.HOME_SCREEN);
             }
-        }catch (IOException ex){}
+        } catch (IOException ex) {
         }
+    }
 
 }

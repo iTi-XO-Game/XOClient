@@ -4,17 +4,28 @@
  */
 package com.mycompany.clientside.controllers;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.JsonSyntaxException;
 import com.mycompany.clientside.App;
 import com.mycompany.clientside.Screens;
+import com.mycompany.clientside.models.GameRecord;
+import com.mycompany.clientside.models.GamesWrapper;
 import com.mycompany.clientside.models.Move;
+import java.io.File;
+import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.net.URL;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.Random;
 import java.util.ResourceBundle;
 import java.util.function.Consumer;
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -34,7 +45,12 @@ public class AIGameScreenController implements Initializable {
     private final String X = "X";
     private final String O = "O";
     private static int difficulty;
-    
+
+    private static final String APP_DIR_NAME = "TicTacToeReplays";
+    public static final String RECORD_FILE_NAME = "games_record.json";
+    public static final String TEMP_FILE_NAME = "games_record.tmp";
+    private static volatile boolean recordMode = false;
+
     @FXML
     private Label npcLabel;
 
@@ -67,12 +83,22 @@ public class AIGameScreenController implements Initializable {
     @FXML
     private Label turnOLabel;
 
+    private boolean isAiMove = false;
+    @FXML
+    private Label recordingLabel;
+
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+
+        recordingLabel.setVisible(recordMode);
+
         switch (difficulty) {
-            case 0 -> npcLabel.setText("Easy NPC");
-            case 1 -> npcLabel.setText("Medium NPC");
-            case 2 -> npcLabel.setText("Undefeatable NPC");
+            case 0 ->
+                npcLabel.setText("Easy NPC");
+            case 1 ->
+                npcLabel.setText("Medium NPC");
+            case 2 ->
+                npcLabel.setText("Undefeatable");
         }
         board = new Button[][]{
             {b00, b01, b02},
@@ -89,9 +115,19 @@ public class AIGameScreenController implements Initializable {
         turnXLabel.setVisible(true);
 
     }
-    
+
     public static void setDifficulty(int difficulty) {
         AIGameScreenController.difficulty = difficulty;
+    }
+
+    public static void setRecordMode(boolean record) {
+        recordMode = record;
+    }
+
+    private String generateGameName() {
+        DateTimeFormatter formatter
+                = DateTimeFormatter.ofPattern("yyyy-MM-dd_HH-mm-ss");
+        return LocalDateTime.now().format(formatter);
     }
 
     @FXML
@@ -99,9 +135,10 @@ public class AIGameScreenController implements Initializable {
 
         Button clicked = (Button) event.getSource();
 
-        if (!clicked.getText().isBlank()) {
+        if (isAiMove || !clicked.getText().isBlank()) {
             return;
         }
+        isAiMove = true;
 
         clicked.setText(currentPlayer);
         saveMove(clicked, currentPlayer);
@@ -134,6 +171,7 @@ public class AIGameScreenController implements Initializable {
             forEachButton((btn) -> {
                 btn.setDisable(true);
             });
+            saveGameToFile();
             showEndGameAlert(currentPlayer + " Wins!");
 
             return;
@@ -147,6 +185,7 @@ public class AIGameScreenController implements Initializable {
             playerOCard.getStyleClass().remove("current-player");
             turnXLabel.setVisible(false);
             turnOLabel.setVisible(false);
+            saveGameToFile();
             showEndGameAlert("It is a Draw!");
             return;
         }
@@ -162,6 +201,17 @@ public class AIGameScreenController implements Initializable {
     }
 
     private void handleNPCMove() {
+
+        new Thread(() -> {
+            try {
+                Thread.sleep(50);
+            } catch (InterruptedException ex) {
+            }
+            Platform.runLater(this::handleNPCMoveRunnable);
+        }).start();
+    }
+
+    private void handleNPCMoveRunnable() {
         Move aiMove;
         switch (difficulty) {
             case 2:
@@ -178,7 +228,8 @@ public class AIGameScreenController implements Initializable {
                             availableMoves.add(new int[]{i, j});
                         }
                     }
-                }   Random random = new Random();
+                }
+                Random random = new Random();
                 int[] choice = availableMoves.get(random.nextInt(availableMoves.size()));
                 aiMove = new Move(currentPlayer, choice[0], choice[1]);
                 break;
@@ -216,6 +267,7 @@ public class AIGameScreenController implements Initializable {
             forEachButton((btn) -> {
                 btn.setDisable(true);
             });
+            saveGameToFile();
             showEndGameAlert(currentPlayer + " Wins!");
 
             return;
@@ -229,11 +281,14 @@ public class AIGameScreenController implements Initializable {
             playerOCard.getStyleClass().remove("current-player");
             turnXLabel.setVisible(false);
             turnOLabel.setVisible(false);
+            saveGameToFile();
             showEndGameAlert("It is a Draw!");
             return;
         }
 
         currentPlayer = (currentPlayer.equals(X)) ? O : X;
+
+        isAiMove = false;
     }
 
     private void saveMove(Button clicked, String player) {
@@ -336,6 +391,7 @@ public class AIGameScreenController implements Initializable {
         playerOCard.getStyleClass().remove("current-player");
         turnXLabel.setVisible(true);
         turnOLabel.setVisible(false);
+        isAiMove = false;
         forEachButton((btn) -> {
             btn.setText("");
             btn.getStyleClass().remove("o-text");
@@ -513,4 +569,78 @@ public class AIGameScreenController implements Initializable {
         return true;
     }
 
+    private void saveGameToFile() {
+
+        new Thread(this::saveGameToFileRunnable).start();
+
+    }
+
+    private void saveGameToFileRunnable() {
+        if (!recordMode) {
+            return;
+        }
+
+        Gson gson = new GsonBuilder().setPrettyPrinting().create();
+        GamesWrapper wrapper;
+
+        File file = getRecordFile();
+        if (file == null) {
+            System.err.println("Unable to access record file");
+            return;
+        }
+
+        if (file.exists()) {
+            try (FileReader reader = new FileReader(file)) {
+                wrapper = gson.fromJson(reader, GamesWrapper.class);
+            } catch (JsonSyntaxException | IOException e) {
+                System.err.println("Unable to read record file");
+                wrapper = new GamesWrapper();
+            }
+        } else {
+            wrapper = new GamesWrapper();
+        }
+
+        String gameName = generateGameName();
+
+        String diff;
+        diff = switch (difficulty) {
+            case 0 ->
+                "Easy";
+            case 1 ->
+                "Medium";
+            case 2 ->
+                "Hard";
+            default ->
+                "Unknown";
+        };
+
+        GameRecord record = new GameRecord(
+                gameName,
+                diff,
+                new ArrayList<>(gameMoves)
+        );
+
+        wrapper.getGames().add(record);
+
+        try (FileWriter writer = new FileWriter(file)) {
+            gson.toJson(wrapper, writer);
+        } catch (IOException e) {
+            System.err.println("Failed to save game record: " + e.getMessage());
+        }
+    }
+
+    public static File getRecordFile() {
+        String userHome = System.getProperty("user.home");
+
+        File appDir = new File(userHome, APP_DIR_NAME);
+
+        if (!appDir.exists()) {
+            if (!appDir.mkdirs()) {
+                System.err.println("Failed to create application directory: " + appDir.getAbsolutePath());
+                return null;
+            }
+        }
+
+        return new File(appDir, RECORD_FILE_NAME);
+    }
 }

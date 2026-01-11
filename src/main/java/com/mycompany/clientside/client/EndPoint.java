@@ -19,6 +19,7 @@ public enum EndPoint {
     ONLINE_USERS("ONLINE_USERS"),
     JOIN_GAME("JOIN_GAME"),
     UPDATE_USER_PASS("UPDATE_USER_PASS"),
+    PLAYER_GAMES_HISTORY("PLAYER_GAMES_HISTORY"),
     LEAVE_GAME("LEAVE_GAME");
     
     private final String code;

@@ -4,18 +4,16 @@
  */
 package com.mycompany.clientside.models;
 
-import com.mycompany.clientside.client.StatusCode;
-
 /**
  *
  * @author Depogramming
  */
-
 public class AuthResponse {
+
     private StatusCode statusCode;
     private String errorMessage;
-    private static Integer id;
-    private static String username;
+    private Integer id;
+    private String username;
 
     public StatusCode getStatusCode() {
         return statusCode;
@@ -33,27 +31,27 @@ public class AuthResponse {
         this.errorMessage = errorMessage;
     }
 
-    public static int getId() {
+    public Integer getId() {
         return id;
     }
 
-    public static void setId(int id) {
-        AuthResponse.id = id;
+    public void setId(int id) {
+        this.id = id;
     }
 
-    public static String getusername() {
+    public String getusername() {
         return username;
     }
 
     public void setusername(String username) {
-        AuthResponse.username = username;
+        this.username = username;
     }
 
     public AuthResponse(StatusCode statusCode, String errorMessage, Integer id, String username) {
         this.statusCode = statusCode;
         this.errorMessage = errorMessage;
-        AuthResponse.id = id;
-        AuthResponse.username = username;
+        this.id = id;
+        this.username = username;
     }
 
     public AuthResponse() {

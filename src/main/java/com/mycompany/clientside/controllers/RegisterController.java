@@ -9,7 +9,7 @@ import com.mycompany.clientside.Screens;
 import com.mycompany.clientside.client.ClientManager;
 import com.mycompany.clientside.client.EndPoint;
 import com.mycompany.clientside.client.JsonUtils;
-import com.mycompany.clientside.client.StatusCode;
+import com.mycompany.clientside.models.StatusCode;
 import com.mycompany.clientside.models.AuthRequest;
 import com.mycompany.clientside.models.AuthResponse;
 import java.io.IOException;
@@ -93,14 +93,14 @@ public class RegisterController implements Initializable {
             confirmPassTxtHidden.setVisible(true);
             confirmPassTxtHidden.setText(confirmPassTxtPlain.getText());
             isConfirmPasswordVisible = !isConfirmPasswordVisible;
-            updateConfirmPasswordIcon("/com/mycompany/clientside/images/show_password_eye.png");
+            updateConfirmPasswordIcon("images/show_password_eye.png");
 
         } else {
             confirmPassTxtHidden.setVisible(false);
             confirmPassTxtPlain.setVisible(true);
             confirmPassTxtPlain.setText(confirmPassTxtHidden.getText());
             isConfirmPasswordVisible = !isConfirmPasswordVisible;
-            updateConfirmPasswordIcon("/com/mycompany/clientside/images/hide_password_eye.png");
+            updateConfirmPasswordIcon("images/hide_password_eye.png");
 
         }
     }
@@ -112,13 +112,13 @@ public class RegisterController implements Initializable {
             passTxtPlain.setVisible(false);
             passTxtHidden.setVisible(true);
             isPasswordVisible = !isPasswordVisible;
-            updatePasswordIcon("/com/mycompany/clientside/images/show_password_eye.png");
+            updatePasswordIcon("images/show_password_eye.png");
         } else {
             passTxtPlain.setText(passTxtHidden.getText());
             passTxtHidden.setVisible(false);
             passTxtPlain.setVisible(true);
             isPasswordVisible = !isPasswordVisible;
-            updatePasswordIcon("/com/mycompany/clientside/images/hide_password_eye.png");
+            updatePasswordIcon("images/hide_password_eye.png");
         }
     }
 
@@ -126,9 +126,14 @@ public class RegisterController implements Initializable {
         disableErrorMessages();
 
         ClientManager clientManager = ClientManager.getInstance();
-        clientManager.send(new AuthRequest(usernameTxt.getText(), getPassword()), EndPoint.REGISTER, (response) -> {
+        
+        AuthRequest authRequest = new AuthRequest(usernameTxt.getText(), getPassword());
+
+        
+        clientManager.send(authRequest, EndPoint.REGISTER, (response) -> {
             AuthResponse authResponse = JsonUtils.fromJson(response, AuthResponse.class);
 
+        System.out.println("runLater");
             Platform.runLater(() -> {
                 if (authResponse.getStatusCode() == StatusCode.ERROR) {
                     Alert alert = new Alert(Alert.AlertType.ERROR);
@@ -225,12 +230,12 @@ public class RegisterController implements Initializable {
     }
 
     private void updateConfirmPasswordIcon(String path) {
-        Image img = new Image(getClass().getResource(path).toExternalForm());
+        Image img = new Image(App.class.getResource(path).toExternalForm());
         confirmEyeIcon.setImage(img);
     }
 
     private void updatePasswordIcon(String path) {
-        Image img = new Image(getClass().getResource(path).toExternalForm());
+        Image img = new Image(App.class.getResource(path).toExternalForm());
         eyeIcon.setImage(img);
     }
 
