@@ -11,6 +11,7 @@ import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.List;
+import java.util.Map;
 import java.util.ResourceBundle;
 
 import com.mycompany.clientside.client.ClientManager;
@@ -28,6 +29,7 @@ import javafx.scene.layout.Priority;
 import java.io.IOException;
 import javafx.scene.control.Label;
 import java.time.format.DateTimeFormatter;
+
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -44,6 +46,7 @@ public class PlayerStateController implements Initializable {
      * Initializes the controller class.
      */
     List<GameHistory> gameModels = new ArrayList<>();
+    Map<Integer, String> opponentNames;
 
     ClientManager clientManager;
 
@@ -51,6 +54,7 @@ public class PlayerStateController implements Initializable {
     private VBox gameRowsContainer;
 
     private int MY_ID;
+    String opponentName;
 
     private int wins = 0;
     private int losses = 0;
@@ -89,6 +93,8 @@ public class PlayerStateController implements Initializable {
                     losses++;
                 }
             }
+            // I Know it is not the best way ever to recall the server especially we call it past one but i was practicing this way
+            getOpponentsUserName();
 
             Platform.runLater(() -> {
                 setWinsAndLosesLabels(wins, losses);
@@ -137,7 +143,9 @@ public class PlayerStateController implements Initializable {
             setupStatusLabel(resultLabel, "Defeat", "#FEE2E2", "#EF4444");
         }
 
-        Label opponentLabel = new Label("Player " + (game.getPlayerXId() == MY_ID ? game.getPlayerOId() : game.getPlayerXId()));
+        int opponentId = game.getPlayerXId() == MY_ID ? game.getPlayerOId() : game.getPlayerXId();
+        Label opponentLabel = new Label(opponentNames.get(opponentId));
+
         long time = game.getGameDate();
         LocalDateTime dateTime = Instant
                 .ofEpochMilli(time)
@@ -158,6 +166,32 @@ public class PlayerStateController implements Initializable {
 
         return row;
     }
+
+    private void getOpponentsUserName()
+    {
+        OpponentNamesRequest opponentNamesRequest = new OpponentNamesRequest(getOpponentIds());
+
+        clientManager.send(opponentNamesRequest,EndPoint.OPPONENT_NAMES, responseJson -> {
+
+            OpponentNamesResponse res = JsonUtils.fromJson(responseJson, OpponentNamesResponse.class);
+            opponentNames = res.getOpponentsMap();
+        });
+
+    }
+
+    private List<Integer> getOpponentIds()
+    {
+        List<Integer> temp = new ArrayList<>();
+
+        for (GameHistory game : gameModels)
+        {
+            int opponentId = game.getPlayerXId() == MY_ID ? game.getPlayerOId() : game.getPlayerXId();
+            temp.add(opponentId);
+        }
+
+        return  temp;
+    }
+
 
     private void setupStatusLabel(Label lbl, String text, String bg, String textFill) {
         lbl.setText(text);
