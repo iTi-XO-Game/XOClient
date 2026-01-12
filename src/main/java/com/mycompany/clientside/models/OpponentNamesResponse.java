@@ -3,23 +3,23 @@ package com.mycompany.clientside.models;
 import java.util.HashMap;
 import java.util.Map;
 
-public class UsernamesResponse {
+public class OpponentNamesResponse {
 
     private Map<Integer, String> usersMap;
 
-    public UsernamesResponse() {
+    public OpponentNamesResponse() {
         this.usersMap = new HashMap<>();
     }
 
-    public UsernamesResponse(Map<Integer, String> usersMap) {
+    public OpponentNamesResponse(Map<Integer, String> usersMap) {
         this.usersMap = usersMap;
     }
 
-    public Map<Integer, String> getUsersMap() {
+    public Map<Integer, String> getOpponentsMap() {
         return usersMap;
     }
 
-    public void setUsersMap(Map<Integer, String> usersMap) {
+    public void setOpponentsMap(Map<Integer, String> usersMap) {
         this.usersMap = usersMap;
     }
 }
