@@ -13,7 +13,7 @@ import java.io.File;
 public class EndGameVideo {
 
     private static final String DRAW_VIDEO = "/com/mycompany/clientside/Videos/draw.mp4";
-    private static final String WIN_VIDEO = "/com/mycompany/clientside/Videos/Cristiano Ronaldo SIUUU!!!.mp4";
+    private static final String WIN_VIDEO = "/com/mycompany/clientside/Videos/win.mp4";
     private static final String EXTERNAL_VIDEO_DIR = "videos/";
 
     private static Media drawMedia;
@@ -116,9 +116,12 @@ public class EndGameVideo {
     }
 
     private static String getVideoUrl(boolean isDraw) {
-        String fileName = isDraw ? "draw.mp4" : "Cristiano Ronaldo SIUUU!!!.mp4";
-        File ext = new File(EXTERNAL_VIDEO_DIR + fileName);
-        if (ext.exists()) return ext.toURI().toString();
+        String fileName = isDraw ? "draw.mp4" : "win.mp4";
+
+        File externalFile = new File(EXTERNAL_VIDEO_DIR + fileName);
+        if (externalFile.exists()) return externalFile.toURI().toString();
+
+        //If the External had a problem return to get the path from internal
         var res = EndGameVideo.class.getResource(isDraw ? DRAW_VIDEO : WIN_VIDEO);
         return (res != null) ? res.toExternalForm() : null;
     }

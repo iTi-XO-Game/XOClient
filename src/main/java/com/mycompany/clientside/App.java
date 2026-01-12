@@ -23,7 +23,6 @@ public class App extends Application {
         stage.setMaximized(true);
         stage.setScene(scene);
         stage.show();
-//        EndGameVideo.funToLoadVideosPre();
     }
     
      @Override
