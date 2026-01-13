@@ -31,8 +31,8 @@ import javafx.scene.layout.VBox;
  */
 public class GameScreenController implements Initializable {
 
-    private final String X = "X";
-    private final String O = "O";
+    private final char X = 'X';
+    private final char O = 'O';
 
     @FXML
     private Button b00, b01, b02;
@@ -42,7 +42,7 @@ public class GameScreenController implements Initializable {
     private Button b20, b21, b22;
 
     private Button[][] board;
-    private String currentPlayer = X;
+    private char currentPlayer = X;
     @FXML
     private Label scoreX;
     @FXML
@@ -86,9 +86,9 @@ public class GameScreenController implements Initializable {
             return;
         }
 
-        clicked.setText(currentPlayer);
+        clicked.setText(currentPlayer + "");
         saveMove(clicked, currentPlayer);
-        if (currentPlayer.equals(X)) {
+        if (currentPlayer == X) {
             clicked.getStyleClass().add("x-text");
             playerXCard.getStyleClass().remove("current-player");
             playerOCard.getStyleClass().add("current-player");
@@ -107,7 +107,7 @@ public class GameScreenController implements Initializable {
             playerOCard.getStyleClass().remove("current-player");
             turnXLabel.setVisible(false);
             turnOLabel.setVisible(false);
-            if (currentPlayer.equals(X)) {
+            if (currentPlayer == X) {
                 int currentScore = Integer.parseInt(scoreX.getText());
                 scoreX.setText(String.valueOf(currentScore + 1));
             } else {
@@ -136,10 +136,10 @@ public class GameScreenController implements Initializable {
             return;
         }
 
-        currentPlayer = (currentPlayer.equals(X)) ? O : X;
+        currentPlayer = (currentPlayer == X) ? O : X;
     }
 
-    private void saveMove(Button clicked, String player) {
+    private void saveMove(Button clicked, char player) {
         int row, col = 0;
         outer:
         for (row = 0; row < 3; row++) {

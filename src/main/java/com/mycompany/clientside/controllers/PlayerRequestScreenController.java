@@ -34,8 +34,6 @@ public class PlayerRequestScreenController implements Initializable {
     @FXML
     private Label challengerWinRate;
     @FXML
-    private Label timerDown;
-    @FXML
     private Label challengerStatus;
 
     private Challenge challenge;
@@ -56,7 +54,7 @@ public class PlayerRequestScreenController implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        // TODO
+
     }
 
     public void setAcceptChallenge(Consumer<Challenge> sendAccept) {
@@ -95,7 +93,12 @@ public class PlayerRequestScreenController implements Initializable {
         this.challenge = challenge;
         
         int allGames = player.getWins() + player.getLosses() + player.getDraws();
-        float winRate = player.getWins() * 100f / (float) allGames;
+        float winRate;
+        if (allGames != 0) {
+            winRate = player.getWins() * 100f / (float) allGames;
+        } else {
+            winRate = 0f;
+        }
         
         challengerName.setText(player.getUsername());
         challengerWinRate.setText("Win Rate: " + String.format("%.1f", winRate) + "%");
