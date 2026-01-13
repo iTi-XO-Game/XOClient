@@ -29,6 +29,7 @@ import javafx.scene.layout.Priority;
 import java.io.IOException;
 import javafx.scene.control.Label;
 import java.time.format.DateTimeFormatter;
+import java.util.HashMap;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -70,8 +71,6 @@ public class PlayerStateController implements Initializable {
         clientManager = ClientManager.getInstance();
 
         MY_ID = UserSession.getUserId();
-
-        getOpponentsUserName();
         gettingGamesHistory();
     }
 
@@ -82,8 +81,10 @@ public class PlayerStateController implements Initializable {
         clientManager.send(gamesHistoryRequest, EndPoint.PLAYER_GAMES_HISTORY, response
                 -> {
 
+            System.out.println("in line 87");
+            System.out.println(response);
             GamesHistoryResponse gamesHistoryResponse = JsonUtils.fromJson(response, GamesHistoryResponse.class);
-
+            System.out.println(gamesHistoryResponse.getGameModels().size());
             gameModels = gamesHistoryResponse.getGameModels();
 
             wins = 0;
@@ -96,6 +97,7 @@ public class PlayerStateController implements Initializable {
                 }
             }
 
+            getOpponentsUserName();
 
             Platform.runLater(() -> {
                 setWinsAndLosesLabels(wins, losses);
@@ -145,7 +147,7 @@ public class PlayerStateController implements Initializable {
         }
 
         int opponentId = game.getPlayerXId() == MY_ID ? game.getPlayerOId() : game.getPlayerXId();
-        System.out.println("Player: " + MY_ID);
+        System.out.println("Player: " + opponentId);
         Label opponentLabel = new Label(opponentNames.get(opponentId));
 
         long time = game.getGameDate();
@@ -171,6 +173,7 @@ public class PlayerStateController implements Initializable {
 
     private void getOpponentsUserName()
     {
+        opponentNames= new HashMap<>();
         OpponentNamesRequest opponentNamesRequest = new OpponentNamesRequest(getOpponentIds());
 
         clientManager.send(opponentNamesRequest,EndPoint.OPPONENT_NAMES, responseJson -> {
@@ -178,7 +181,8 @@ public class PlayerStateController implements Initializable {
             OpponentNamesResponse res = JsonUtils.fromJson(responseJson, OpponentNamesResponse.class);
             opponentNames = res.getOpponentsMap();
         });
-
+        System.out.println(opponentNames.size());
+//        System.out.println(opponentNames.);
     }
 
     private List<Integer> getOpponentIds()
@@ -190,7 +194,8 @@ public class PlayerStateController implements Initializable {
             int opponentId = game.getPlayerXId() == MY_ID ? game.getPlayerOId() : game.getPlayerXId();
             temp.add(opponentId);
         }
-
+        System.out.println("we are heerrrrre");
+        System.out.println(temp.size());
         return  temp;
     }
 
