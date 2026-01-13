@@ -18,6 +18,7 @@ public enum EndPoint {
     LOBBY("LOBBY"), // 1 listener
     CHALLENGE("CHALLENGE"), // 1 listener
     GAME("GAME"),
+    OPPONENT_NAMES("OPPONENT_NAMES"),
 
     UPDATE_USER_PASS("UPDATE_USER_PASS"),
     PLAYER_GAMES_HISTORY("PLAYER_GAMES_HISTORY");

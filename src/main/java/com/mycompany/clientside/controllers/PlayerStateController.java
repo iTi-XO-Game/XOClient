@@ -11,6 +11,7 @@ import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.List;
+import java.util.Map;
 import java.util.ResourceBundle;
 
 import com.mycompany.clientside.client.ClientManager;
@@ -28,6 +29,8 @@ import javafx.scene.layout.Priority;
 import java.io.IOException;
 import javafx.scene.control.Label;
 import java.time.format.DateTimeFormatter;
+import java.util.HashMap;
+
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -44,6 +47,7 @@ public class PlayerStateController implements Initializable {
      * Initializes the controller class.
      */
     List<GameHistory> gameModels = new ArrayList<>();
+    Map<Integer, String> opponentNames;
 
     ClientManager clientManager;
 
@@ -51,6 +55,7 @@ public class PlayerStateController implements Initializable {
     private VBox gameRowsContainer;
 
     private int MY_ID;
+    String opponentName;
 
     private int wins = 0;
     private int losses = 0;
@@ -66,18 +71,20 @@ public class PlayerStateController implements Initializable {
         clientManager = ClientManager.getInstance();
 
         MY_ID = UserSession.getUserId();
-
         gettingGamesHistory();
     }
 
     private void gettingGamesHistory() {
+        // I Know it is not the best way ever to recall the server especially we call it past one but i was practicing this way
 
         GamesHistoryRequest gamesHistoryRequest = new GamesHistoryRequest(MY_ID);
         clientManager.send(gamesHistoryRequest, EndPoint.PLAYER_GAMES_HISTORY, response
                 -> {
 
+            System.out.println("in line 87");
+            System.out.println(response);
             GamesHistoryResponse gamesHistoryResponse = JsonUtils.fromJson(response, GamesHistoryResponse.class);
-
+            System.out.println(gamesHistoryResponse.getGameModels().size());
             gameModels = gamesHistoryResponse.getGameModels();
 
             wins = 0;
@@ -90,7 +97,10 @@ public class PlayerStateController implements Initializable {
                 }
             }
 
+            new Thread(() -> {getOpponentsUserName();}).start();
             Platform.runLater(() -> {
+                            
+
                 setWinsAndLosesLabels(wins, losses);
                 displayGames();
             });
@@ -137,7 +147,10 @@ public class PlayerStateController implements Initializable {
             setupStatusLabel(resultLabel, "Defeat", "#FEE2E2", "#EF4444");
         }
 
-        Label opponentLabel = new Label("Player " + (game.getPlayerXId() == MY_ID ? game.getPlayerOId() : game.getPlayerXId()));
+        int opponentId = game.getPlayerXId() == MY_ID ? game.getPlayerOId() : game.getPlayerXId();
+
+        Label opponentLabel = new Label(opponentNames.get(opponentId));
+
         long time = game.getGameDate();
         LocalDateTime dateTime = Instant
                 .ofEpochMilli(time)
@@ -158,6 +171,35 @@ public class PlayerStateController implements Initializable {
 
         return row;
     }
+
+    private void getOpponentsUserName()
+    {
+        opponentNames= new HashMap<>();
+        OpponentNamesRequest opponentNamesRequest = new OpponentNamesRequest(getOpponentIds());
+
+        clientManager.send(opponentNamesRequest,EndPoint.OPPONENT_NAMES, responseJson -> {
+
+            OpponentNamesResponse res = JsonUtils.fromJson(responseJson, OpponentNamesResponse.class);
+            opponentNames = res.getOpponentsMap();
+        });
+        System.out.println(opponentNames.size());
+//        System.out.println(opponentNames.);
+    }
+
+    private List<Integer> getOpponentIds()
+    {
+        List<Integer> temp = new ArrayList<>();
+
+        for (GameHistory game : gameModels)
+        {
+            int opponentId = game.getPlayerXId() == MY_ID ? game.getPlayerOId() : game.getPlayerXId();
+            temp.add(opponentId);
+        }
+        System.out.println("we are heerrrrre");
+        System.out.println(temp.size());
+        return  temp;
+    }
+
 
     private void setupStatusLabel(Label lbl, String text, String bg, String textFill) {
         lbl.setText(text);
