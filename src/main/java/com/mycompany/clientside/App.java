@@ -1,6 +1,7 @@
 package com.mycompany.clientside;
 
 import com.mycompany.clientside.client.ClientManager;
+import com.mycompany.clientside.client.EndGameVideo;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
