@@ -12,14 +12,6 @@
       <HBox alignment="CENTER" styleClass="challenge-card" stylesheets="@../styles/onlinemultplayer.css">
           <VBox prefWidth="198.0">
               <Label fx:id="nameLabel" styleClass="opponent-name" text="Name" />
-              <HBox VBox.vgrow="ALWAYS">
-                  <Label fx:id="winsLabel" styleClass="opponent-wins" text="W:0">
-                  <HBox.margin>
-                     <Insets right="10.0" />
-                  </HBox.margin>
-               </Label>
-                  <Label fx:id="losesLabel" styleClass="opponent-loses" text="L:0" />
-              </HBox>
           </VBox>
           <Pane HBox.hgrow="ALWAYS" />
           <Button fx:id="challengeButton" onAction="#onChallengeClick" styleClass="challenge-button" text="Challenge" />

@@ -156,6 +156,7 @@ public class PvpGameScreenController implements Initializable {
                 );
             }
             case GameAction.MOVE -> {
+                activeGame.setIsGameOn(true);
 
                 Move latestMove = game.getLatestMove();
                 Button btn = board[latestMove.getRow()][latestMove.getCol()];
@@ -209,6 +210,7 @@ public class PvpGameScreenController implements Initializable {
         Button clicked = (Button) event.getSource();
         if (makeMove(clicked, userPlayer)) {
             activeGame.setAction(GameAction.MOVE);
+            activeGame.setIsGameOn(true);
             activeGame.makeSender();
             clientManager.send(activeGame, EndPoint.GAME,
                     ignored -> {
@@ -224,6 +226,7 @@ public class PvpGameScreenController implements Initializable {
             return false;
         }
 
+        activeGame.setIsGameOn(true);
         clicked.setText(currentPlayer + "");
         saveMove(clicked, currentPlayer);
         if (currentPlayer == X) {

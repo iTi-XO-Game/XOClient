@@ -12,9 +12,11 @@ import com.mycompany.clientside.client.JsonUtils;
 import com.mycompany.clientside.models.StatusCode;
 import com.mycompany.clientside.models.AuthRequest;
 import com.mycompany.clientside.models.AuthResponse;
+
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
+
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -142,10 +144,10 @@ public class RegisterController implements Initializable {
         disableErrorMessages();
 
         ClientManager clientManager = ClientManager.getInstance();
-        
+
         AuthRequest authRequest = new AuthRequest(usernameTxt.getText(), getPassword());
 
-        
+
         clientManager.send(authRequest, EndPoint.REGISTER, (response) -> {
             AuthResponse authResponse = JsonUtils.fromJson(response, AuthResponse.class);
 
@@ -245,13 +247,21 @@ public class RegisterController implements Initializable {
     }
 
     private void updateConfirmPasswordIcon(String path) {
-        Image img = new Image(App.class.getResource(path).toExternalForm());
-        confirmEyeIcon.setImage(img);
+        try {
+            Image img = new Image(App.class.getResource(path).toExternalForm());
+            confirmEyeIcon.setImage(img);
+        } catch (Exception e) {
+
+        }
     }
 
     private void updatePasswordIcon(String path) {
-        Image img = new Image(App.class.getResource(path).toExternalForm());
-        eyeIcon.setImage(img);
+        try {
+            Image img = new Image(App.class.getResource(path).toExternalForm());
+            eyeIcon.setImage(img);
+        } catch (Exception e) {
+
+        }
     }
 
     private String getPassword() {
