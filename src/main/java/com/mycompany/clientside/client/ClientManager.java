@@ -14,8 +14,8 @@ import javafx.scene.control.Alert;
 
 public class ClientManager {
 
-    private static final String IP_ADDRESS = "127.0.0.1";
-    private static final int PORT = 8181;
+    public static  String IP_ADDRESS = "127.0.0.1";
+    public static  int PORT = 8181;
 
     private volatile Socket socket;
     private volatile BufferedReader reader;

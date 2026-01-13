@@ -23,5 +23,6 @@ public class Screens {
     public static final String AI_GAME_SCREEN = "screens/AIGameScreen";
     public static final String FORGOT_SCREEN = "screens/ForgotScreen";
     public static final String REPLAY_GAME_SCREEN = "screens/replayGameScreen";
+    public static final String SERVER_SETTINGS_SCREEN = "screens/serverSettingsScreen";
 
 }

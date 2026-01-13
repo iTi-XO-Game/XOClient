@@ -19,7 +19,16 @@
          <children>
             <VBox maxHeight="370.0" maxWidth="360.0" spacing="12.0" styleClass="card">
                <children>
-                  <Label styleClass="title" text="Login to Play" />
+                  <HBox alignment="TOP_RIGHT" prefHeight="100.0" prefWidth="200.0">
+                     <children>
+                        <Label maxWidth="1.7976931348623157E308" styleClass="title" text="Login to Play" HBox.hgrow="ALWAYS" />
+                        <ImageView fx:id="serverSettingsIcon" fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true" styleClass="settings-icon" HBox.hgrow="NEVER">
+                           <image>
+                              <Image url="@../images/gear.png" />
+                           </image>
+                        </ImageView>
+                     </children>
+                  </HBox>
                   <Label styleClass="subtitle" text="Enter your credentials to continue your winning streak." />
                   <Label styleClass="field-label" text="username" />
                   <TextField fx:id="usernameTxt" promptText="Enter your username" styleClass="input" />
