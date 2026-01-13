@@ -27,13 +27,13 @@ public class EndGameVideo {
         winMedia = loadMedia(false);
     }
 
+    private static int count = 0;
 
     public static void showEndGameVideo(String eventMessage, boolean isDraw) {
         Platform.runLater(() -> {
             Media media = isDraw ? drawMedia : winMedia;
 
             if (media == null) {
-                System.err.println("Media not loaded for " + (isDraw ? "draw" : "win") + " video");
                 return;
             }
 
@@ -48,7 +48,10 @@ public class EndGameVideo {
             player.setOnError(() -> {
                 System.err.println("MediaPlayer error: " + player.getError());
                 player.dispose();
-                showEndGameVideo(eventMessage,isDraw);
+                if (count < 3) {
+                    count++;
+                    showEndGameVideo(eventMessage, isDraw);
+                }
             });
         });
     }
@@ -59,7 +62,7 @@ public class EndGameVideo {
             if (player.getStatus() ==  MediaPlayer.Status.DISPOSED )
             {
                 showEndGameVideo(title,isDraw);
-                System.out.println("Try to get player agine");
+
                 return;
             }
 
@@ -82,14 +85,14 @@ public class EndGameVideo {
                     });
 
                 } catch (InterruptedException e) {
-                    System.err.println("Buffering interrupted: " + e.getMessage());
+
                     display(title, player); // Display anyway no risk no fun
                 }
             }).start();
 
         } catch (Exception e) {
-            System.err.println("Error during buffering: " + e.getMessage());
-            e.printStackTrace();
+
+            //e.printStackTrace();
             display(title, player);
         }
     }
@@ -123,7 +126,7 @@ public class EndGameVideo {
 
                 Runnable cleanup = () -> {
                     Platform.runLater(() -> {
-                        System.out.println("Cleaning up player resources...");
+
 
                         if (player.getStatus() != MediaPlayer.Status.DISPOSED) {
                             player.stop();
@@ -132,7 +135,7 @@ public class EndGameVideo {
                         if (stage.isShowing()) {
                             stage.close();
                         }
-                        System.out.println("Resources freed successfully");
+
                     });
                 };
 
@@ -146,9 +149,10 @@ public class EndGameVideo {
                 player.seek(Duration.ZERO);
                 player.play();
 
+                count = 0;
+
             } catch (Exception e) {
-                System.err.println("Error displaying video: " + e.getMessage());
-                e.printStackTrace();
+
                 player.dispose();
             }
         });
@@ -158,39 +162,29 @@ public class EndGameVideo {
         try {
             String url = getVideoUrl(isDraw);
             if (url != null) {
-                System.out.println("Loading " + (isDraw ? "draw" : "win") + " media from: " + url);
+
                 return new Media(url);
             }
         } catch (Exception e) {
-            System.err.println("Failed to load media: " + e.getMessage());
-            e.printStackTrace();
+
         }
         return null;
     }
 
-    /**
-     * Gets video URL from external directory or internal resources
-     */
+
     private static String getVideoUrl(boolean isDraw) {
         String fileName = isDraw ? "draw.mp4" : "win.mp4";
 
-        // Try external directory first
         File externalFile = new File(EXTERNAL_VIDEO_DIR + fileName);
         if (externalFile.exists()) {
-            System.out.println("Found external video: " + externalFile.getAbsolutePath());
             return externalFile.toURI().toString();
         }
 
-        // Fall back to internal resources
         var resource = EndGameVideo.class.getResource(isDraw ? DRAW_VIDEO : WIN_VIDEO);
         if (resource != null) {
-            System.out.println("Using internal video resource");
             return resource.toExternalForm();
         }
         return null;
     }
 
-    public static void forceLoading() {
-        System.out.println("Force loading called");
-    }
 }
