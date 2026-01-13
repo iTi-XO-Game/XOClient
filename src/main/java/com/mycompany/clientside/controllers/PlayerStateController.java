@@ -71,10 +71,12 @@ public class PlayerStateController implements Initializable {
 
         MY_ID = UserSession.getUserId();
 
+        getOpponentsUserName();
         gettingGamesHistory();
     }
 
     private void gettingGamesHistory() {
+        // I Know it is not the best way ever to recall the server especially we call it past one but i was practicing this way
 
         GamesHistoryRequest gamesHistoryRequest = new GamesHistoryRequest(MY_ID);
         clientManager.send(gamesHistoryRequest, EndPoint.PLAYER_GAMES_HISTORY, response
@@ -93,8 +95,7 @@ public class PlayerStateController implements Initializable {
                     losses++;
                 }
             }
-            // I Know it is not the best way ever to recall the server especially we call it past one but i was practicing this way
-            getOpponentsUserName();
+
 
             Platform.runLater(() -> {
                 setWinsAndLosesLabels(wins, losses);
@@ -144,6 +145,7 @@ public class PlayerStateController implements Initializable {
         }
 
         int opponentId = game.getPlayerXId() == MY_ID ? game.getPlayerOId() : game.getPlayerXId();
+        System.out.println("Player: " + MY_ID);
         Label opponentLabel = new Label(opponentNames.get(opponentId));
 
         long time = game.getGameDate();
