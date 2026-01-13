@@ -9,11 +9,14 @@ import com.mycompany.clientside.models.Player;
 import java.net.URL;
 import java.util.ResourceBundle;
 import java.util.function.Consumer;
+
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
@@ -52,9 +55,18 @@ public class PlayerRequestScreenController implements Initializable {
     /**
      * Initializes the controller class.
      */
+    @FXML
+    ImageView imageView;
+
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        imageView = new ImageView();
+        Image image = new Image(getClass().getResourceAsStream("/com/mycompany/clientside/images/man.png"));
+        imageView.setImage(image);
 
+        Platform.runLater(()->{
+            imageIcon.setImage(image);
+        });
     }
 
     public void setAcceptChallenge(Consumer<Challenge> sendAccept) {

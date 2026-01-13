@@ -95,22 +95,9 @@ public class DifficultyScreenController implements Initializable {
     @FXML
     private void backToMenu(ActionEvent event) {
         try {
-            // todo add alert!
-            Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-            alert.setTitle("Back To Menu");
-            alert.setHeaderText("Are you sure you want Back To Menu?");
-
-            ButtonType buttonYes = new ButtonType("Back");
-            ButtonType buttonNo = new ButtonType("cancel");
-            alert.getButtonTypes().setAll(buttonYes, buttonNo);
-
-            Optional<ButtonType> result = alert.showAndWait();
-
-            if (result.isPresent() && result.get() == buttonYes) {
-                App.setRoot(Screens.HOME_SCREEN);
-            }
-        } catch (IOException ex) {
+            App.setRoot(Screens.HOME_SCREEN);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
         }
     }
-
 }
