@@ -54,7 +54,7 @@
                   </StackPane>
                   <Label fx:id="passwordErrorMessageLabel" prefHeight="130.0" prefWidth="310.0" styleClass="error-message" />
                   <Hyperlink fx:id="forgetPassHyperLink" onAction="#handelForgetPassHyperLink" styleClass="forgot" text="Forgot Password?" />
-                  <Button fx:id="loginBtn" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#handelLogin" prefHeight="40.0" styleClass="login-btn" text="Log In" />
+                  <Button fx:id="loginBtn" defaultButton="true" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#handelLogin" prefHeight="40.0" styleClass="login-btn" text="Log In" />
                   <HBox alignment="CENTER_LEFT">
                      <children>
                         <Label styleClass="small-text" text="New player?" />

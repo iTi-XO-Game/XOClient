@@ -11,11 +11,11 @@
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="526.0" prefWidth="598.0" styleClass="login-background" stylesheets="@../styles/loginStyles.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.mycompany.clientside.controllers.ServerSettingsScreenController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="526.0" prefWidth="598.0" styleClass="login-background" stylesheets="@../styles/loginStyles.css" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.mycompany.clientside.controllers.ServerSettingsScreenController">
     <children>
       <StackPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="150.0" prefWidth="200.0" styleClass="login-background" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
-            <VBox fx:id="rootContainer" maxHeight="370.0" maxWidth="380.0" spacing="12.0" styleClass="card">
+            <VBox fx:id="rootContainer" maxHeight="370.0" maxWidth="360.0" spacing="12.0" styleClass="card">
                <children>
                   <HBox prefHeight="100.0" prefWidth="200.0" VBox.vgrow="ALWAYS">
                      <children>
@@ -24,31 +24,31 @@
                               <Image url="@../images/arrow_back.png" />
                            </image>
                            <HBox.margin>
-                              <Insets right="20.0" />
+                              <Insets right="8.0" />
                            </HBox.margin>
                         </ImageView>
-                        <VBox maxHeight="370.0" maxWidth="400.0" spacing="12.0" HBox.hgrow="ALWAYS">
-                           <children>
-                              <Label maxWidth="1.7976931348623157E308" styleClass="title" text="Server Details" />
-                              <Label styleClass="subtitle" text="Enter Server IP and Port Number" />
-                              <Label styleClass="field-label" text="IP" />
-                              <TextField fx:id="ipTextField" promptText="Server IP Number" styleClass="input" />
-                              <Label fx:id="ipErrorLabel" prefHeight="130.0" prefWidth="310.0" styleClass="error-message" />
-                              <Label styleClass="field-label" text="Port Number" />
-                              <TextField fx:id="portTextField" promptText="Server Port Number" styleClass="input" />
-                              <Label fx:id="portErrorLabel" prefHeight="130.0" prefWidth="310.0" styleClass="error-message" />
-                              <Button maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#updateButtonClicked" prefHeight="40.0" styleClass="login-btn" text="Update" />
-                              <Label fx:id="updateButtonLabel" prefHeight="130.0" prefWidth="310.0" styleClass="success-message" />
-                              <Button maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#resetButtonClicked" prefHeight="40.0" styleClass="reset-btn" text="Reset">
-                                 <VBox.margin>
-                                    <Insets />
-                                 </VBox.margin>
-                              </Button>
-                              <Label fx:id="resetButtonLabel" prefHeight="130.0" prefWidth="310.0" styleClass="success-message" />
-                           </children>
-                        </VBox>
+                        <Label maxWidth="1.7976931348623157E308" styleClass="title" text="Server Details" />
                      </children>
                   </HBox>
+                  <VBox maxHeight="370.0" maxWidth="360.0" spacing="12.0">
+                     <children>
+                        <Label styleClass="subtitle" text="Enter Server IP and Port Number" />
+                        <Label styleClass="field-label" text="IP" />
+                        <TextField fx:id="ipTextField" promptText="Server IP Number" styleClass="input" />
+                        <Label fx:id="ipErrorLabel" prefHeight="130.0" prefWidth="310.0" styleClass="error-message" />
+                        <Label styleClass="field-label" text="Port Number" />
+                        <TextField editable="false" fx:id="portTextField" promptText="Server Port Number" styleClass="input" />
+                        <Label fx:id="portErrorLabel" prefHeight="130.0" prefWidth="310.0" styleClass="error-message" />
+                        <Button defaultButton="true" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#updateButtonClicked" prefHeight="40.0" styleClass="login-btn" text="Update" />
+                        <Label fx:id="updateButtonLabel" prefHeight="130.0" prefWidth="310.0" styleClass="success-message" />
+                        <Button maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#resetButtonClicked" prefHeight="40.0" styleClass="reset-btn" text="Reset">
+                           <VBox.margin>
+                              <Insets />
+                           </VBox.margin>
+                        </Button>
+                        <Label fx:id="resetButtonLabel" prefHeight="130.0" prefWidth="310.0" styleClass="success-message" />
+                     </children>
+                  </VBox>
                </children>
             </VBox>
          </children>
