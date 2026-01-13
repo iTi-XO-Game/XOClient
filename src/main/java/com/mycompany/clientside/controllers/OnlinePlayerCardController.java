@@ -61,6 +61,11 @@ public class OnlinePlayerCardController implements Initializable {
         nameLabel.setText(username);
         winsLabel.setText("W:" + player.getWins());
         losesLabel.setText("L:" + player.getLosses());
+
+        if (player.isPlaying()) {
+            challengeButton.setDisable(true);
+            challengeButton.setText("In game");
+        }
     }
 
     @FXML

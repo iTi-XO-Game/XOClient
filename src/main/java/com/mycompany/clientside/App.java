@@ -2,6 +2,7 @@ package com.mycompany.clientside;
 
 import com.mycompany.clientside.client.ClientManager;
 import javafx.application.Application;
+import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -27,6 +28,8 @@ public class App extends Application {
      @Override
     public void stop() throws Exception {
         ClientManager.getInstance().sendLogout();
+        Platform.exit();
+        System.exit(0);
         super.stop();
     }
 
