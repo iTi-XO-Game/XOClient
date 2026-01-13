@@ -97,9 +97,10 @@ public class PlayerStateController implements Initializable {
                 }
             }
 
-            getOpponentsUserName();
-
+            new Thread(() -> {getOpponentsUserName();}).start();
             Platform.runLater(() -> {
+                            
+
                 setWinsAndLosesLabels(wins, losses);
                 displayGames();
             });
@@ -147,7 +148,7 @@ public class PlayerStateController implements Initializable {
         }
 
         int opponentId = game.getPlayerXId() == MY_ID ? game.getPlayerOId() : game.getPlayerXId();
-        System.out.println("Player: " + opponentId);
+
         Label opponentLabel = new Label(opponentNames.get(opponentId));
 
         long time = game.getGameDate();
