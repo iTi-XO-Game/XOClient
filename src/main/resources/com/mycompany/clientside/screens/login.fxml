@@ -19,7 +19,16 @@
          <children>
             <VBox maxHeight="370.0" maxWidth="360.0" spacing="12.0" styleClass="card">
                <children>
-                  <Label styleClass="title" text="Login to Play" />
+                  <HBox alignment="TOP_RIGHT" prefHeight="100.0" prefWidth="200.0">
+                     <children>
+                        <Label maxWidth="1.7976931348623157E308" styleClass="title" text="Login to Play" HBox.hgrow="ALWAYS" />
+                        <ImageView fx:id="serverSettingsIcon" fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true" styleClass="settings-icon" HBox.hgrow="NEVER">
+                           <image>
+                              <Image url="@../images/gear.png" />
+                           </image>
+                        </ImageView>
+                     </children>
+                  </HBox>
                   <Label styleClass="subtitle" text="Enter your credentials to continue your winning streak." />
                   <Label styleClass="field-label" text="username" />
                   <TextField fx:id="usernameTxt" promptText="Enter your username" styleClass="input" />
@@ -45,7 +54,7 @@
                   </StackPane>
                   <Label fx:id="passwordErrorMessageLabel" prefHeight="130.0" prefWidth="310.0" styleClass="error-message" />
                   <Hyperlink fx:id="forgetPassHyperLink" onAction="#handelForgetPassHyperLink" styleClass="forgot" text="Forgot Password?" />
-                  <Button fx:id="loginBtn" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#handelLogin" prefHeight="40.0" styleClass="login-btn" text="Log In" />
+                  <Button fx:id="loginBtn" defaultButton="true" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#handelLogin" prefHeight="40.0" styleClass="login-btn" text="Log In" />
                   <HBox alignment="CENTER_LEFT">
                      <children>
                         <Label styleClass="small-text" text="New player?" />

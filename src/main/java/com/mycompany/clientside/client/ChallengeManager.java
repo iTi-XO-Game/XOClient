@@ -7,6 +7,7 @@ package com.mycompany.clientside.client;
 import com.mycompany.clientside.App;
 import com.mycompany.clientside.Screens;
 import com.mycompany.clientside.controllers.PlayerRequestScreenController;
+import com.mycompany.clientside.controllers.PvpGameScreenController;
 import com.mycompany.clientside.models.Challenge;
 import com.mycompany.clientside.models.Challenge.ChallengeAction;
 import com.mycompany.clientside.models.Player;
@@ -17,6 +18,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+
 import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -40,6 +44,8 @@ public class ChallengeManager {
 
     private ChallengeManager() {
     }
+
+    private final ExecutorService executor = Executors.newFixedThreadPool(10);
 
     private Runnable resetPlayerCard;
     private final Map<String, Stage> openedDialogs = new ConcurrentHashMap<>();
@@ -68,7 +74,7 @@ public class ChallengeManager {
                         }
                         case ChallengeAction.ACCEPT -> {
                             closeDialog(challenge);
-                            sendGame(challenge);
+                            waitForGame(challenge);
                         }
                         case ChallengeAction.DECLINE -> {
                             closeDialog(challenge);
@@ -119,12 +125,12 @@ public class ChallengeManager {
             stage.setScene(scene);
 
             stage.setOnCloseRequest(e -> {
-                new Thread(() -> {
+                executor.submit(() -> {
                     openedDialogs.remove(challenge.getId());
                     if (pendingChallenges.remove(challenge.getId()) != null) {
                         declineChallenge(challenge);
                     }
-                }).start();
+                });
             });
 
             openedDialogs.put(challenge.getId(), stage);
@@ -169,12 +175,12 @@ public class ChallengeManager {
             Scene scene = new Scene(root);
             stage.setScene(scene);
             stage.setOnCloseRequest(e -> {
-                new Thread(() -> {
+                executor.submit(() -> {
                     openedDialogs.remove(challenge.getId());
                     if (pendingChallenges.remove(challenge.getId()) != null) {
                         cancelChallenge(challenge);
                     }
-                }).start();
+                });
             });
             openedDialogs.put(challenge.getId(), stage);
             stage.show();
@@ -220,15 +226,15 @@ public class ChallengeManager {
         );
     }
 
-    private void sendGame(Challenge challenge) {
+    private void waitForGame(Challenge challenge) {
 
         pendingChallenges.remove(challenge.getId());
         closeAllDialogs();
 
-        // todo send game to GAME endpoint
+        PvpGameScreenController.challenge = challenge;
         Platform.runLater(() -> {
             try {
-                App.setRoot(Screens.GAME_SCREEN);
+                App.setRoot(Screens.PVP_GAME_SCREEN);
             } catch (IOException ex) {
             }
         });
@@ -238,26 +244,22 @@ public class ChallengeManager {
         pendingChallenges.remove(challenge.getId());
         closeAllDialogs();
         
+        PvpGameScreenController.challenge = challenge;
+        
         ClientManager clientManager = ClientManager.getInstance();
 
         Player player = UserSession.currentPlayer;
         Challenge request = new Challenge(
                 challenge.getId(), ChallengeAction.ACCEPT, player, challenge.getSender(), ""
         );
-
-        // todo Add game listerner
         clientManager.send(request, EndPoint.CHALLENGE,
                 response -> {
-
                     Challenge chall = JsonUtils.fromJson(response, Challenge.class);
-
                     switch (chall.getAction()) {
                         case ChallengeAction.DONE -> {
-
-                            //todo
                             Platform.runLater(() -> {
                                 try {
-                                    App.setRoot(Screens.GAME_SCREEN);
+                                    App.setRoot(Screens.PVP_GAME_SCREEN);
                                 } catch (IOException ex) {
                                 }
                             });

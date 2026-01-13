@@ -26,9 +26,12 @@ import com.google.gson.GsonBuilder;
 import com.google.gson.JsonSyntaxException;
 import com.mycompany.clientside.models.GameRecord;
 import com.mycompany.clientside.models.GamesWrapper;
+import java.io.ByteArrayOutputStream;
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
 import java.io.File;
-import java.io.FileReader;
-import java.io.FileWriter;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import javafx.application.Platform;
 import javafx.scene.image.ImageView;
 
@@ -50,12 +53,13 @@ public class ReplaysController implements Initializable {
 
     private static final String RECORD_FILE = "games_record.json";
     private GamesWrapper wrapper;
-
+    byte key;
     /**
      * Initializes the controller class.
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        key = 0x42;
         loadRecordedGames();
     }
 
@@ -72,34 +76,39 @@ public class ReplaysController implements Initializable {
     }
 
     private void loadRecordedGamesRunnable() {
-        File file = AIGameScreenController.getRecordFile();
+    File file = AIGameScreenController.getRecordFile();
 
         if (!file.exists()) {
+        Platform.runLater(this::updateEmptyState);
+        return;
+    }
+    Gson gson = new Gson();
+
+        try (DataInputStream reader = new DataInputStream(new FileInputStream(file))) {
+            ByteArrayOutputStream buffer = new ByteArrayOutputStream();
+            while (reader.available() > 0) {
+                buffer.write(reader.readByte() ^ key); // XOR again with the same key to unscramble
+            }
+            String decodedJson = buffer.toString();
+            wrapper = gson.fromJson(decodedJson, GamesWrapper.class);
+
+            if (wrapper == null || wrapper.getGames().isEmpty()) {
             Platform.runLater(this::updateEmptyState);
             return;
         }
-        Gson gson = new Gson();
 
-        try (FileReader reader = new FileReader(file)) {
-            wrapper = gson.fromJson(reader, GamesWrapper.class);
-
-            if (wrapper == null || wrapper.getGames().isEmpty()) {
-                Platform.runLater(this::updateEmptyState);
-                return;
-            }
-
-            Platform.runLater(() -> {
-                for (GameRecord game : wrapper.getGames()) {
+        Platform.runLater(() -> {
+            for (GameRecord game : wrapper.getGames()) {
                     addGame(game);
                 }
-                updateEmptyState();
-            });
+            updateEmptyState();
+        });
 
         } catch (IOException | JsonSyntaxException e) {
             System.err.println("Error reading game records: " + e.getMessage());
-            Platform.runLater(this::updateEmptyState);
-        }
+        Platform.runLater(this::updateEmptyState);
     }
+}
 
     private void addGame(GameRecord game) {
 
@@ -156,11 +165,20 @@ public class ReplaysController implements Initializable {
 
         Gson gson = new GsonBuilder().setPrettyPrinting().create();
         File tempFile = new File(file.getParent(), AIGameScreenController.TEMP_FILE_NAME);
+        
+        try (DataOutputStream writer = new DataOutputStream( new FileOutputStream(tempFile))) {
 
-        try (FileWriter writer = new FileWriter(tempFile)) {
-            gson.toJson(wrapper, writer);
+            byte[] bytes = gson.toJson(wrapper).getBytes();
 
-            if (file.exists() && !file.delete()) {
+            for (byte b : bytes) {
+                writer.writeByte(b ^ key); // XOR each byte to scramble it
+            }
+            
+        } catch (IOException e) {
+            System.err.println("Error saving game records: " + e.getMessage());
+            return;
+        }
+        if (file.exists() && !file.delete()) {
                 System.err.println("Failed to delete old file");
                 return;
             }
@@ -169,9 +187,6 @@ public class ReplaysController implements Initializable {
                 System.err.println("Failed to save file");
             }
 
-        } catch (IOException e) {
-            System.err.println("Error saving game records: " + e.getMessage());
-        }
         if (tempFile.exists()) {
             tempFile.delete();
         }

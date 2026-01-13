@@ -9,11 +9,14 @@ import com.mycompany.clientside.models.Player;
 import java.net.URL;
 import java.util.ResourceBundle;
 import java.util.function.Consumer;
+
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
@@ -34,8 +37,6 @@ public class PlayerRequestScreenController implements Initializable {
     @FXML
     private Label challengerWinRate;
     @FXML
-    private Label timerDown;
-    @FXML
     private Label challengerStatus;
 
     private Challenge challenge;
@@ -54,9 +55,18 @@ public class PlayerRequestScreenController implements Initializable {
     /**
      * Initializes the controller class.
      */
+    @FXML
+    ImageView imageView;
+
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        // TODO
+        imageView = new ImageView();
+        Image image = new Image(getClass().getResourceAsStream("/com/mycompany/clientside/images/man.png"));
+        imageView.setImage(image);
+
+        Platform.runLater(()->{
+            imageIcon.setImage(image);
+        });
     }
 
     public void setAcceptChallenge(Consumer<Challenge> sendAccept) {
@@ -95,7 +105,12 @@ public class PlayerRequestScreenController implements Initializable {
         this.challenge = challenge;
         
         int allGames = player.getWins() + player.getLosses() + player.getDraws();
-        float winRate = player.getWins() * 100f / (float) allGames;
+        float winRate;
+        if (allGames != 0) {
+            winRate = player.getWins() * 100f / (float) allGames;
+        } else {
+            winRate = 0f;
+        }
         
         challengerName.setText(player.getUsername());
         challengerWinRate.setText("Win Rate: " + String.format("%.1f", winRate) + "%");

@@ -13,9 +13,13 @@ import com.mycompany.clientside.client.EndGameVideo;
 import com.mycompany.clientside.models.GameRecord;
 import com.mycompany.clientside.models.GamesWrapper;
 import com.mycompany.clientside.models.Move;
+import com.mycompany.clientside.models.UserSession;
+import java.io.ByteArrayOutputStream;
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
 import java.io.File;
-import java.io.FileReader;
-import java.io.FileWriter;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.net.URL;
 import java.time.LocalDateTime;
@@ -25,6 +29,8 @@ import java.util.List;
 import java.util.Optional;
 import java.util.Random;
 import java.util.ResourceBundle;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 import java.util.function.Consumer;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
@@ -43,8 +49,8 @@ import javafx.scene.layout.VBox;
  */
 public class AIGameScreenController implements Initializable {
 
-    private final String X = "X";
-    private final String O = "O";
+    private final char X = 'X';
+    private final char O = 'O';
     private static int difficulty;
 
     private static final String APP_DIR_NAME = "TicTacToeReplays";
@@ -64,7 +70,7 @@ public class AIGameScreenController implements Initializable {
 
     private Button[][] board;
     private char[][] boardForAlgorithm;
-    private String currentPlayer = X;
+    private char currentPlayer = X;
     @FXML
     private Label scoreX;
     @FXML
@@ -87,6 +93,8 @@ public class AIGameScreenController implements Initializable {
     private boolean isAiMove = false;
     @FXML
     private Label recordingLabel;
+    
+    private final ExecutorService executor = Executors.newSingleThreadExecutor();
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -141,9 +149,9 @@ public class AIGameScreenController implements Initializable {
         }
         isAiMove = true;
 
-        clicked.setText(currentPlayer);
+        clicked.setText(currentPlayer + "");
         saveMove(clicked, currentPlayer);
-        if (currentPlayer.equals(X)) {
+        if (currentPlayer == X) {
             clicked.getStyleClass().add("x-text");
             playerXCard.getStyleClass().remove("current-player");
             playerOCard.getStyleClass().add("current-player");
@@ -162,7 +170,7 @@ public class AIGameScreenController implements Initializable {
             playerOCard.getStyleClass().remove("current-player");
             turnXLabel.setVisible(false);
             turnOLabel.setVisible(false);
-            if (currentPlayer.equals(X)) {
+            if (currentPlayer == X) {
                 int currentScore = Integer.parseInt(scoreX.getText());
                 scoreX.setText(String.valueOf(currentScore + 1));
             } else {
@@ -194,30 +202,29 @@ public class AIGameScreenController implements Initializable {
             return;
         }
 
-        currentPlayer = (currentPlayer.equals(X)) ? O : X;
+        currentPlayer = (currentPlayer == X) ? O : X;
 
         handleNPCMove();
     }
 
     private void handleNPCMove() {
-
-        new Thread(() -> {
+        executor.submit(() -> {
             try {
                 Thread.sleep(50);
-            } catch (InterruptedException ex) {
+            } catch (InterruptedException ignored) {
             }
             Platform.runLater(this::handleNPCMoveRunnable);
-        }).start();
+        });
     }
 
     private void handleNPCMoveRunnable() {
         Move aiMove;
         switch (difficulty) {
             case 2:
-                aiMove = findBestMove(boardForAlgorithm, currentPlayer.charAt(0), 9);
+                aiMove = findBestMove(boardForAlgorithm, currentPlayer, 9);
                 break;
             case 1:
-                aiMove = findBestMove(boardForAlgorithm, currentPlayer.charAt(0), 2);
+                aiMove = findBestMove(boardForAlgorithm, currentPlayer, 2);
                 break;
             default:
                 List<int[]> availableMoves = new ArrayList<>();
@@ -234,10 +241,10 @@ public class AIGameScreenController implements Initializable {
                 break;
         }
         Button clicked = board[aiMove.getRow()][aiMove.getCol()];
-        clicked.setText(currentPlayer);
+        clicked.setText(currentPlayer + "");
         saveMove(clicked, currentPlayer);
 
-        if (currentPlayer.equals(X)) {
+        if (currentPlayer == X) {
             clicked.getStyleClass().add("x-text");
             playerXCard.getStyleClass().remove("current-player");
             playerOCard.getStyleClass().add("current-player");
@@ -256,7 +263,7 @@ public class AIGameScreenController implements Initializable {
             playerOCard.getStyleClass().remove("current-player");
             turnXLabel.setVisible(false);
             turnOLabel.setVisible(false);
-            if (currentPlayer.equals(X)) {
+            if (currentPlayer == X) {
                 int currentScore = Integer.parseInt(scoreX.getText());
                 scoreX.setText(String.valueOf(currentScore + 1));
             } else {
@@ -290,18 +297,18 @@ public class AIGameScreenController implements Initializable {
             return;
         }
 
-        currentPlayer = (currentPlayer.equals(X)) ? O : X;
+        currentPlayer = (currentPlayer == X) ? O : X;
 
         isAiMove = false;
     }
 
-    private void saveMove(Button clicked, String player) {
+    private void saveMove(Button clicked, char player) {
         int row, col = 0;
         outer:
         for (row = 0; row < 3; row++) {
             for (col = 0; col < 3; col++) {
                 if (board[row][col] == clicked) {
-                    boardForAlgorithm[row][col] = player.charAt(0);
+                    boardForAlgorithm[row][col] = player;
                     break outer;
                 }
             }
@@ -436,7 +443,7 @@ public class AIGameScreenController implements Initializable {
             }
         }
 
-        return new Move(player + "", bestMoveRow, bestMoveCol);
+        return new Move(player, bestMoveRow, bestMoveCol);
     }
 
     private int minimax(char[][] board, int depth, boolean isMax, char aiPlayer, int h) {
@@ -553,6 +560,7 @@ public class AIGameScreenController implements Initializable {
             return;
         }
 
+        byte key = 0x42;
         Gson gson = new GsonBuilder().setPrettyPrinting().create();
         GamesWrapper wrapper;
 
@@ -563,12 +571,20 @@ public class AIGameScreenController implements Initializable {
         }
 
         if (file.exists()) {
-            try (FileReader reader = new FileReader(file)) {
-                wrapper = gson.fromJson(reader, GamesWrapper.class);
+            
+            try (DataInputStream reader = new DataInputStream(new FileInputStream(file))) {
+                ByteArrayOutputStream buffer = new ByteArrayOutputStream();
+                while (reader.available() > 0) {
+                    buffer.write(reader.readByte() ^ key); // XOR again with the same key to unscramble
+                }
+                
+                String decodedJson = buffer.toString();
+                wrapper = gson.fromJson(decodedJson, GamesWrapper.class);
+                
             } catch (JsonSyntaxException | IOException e) {
                 System.err.println("Unable to read record file");
-                wrapper = new GamesWrapper();
-            }
+            wrapper = new GamesWrapper();
+        }
         } else {
             wrapper = new GamesWrapper();
         }
@@ -594,13 +610,17 @@ public class AIGameScreenController implements Initializable {
         );
 
         wrapper.getGames().add(record);
-
-        try (FileWriter writer = new FileWriter(file)) {
-            gson.toJson(wrapper, writer);
+        
+        String jsonString = gson.toJson(wrapper);
+        byte[] bytes = jsonString.getBytes();
+        try (DataOutputStream writer = new DataOutputStream(new FileOutputStream(file))) {
+                for (byte b : bytes) {
+                writer.writeByte(b ^ key); // XOR each byte to scramble it
+            }
         } catch (IOException e) {
             System.err.println("Failed to save game record: " + e.getMessage());
+            }
         }
-    }
 
     public static File getRecordFile() {
         String userHome = System.getProperty("user.home");
@@ -614,6 +634,6 @@ public class AIGameScreenController implements Initializable {
             }
         }
 
-        return new File(appDir, RECORD_FILE_NAME);
+        return new File(appDir, UserSession.getUserId()+RECORD_FILE_NAME);
     }
 }

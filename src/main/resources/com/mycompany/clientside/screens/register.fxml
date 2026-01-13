@@ -57,7 +57,7 @@
                      </children>
                   </StackPane>
                   <Label fx:id="confirmPasswordErrorMessageLabel" prefHeight="130.0" prefWidth="310.0" styleClass="error-message" />
-                  <Button fx:id="createAccountBtn" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#handelCreateAccount" prefHeight="42.0" styleClass="login-btn" text="Create Account" />
+                  <Button fx:id="createAccountBtn" defaultButton="true" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#handelCreateAccount" prefHeight="42.0" styleClass="login-btn" text="Create Account" />
                   <HBox alignment="CENTER_LEFT">
                      <children>
                         <Label text="Already have an account?" />
