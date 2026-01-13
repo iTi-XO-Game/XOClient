@@ -28,8 +28,8 @@ import javafx.util.Duration;
  */
 public class ReplayGameScreenController {
 
-    private final String X = "X";
-    private final String O = "O";
+    private final char X = 'X';
+    private final char O = 'O';
     private static int difficulty;
 
     @FXML
@@ -44,7 +44,7 @@ public class ReplayGameScreenController {
 
     private Button[][] board;
     private char[][] boardForAlgorithm;
-    private String currentPlayer = X;
+    private char currentPlayer = X;
     @FXML
     private Label scoreX;
     @FXML
@@ -91,23 +91,27 @@ public class ReplayGameScreenController {
         });
     }
 
-    private void updateTurnUI(String player) {
+    private void updateTurnUI(char player) {
 
         playerXCard.getStyleClass().remove("current-player");
         playerOCard.getStyleClass().remove("current-player");
-        if (player.equals(X)) {
+        turnOLabel.setVisible(false);
+        turnXLabel.setVisible(false);
 
-            playerXCard.getStyleClass().add("current-player");
-            playerOCard.getStyleClass().remove("current-player");
+        if (!checkIfWinner()) {
 
-            turnXLabel.setVisible(true);
-            turnOLabel.setVisible(false);
-        } else {
-            playerOCard.getStyleClass().add("current-player");
-            playerXCard.getStyleClass().remove("current-player");
+            if (player == X) {
+                playerXCard.getStyleClass().add("current-player");
+                playerOCard.getStyleClass().remove("current-player");
+                turnXLabel.setVisible(true);
+                turnOLabel.setVisible(false);
+            } else {
+                playerOCard.getStyleClass().add("current-player");
+                playerXCard.getStyleClass().remove("current-player");
 
-            turnOLabel.setVisible(true);
-            turnXLabel.setVisible(false);
+                turnOLabel.setVisible(true);
+                turnXLabel.setVisible(false);
+            }
         }
     }
 
@@ -120,10 +124,10 @@ public class ReplayGameScreenController {
             return;
         }
 
-        clicked.setText(currentPlayer);
+        clicked.setText(currentPlayer + "");
 
         clicked.getStyleClass().add(
-                currentPlayer.equals(X) ? "x-text" : "o-text"
+                (currentPlayer == X) ? "x-text" : "o-text"
         );
 
         updateTurnUI(currentPlayer);
@@ -133,7 +137,7 @@ public class ReplayGameScreenController {
             playerOCard.getStyleClass().remove("current-player");
             turnXLabel.setVisible(false);
             turnOLabel.setVisible(false);
-            if (currentPlayer.equals(X)) {
+            if (currentPlayer == X) {
                 int currentScore = Integer.parseInt(scoreX.getText());
                 scoreX.setText(String.valueOf(currentScore + 1));
             } else {
@@ -160,7 +164,7 @@ public class ReplayGameScreenController {
             return;
         }
 
-        currentPlayer = (currentPlayer.equals(X)) ? O : X;
+        currentPlayer = (currentPlayer == X) ? O : X;
 
     }
 
@@ -246,10 +250,10 @@ public class ReplayGameScreenController {
                     Move move = replayMoves.get(index[0]);
                     Button btn = board[move.getRow()][move.getCol()];
 
-                    btn.setText(move.getPlayer());
+                    btn.setText(move.getPlayer() + "");
                     btn.getStyleClass().removeAll("x-text", "o-text");
 
-                    if ("X".equals(move.getPlayer())) {
+                    if (X == move.getPlayer()) {
                         btn.getStyleClass().add("x-text");
                     } else {
                         btn.getStyleClass().add("o-text");
