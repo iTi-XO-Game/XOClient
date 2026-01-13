@@ -65,8 +65,6 @@ public class ClientManager {
             String response;
             while ((response = reader.readLine()) != null && !Thread.currentThread().isInterrupted()) {
 
-                System.out.println("response");
-                System.out.println(response);
 
                 int firstSplit = response.indexOf("|");
                 int secondSplit = response.indexOf("|", firstSplit + 1);
@@ -138,7 +136,6 @@ public class ClientManager {
 
         switch (callbackType) {
             case CallbackType.LISTENER -> {
-                System.out.println("LISTENER Added");
                 listenerCallbacks.put(endPointCode, callback);
                 requestId = -1;
             }
@@ -147,8 +144,6 @@ public class ClientManager {
         }
 
         String req = endPointCode + "|" + requestId + "|" + messageJson;
-        System.out.println("request");
-        System.out.println(req);
 
         writer.println(req);
     }

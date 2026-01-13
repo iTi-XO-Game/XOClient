@@ -15,6 +15,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
 public class ForgotScreenController implements Initializable {
@@ -61,6 +62,8 @@ public class ForgotScreenController implements Initializable {
         isConfirmPasswordVisible = false;
 
         passTxtPlain.setVisible(false);
+        passTxtPlain.setManaged(false);
+        confirmPassTxtPlain.setManaged(false);
         confirmPassTxtPlain.setVisible(false);
     }
 
@@ -69,13 +72,19 @@ public class ForgotScreenController implements Initializable {
         if (isPasswordVisible) {
             passTxtHidden.setText(passTxtPlain.getText());
             passTxtPlain.setVisible(false);
+            passTxtPlain.setManaged(false);
             passTxtHidden.setVisible(true);
+            passTxtHidden.setManaged(true);
+            updatePasswordIcon("images/show_password_eye.png");
             isPasswordVisible = false;
         } else {
             passTxtPlain.setText(passTxtHidden.getText());
             passTxtHidden.setVisible(false);
+            passTxtHidden.setManaged(false);
             passTxtPlain.setVisible(true);
+            passTxtPlain.setManaged(true);
             isPasswordVisible = true;
+            updatePasswordIcon("images/hide_password_eye.png");
         }
     }
 
@@ -84,13 +93,19 @@ public class ForgotScreenController implements Initializable {
         if (isConfirmPasswordVisible) {
             confirmPassTxtHidden.setText(confirmPassTxtPlain.getText());
             confirmPassTxtPlain.setVisible(false);
+            confirmPassTxtPlain.setManaged(false);
             confirmPassTxtHidden.setVisible(true);
+            confirmPassTxtHidden.setManaged(true);
             isConfirmPasswordVisible = false;
+            updateConfirmPasswordIcon("images/show_password_eye.png");
         } else {
             confirmPassTxtPlain.setText(confirmPassTxtHidden.getText());
             confirmPassTxtHidden.setVisible(false);
+            confirmPassTxtHidden.setManaged(false);
             confirmPassTxtPlain.setVisible(true);
+            confirmPassTxtPlain.setManaged(true);
             isConfirmPasswordVisible = true;
+            updateConfirmPasswordIcon("images/hide_password_eye.png");
         }
     }
 
@@ -208,6 +223,23 @@ public class ForgotScreenController implements Initializable {
         disablePasswordError();
         disableConfirmPasswordError();
         disableusernameEror();
+    }
+
+    private void updateConfirmPasswordIcon(String path) {
+        try {
+            Image img = new Image(App.class.getResource(path).toExternalForm());
+            confirmEyeIcon.setImage(img);
+        } catch (Exception e) {
+        }
+    }
+
+    private void updatePasswordIcon(String path) {
+        try {
+            Image img = new Image(App.class.getResource(path).toExternalForm());
+            eyeIcon.setImage(img);
+        } catch (Exception e) {
+
+        }
     }
 
     private void enableSecretError() {

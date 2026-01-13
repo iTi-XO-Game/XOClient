@@ -30,10 +30,6 @@ public class OnlinePlayerCardController implements Initializable {
     @FXML
     private Label nameLabel;
     @FXML
-    private Label winsLabel;
-    @FXML
-    private Label losesLabel;
-    @FXML
     private Button challengeButton;
 
     private Player player;
@@ -59,8 +55,6 @@ public class OnlinePlayerCardController implements Initializable {
         }
         
         nameLabel.setText(username);
-        winsLabel.setText("W:" + player.getWins());
-        losesLabel.setText("L:" + player.getLosses());
 
         if (player.isPlaying()) {
             challengeButton.setDisable(true);
