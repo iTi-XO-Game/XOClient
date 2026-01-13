@@ -55,6 +55,9 @@ public class LoginController implements Initializable {
     private Label usernameErrorMessageLabel;
     @FXML
     private Label passwordErrorMessageLabel;
+    @FXML
+    private ImageView serverSettingsIcon;
+
     boolean isPasswordVisible;
 
     /**
@@ -65,6 +68,14 @@ public class LoginController implements Initializable {
         disableErrorMessages();
         isPasswordVisible = false;
         passTxtPlain.setVisible(false);
+        passTxtPlain.setManaged(false);
+        serverSettingsIcon.setOnMouseClicked(e -> {
+            try {
+                App.setRoot(Screens.SERVER_SETTINGS_SCREEN);
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            }
+        });
     }
 
     @FXML
@@ -129,14 +140,21 @@ public class LoginController implements Initializable {
 
             passTxt.setText(passTxtPlain.getText());
             passTxt.setVisible(true);
+            passTxt.setManaged(true);
+
             passTxtPlain.setVisible(false);
+            passTxtPlain.setManaged(false);
 
             updateIcon("images/show_password_eye.png");
         } else {
 
             passTxtPlain.setText(passTxt.getText());
+
+            passTxtPlain.setManaged(true);
             passTxtPlain.setVisible(true);
+
             passTxt.setVisible(false);
+            passTxt.setManaged(false);
 
             updateIcon("images/hide_password_eye.png");
         }

@@ -67,6 +67,10 @@ public class RegisterController implements Initializable {
         disableErrorMessages();
         isPasswordVisible = false;
         isConfirmPasswordVisible = false;
+        passTxtPlain.setManaged(false);
+        passTxtPlain.setVisible(false);
+        confirmPassTxtPlain.setManaged(false);
+        confirmPassTxtPlain.setVisible(false);
     }
 
     @FXML
@@ -90,14 +94,20 @@ public class RegisterController implements Initializable {
     void toggleConfirmPassword(ActionEvent event) {
         if (isConfirmPasswordVisible) {
             confirmPassTxtPlain.setVisible(false);
+            confirmPassTxtPlain.setManaged(false);
+
             confirmPassTxtHidden.setVisible(true);
+            confirmPassTxtHidden.setManaged(true);
             confirmPassTxtHidden.setText(confirmPassTxtPlain.getText());
             isConfirmPasswordVisible = !isConfirmPasswordVisible;
             updateConfirmPasswordIcon("images/show_password_eye.png");
 
         } else {
             confirmPassTxtHidden.setVisible(false);
+            confirmPassTxtHidden.setManaged(false);
+
             confirmPassTxtPlain.setVisible(true);
+            confirmPassTxtPlain.setManaged(true);
             confirmPassTxtPlain.setText(confirmPassTxtHidden.getText());
             isConfirmPasswordVisible = !isConfirmPasswordVisible;
             updateConfirmPasswordIcon("images/hide_password_eye.png");
@@ -110,13 +120,19 @@ public class RegisterController implements Initializable {
         if (isPasswordVisible) {
             passTxtHidden.setText(passTxtPlain.getText());
             passTxtPlain.setVisible(false);
+            passTxtPlain.setManaged(false);
+
             passTxtHidden.setVisible(true);
+            passTxtHidden.setManaged(true);
             isPasswordVisible = !isPasswordVisible;
             updatePasswordIcon("images/show_password_eye.png");
         } else {
             passTxtPlain.setText(passTxtHidden.getText());
             passTxtHidden.setVisible(false);
+            passTxtHidden.setManaged(false);
+
             passTxtPlain.setVisible(true);
+            passTxtPlain.setManaged(true);
             isPasswordVisible = !isPasswordVisible;
             updatePasswordIcon("images/hide_password_eye.png");
         }
