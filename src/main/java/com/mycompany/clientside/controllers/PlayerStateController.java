@@ -97,13 +97,8 @@ public class PlayerStateController implements Initializable {
                 }
             }
 
-            new Thread(() -> {getOpponentsUserName();}).start();
-            Platform.runLater(() -> {
-                            
-
-                setWinsAndLosesLabels(wins, losses);
-                displayGames();
-            });
+            Platform.runLater(() -> setWinsAndLosesLabels(wins, losses));
+            new Thread(() -> getOpponentsUserName()).start();
 
         });
     }
@@ -172,34 +167,32 @@ public class PlayerStateController implements Initializable {
         return row;
     }
 
-    private void getOpponentsUserName()
-    {
-        opponentNames= new HashMap<>();
-        OpponentNamesRequest opponentNamesRequest = new OpponentNamesRequest(getOpponentIds());
+    private void getOpponentsUserName() {
+        OpponentNamesRequest opponentNamesRequest
+                = new OpponentNamesRequest(getOpponentIds());
 
-        clientManager.send(opponentNamesRequest,EndPoint.OPPONENT_NAMES, responseJson -> {
+        clientManager.send(opponentNamesRequest, EndPoint.OPPONENT_NAMES, responseJson -> {
 
-            OpponentNamesResponse res = JsonUtils.fromJson(responseJson, OpponentNamesResponse.class);
+            OpponentNamesResponse res
+                    = JsonUtils.fromJson(responseJson, OpponentNamesResponse.class);
             opponentNames = res.getOpponentsMap();
+
+            // NOW the data exists → update UI
+            Platform.runLater(() -> displayGames());
         });
-        System.out.println(opponentNames.size());
-//        System.out.println(opponentNames.);
     }
 
-    private List<Integer> getOpponentIds()
-    {
+    private List<Integer> getOpponentIds() {
         List<Integer> temp = new ArrayList<>();
 
-        for (GameHistory game : gameModels)
-        {
+        for (GameHistory game : gameModels) {
             int opponentId = game.getPlayerXId() == MY_ID ? game.getPlayerOId() : game.getPlayerXId();
             temp.add(opponentId);
         }
         System.out.println("we are heerrrrre");
         System.out.println(temp.size());
-        return  temp;
+        return temp;
     }
-
 
     private void setupStatusLabel(Label lbl, String text, String bg, String textFill) {
         lbl.setText(text);
