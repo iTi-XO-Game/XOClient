@@ -114,23 +114,13 @@ public class LoginController implements Initializable {
                         alert.setTitle("Server disconnected");
                         alert.setHeaderText("Server has disconnected.");
 
-                        ButtonType buttonYes = new ButtonType("Go to login");
+
                         ButtonType buttonNo = new ButtonType("Exit");
-                        alert.getButtonTypes().setAll(buttonYes, buttonNo);
+                        alert.getButtonTypes().setAll(buttonNo);
 
-                        Optional<ButtonType> result = alert.showAndWait();
-
-                        if (result.isPresent() && result.get() == buttonYes) {
-
-                            try {
-                                App.setRoot(Screens.LOGIN_SCREEN);
-                            } catch (IOException ex) {
-
-                            }
-                        } else {
-                            Platform.exit();
-                            System.exit(0);
-                        }
+                        alert.showAndWait();
+                        Platform.exit();
+                        System.exit(0);
 
                     }
                 });
