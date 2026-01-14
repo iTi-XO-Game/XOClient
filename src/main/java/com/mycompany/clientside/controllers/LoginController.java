@@ -6,27 +6,20 @@ package com.mycompany.clientside.controllers;
 
 import com.mycompany.clientside.App;
 import com.mycompany.clientside.Screens;
-import com.mycompany.clientside.client.ChallengeManager;
-import com.mycompany.clientside.client.ClientManager;
-import com.mycompany.clientside.client.EndPoint;
-import com.mycompany.clientside.client.JsonUtils;
+import com.mycompany.clientside.client.*;
 import com.mycompany.clientside.models.StatusCode;
 import com.mycompany.clientside.models.AuthRequest;
 import com.mycompany.clientside.models.AuthResponse;
 import com.mycompany.clientside.models.UserSession;
 import java.io.IOException;
 import java.net.URL;
+import java.util.Optional;
 import java.util.ResourceBundle;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Button;
-import javafx.scene.control.Hyperlink;
-import javafx.scene.control.Label;
-import javafx.scene.control.PasswordField;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
@@ -97,7 +90,7 @@ public class LoginController implements Initializable {
         ClientManager clientManager = ClientManager.getInstance();
 
         AuthRequest loginRequest = new AuthRequest(usernameTxt.getText(), getPassword());
-        clientManager.send(loginRequest, EndPoint.LOGIN, response -> {
+        clientManager.sendListener(loginRequest, EndPoint.LOGIN, response -> {
             try {
                 AuthResponse loginResponse = JsonUtils.fromJson(response, AuthResponse.class);
 
@@ -107,7 +100,7 @@ public class LoginController implements Initializable {
                         alert.setTitle("An Error Ocurred");
                         alert.setHeaderText(loginResponse.getErrorMessage());
                         alert.showAndWait();
-                    } else {
+                    } else if (loginResponse.getStatusCode() == StatusCode.SUCCESS) {
                         UserSession.setUserId(loginResponse.getId());
                         UserSession.setUsername(loginResponse.getUsername());
                         UserSession.setCurrentPlayer(loginResponse.getPlayer());
@@ -116,6 +109,29 @@ public class LoginController implements Initializable {
                             App.setRoot(Screens.HOME_SCREEN);
                         } catch (IOException ex) {
                         }
+                    } else if (loginResponse.getStatusCode() == StatusCode.SERVER_CLOSED) {
+                        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+                        alert.setTitle("Server disconnected");
+                        alert.setHeaderText("Server has disconnected.");
+
+                        ButtonType buttonYes = new ButtonType("Go to login");
+                        ButtonType buttonNo = new ButtonType("Exit");
+                        alert.getButtonTypes().setAll(buttonYes, buttonNo);
+
+                        Optional<ButtonType> result = alert.showAndWait();
+
+                        if (result.isPresent() && result.get() == buttonYes) {
+
+                            try {
+                                App.setRoot(Screens.LOGIN_SCREEN);
+                            } catch (IOException ex) {
+
+                            }
+                        } else {
+                            Platform.exit();
+                            System.exit(0);
+                        }
+
                     }
                 });
             } catch (Exception e) {

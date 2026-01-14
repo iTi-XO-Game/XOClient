@@ -10,5 +10,6 @@ package com.mycompany.clientside.models;
  */
 public enum StatusCode {
     SUCCESS,
+    SERVER_CLOSED,
     ERROR
 }
