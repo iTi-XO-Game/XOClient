@@ -49,7 +49,7 @@ public class ServerSettingsScreenController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         // set the ip and port defaults to the one on the client manager
-        ipTextField.setText("localhost");
+        ipTextField.setText("127.0.0.1");
         portTextField.setText(ClientManager.PORT + "");
         toggleAllLabels(false);
         backButtonIcon.setOnMouseClicked((event) -> {
@@ -65,7 +65,7 @@ public class ServerSettingsScreenController implements Initializable {
     void resetButtonClicked(ActionEvent event) {
         toggleAllLabels(false);
 
-        ipTextField.setText("localhost");
+        ipTextField.setText("127.0.0.1");
         ClientManager.IP_ADDRESS = "127.0.0.1";
         portTextField.setText(ClientManager.PORT + "");
         resetButtonLabel.setText("Reset Successfully");
