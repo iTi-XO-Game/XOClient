@@ -210,7 +210,6 @@ public class PvpGameScreenController implements Initializable {
         Button clicked = (Button) event.getSource();
         if (makeMove(clicked, userPlayer)) {
             activeGame.setAction(GameAction.MOVE);
-            activeGame.setIsGameOn(true);
             activeGame.makeSender();
             clientManager.send(activeGame, EndPoint.GAME,
                     ignored -> {
@@ -353,6 +352,8 @@ public class PvpGameScreenController implements Initializable {
     @FXML
     private void onRestartClick(ActionEvent event) {
         activeGame.setAction(GameAction.RESTART);
+        activeGame.setIsGameOn(true);
+        activeGame.setWinnerId(-1);
         activeGame.makeSender();
         waitOpponent.setVisible(true);
         restartButton.setDisable(true);
