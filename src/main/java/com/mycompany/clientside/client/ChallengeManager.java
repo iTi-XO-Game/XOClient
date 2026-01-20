@@ -76,10 +76,7 @@ public class ChallengeManager {
                             closeDialog(challenge);
                             waitForGame(challenge);
                         }
-                        case ChallengeAction.DECLINE -> {
-                            closeDialog(challenge);
-                        }
-                        case ChallengeAction.CANCEL -> {
+                        case ChallengeAction.DECLINE, ChallengeAction.CANCEL -> {
                             closeDialog(challenge);
                         }
                         case ChallengeAction.ERROR -> {

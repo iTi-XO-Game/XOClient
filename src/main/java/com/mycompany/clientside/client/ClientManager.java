@@ -186,7 +186,7 @@ public class ClientManager {
     private void showServerDisconnectedAlert() {
         Platform.runLater(() -> {
             Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setTitle("An Error Ocurred");
+            alert.setTitle("An Error Occurred");
             alert.setHeaderText("Server Error. please, try again later!");
             alert.showAndWait();
         });

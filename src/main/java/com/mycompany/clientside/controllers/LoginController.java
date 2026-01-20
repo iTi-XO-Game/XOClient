@@ -97,7 +97,7 @@ public class LoginController implements Initializable {
                 Platform.runLater(() -> {
                     if (loginResponse.getStatusCode() == StatusCode.ERROR) {
                         Alert alert = new Alert(Alert.AlertType.ERROR);
-                        alert.setTitle("An Error Ocurred");
+                        alert.setTitle("An Error Occurred");
                         alert.setHeaderText(loginResponse.getErrorMessage());
                         alert.showAndWait();
                     } else if (loginResponse.getStatusCode() == StatusCode.SUCCESS) {
