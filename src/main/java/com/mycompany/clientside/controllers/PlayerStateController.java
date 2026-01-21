@@ -25,12 +25,9 @@ import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
-
 import java.io.IOException;
 import javafx.scene.control.Label;
 import java.time.format.DateTimeFormatter;
-import java.util.HashMap;
-
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -81,8 +78,6 @@ public class PlayerStateController implements Initializable {
         clientManager.send(gamesHistoryRequest, EndPoint.PLAYER_GAMES_HISTORY, response
                 -> {
 
-            System.out.println("in line 87");
-            System.out.println(response);
             GamesHistoryResponse gamesHistoryResponse = JsonUtils.fromJson(response, GamesHistoryResponse.class);
             System.out.println(gamesHistoryResponse.getGameModels().size());
             gameModels = gamesHistoryResponse.getGameModels();
@@ -189,8 +184,6 @@ public class PlayerStateController implements Initializable {
             int opponentId = game.getPlayerXId() == MY_ID ? game.getPlayerOId() : game.getPlayerXId();
             temp.add(opponentId);
         }
-        System.out.println("we are heerrrrre");
-        System.out.println(temp.size());
         return temp;
     }
 

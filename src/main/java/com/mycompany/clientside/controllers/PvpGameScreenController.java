@@ -120,20 +120,17 @@ public class PvpGameScreenController implements Initializable {
 
         clientManager.sendListener(request, EndPoint.GAME,
                 response -> {
-                    ActiveGame game = JsonUtils.fromJson(response, ActiveGame.class);
-                    Platform.runLater(() -> {
-                        handleResponse(game);
-                    });
+                    activeGame = JsonUtils.fromJson(response, ActiveGame.class);
+                    Platform.runLater(this::handleResponse);
                 }
         );
     }
 
-    private void handleResponse(ActiveGame game) {
-        activeGame = game;
-        switch (game.getAction()) {
+    private void handleResponse() {
+        switch (activeGame.getAction()) {
             case GameAction.START -> {
                 activeGame.setIsGameOn(true);
-                resetGame(game);
+                resetGame(activeGame);
             }
             case GameAction.STOP_LISTEN -> {
                 activeGame.setIsGameOn(false);
@@ -142,13 +139,14 @@ public class PvpGameScreenController implements Initializable {
             case GameAction.RESTART -> {
                 showAlert(
                         "Restart game?",
-                        game.getSender().getUsername() + " wants to play again!",
+                        activeGame.getSender().getUsername() + " wants to play again!",
                         "Accept",
                         "Leave to home",
                         () -> {
                             resetGame(activeGame);
                             activeGame.setAction(GameAction.START);
                             activeGame.makeSender();
+                            activeGame.setIsGameOn(true);
                             clientManager.send(activeGame, EndPoint.GAME, response -> {
                             });
                         },
@@ -156,9 +154,7 @@ public class PvpGameScreenController implements Initializable {
                 );
             }
             case GameAction.MOVE -> {
-                activeGame.setIsGameOn(true);
-
-                Move latestMove = game.getLatestMove();
+                Move latestMove = activeGame.getLatestMove();
                 Button btn = board[latestMove.getRow()][latestMove.getCol()];
 
                 makeMove(btn, latestMove.getPlayer());
@@ -167,7 +163,7 @@ public class PvpGameScreenController implements Initializable {
                 // show video
                 showAlert(
                         "Game Over",
-                        game.getErrorMessage(),
+                        activeGame.getErrorMessage(),
                         "Leave",
                         "",
                         this::leaveGame,
@@ -177,7 +173,7 @@ public class PvpGameScreenController implements Initializable {
             case GameAction.ERROR -> {
                 showAlert(
                         "An error occurred!",
-                        game.getErrorMessage(),
+                        activeGame.getErrorMessage(),
                         "Leave",
                         "",
                         this::leaveGame,
@@ -316,8 +312,6 @@ public class PvpGameScreenController implements Initializable {
         for (Button[] row : board) {
             for (Button b : row) {
                 if (b.getText().isBlank()) {
-
-                    activeGame.setIsGameOn(false);
                     return false;
                 }
             }
@@ -352,9 +346,9 @@ public class PvpGameScreenController implements Initializable {
     @FXML
     private void onRestartClick(ActionEvent event) {
         activeGame.setAction(GameAction.RESTART);
-        activeGame.setIsGameOn(true);
         activeGame.setWinnerId(-1);
         activeGame.makeSender();
+        activeGame.setGameDate(System.currentTimeMillis());
         waitOpponent.setVisible(true);
         restartButton.setDisable(true);
         clientManager.send(activeGame, EndPoint.GAME,
