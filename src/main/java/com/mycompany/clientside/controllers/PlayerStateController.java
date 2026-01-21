@@ -79,7 +79,6 @@ public class PlayerStateController implements Initializable {
                 -> {
 
             GamesHistoryResponse gamesHistoryResponse = JsonUtils.fromJson(response, GamesHistoryResponse.class);
-            System.out.println(gamesHistoryResponse.getGameModels().size());
             gameModels = gamesHistoryResponse.getGameModels();
 
             wins = 0;
@@ -93,7 +92,7 @@ public class PlayerStateController implements Initializable {
             }
 
             Platform.runLater(() -> setWinsAndLosesLabels(wins, losses));
-            new Thread(() -> getOpponentsUserName()).start();
+            new Thread(this::getOpponentsUserName).start();
 
         });
     }
@@ -173,7 +172,7 @@ public class PlayerStateController implements Initializable {
             opponentNames = res.getOpponentsMap();
 
             // NOW the data exists → update UI
-            Platform.runLater(() -> displayGames());
+            Platform.runLater(this::displayGames);
         });
     }
 

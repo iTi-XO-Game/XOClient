@@ -23,7 +23,7 @@
         <BorderPane prefHeight="60" styleClass="topBar">
             <left>
                 <HBox alignment="CENTER_LEFT" spacing="12">
-                    <ImageView id="logo" fitHeight="31.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true" smooth="true">
+                    <ImageView styleClass="icon" id="logo" fitHeight="31.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true" smooth="true">
                         <Image url="@../images/xo_tiles.png" />
                     </ImageView>
                     <Label id="gameTitle" prefHeight="27.0" prefWidth="105.0" text="Tic Tac Toe" />
@@ -32,7 +32,7 @@
             <right>
                 <Button id="logoutButton" fx:id="logOutButton" onAction="#onLogOut" styleClass="button">
                     <graphic>
-                        <ImageView fitHeight="31.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true" smooth="true">
+                        <ImageView styleClass="icon" fitHeight="31.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true" smooth="true">
                             <Image url="@../images/logout.png" />
                         </ImageView>
                     </graphic>
@@ -54,11 +54,11 @@
                 </VBox>
                         
                 <VBox alignment="CENTER" spacing="4.0">
-                    <Label id="modesTitle" prefWidth="82.0" styleClass="smallTitle" text="Game modes" />
+                    <Label id="modesTitle" prefWidth="110.0" styleClass="smallTitle" text="Game modes" />
                     <Button fx:id="singleModeButton" onAction="#onSingleClick" styleClass="button playMode">
                         <graphic>
                             <HBox alignment="CENTER_LEFT" spacing="12.0" styleClass="playMode">
-                                <ImageView fitHeight="31.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true" smooth="true">
+                                <ImageView styleClass="icon" fitHeight="31.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true" smooth="true">
                                     <Image url="@../images/person.png" />
                                 </ImageView>
                                 <VBox>
@@ -66,7 +66,7 @@
                                     <Label styleClass="playHint" text="Play against AI" />
                                 </VBox>
                                 <Region HBox.hgrow="ALWAYS" />
-                                <ImageView fitHeight="31.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true" smooth="true">
+                                <ImageView styleClass="icon" fitHeight="31.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true" smooth="true">
                                     <Image url="@../images/arrow_forward.png" />
                                 </ImageView>
                             </HBox>
@@ -76,7 +76,7 @@
                     <Button fx:id="localModeButton" onAction="#onLocalModeClick" styleClass="button playMode">
                         <graphic>
                             <HBox alignment="CENTER_LEFT" spacing="12" styleClass="playMode">
-                                <ImageView fitHeight="31.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true" smooth="true">
+                                <ImageView styleClass="icon" fitHeight="31.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true" smooth="true">
                                     <Image url="@../images/group.png" />
                                 </ImageView>
                                 <VBox spacing="4">
@@ -84,7 +84,7 @@
                                     <Label styleClass="playHint" text="Same Device" />
                                 </VBox>
                                 <Region HBox.hgrow="ALWAYS" />
-                                <ImageView fitHeight="31.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true" smooth="true">
+                                <ImageView styleClass="icon" fitHeight="31.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true" smooth="true">
                                     <Image url="@../images/arrow_forward.png" />
                                 </ImageView>
                                 <padding>
@@ -101,7 +101,7 @@
                         <graphic>
                             <HBox alignment="CENTER_LEFT" spacing="12" styleClass="playMode">
                                         
-                                <ImageView fitHeight="31.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true" smooth="true">
+                                <ImageView styleClass="icon" fitHeight="31.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true" smooth="true">
                                     <Image url="@../images/globe.png" />
                                 </ImageView>
 
@@ -110,7 +110,7 @@
                                     <Label styleClass="playHint" text="Match with Friend" />
                                 </VBox>
                                 <Region HBox.hgrow="ALWAYS" />
-                                <ImageView fitHeight="31.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true" smooth="true">
+                                <ImageView styleClass="icon" fitHeight="31.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true" smooth="true">
                                     <Image url="@../images/arrow_forward.png" />
                                 </ImageView>
                             </HBox>
@@ -123,13 +123,13 @@
                 </VBox>
                 <VBox alignment="CENTER">
                         
-                    <Label id="profileTitle" prefWidth="93.0" text="Profile &amp; Data" />
+                    <Label id="profileTitle" prefWidth="120.0" text="Profile &amp; Data" />
                     <GridPane alignment="CENTER" hgap="24">
                         <Button fx:id="scoreButton" onAction="#onScoreClick" GridPane.columnIndex="0">
                             <graphic>
                                 <VBox id="score" alignment="CENTER" spacing="8" styleClass="dataButton">
                                     <StackPane id="trophyImg" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="40.0" prefWidth="40.0">
-                                        <ImageView fitHeight="31.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true" smooth="true">
+                                        <ImageView styleClass="icon" fitHeight="31.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true" smooth="true">
                                             <Image url="@../images/trophy.png" />
                                         </ImageView>
                                     </StackPane>
@@ -143,7 +143,7 @@
                             <graphic>
                                 <VBox id="replay" alignment="CENTER" spacing="8" styleClass="dataButton">
                                     <StackPane id="replayImg" maxHeight="-Infinity" maxWidth="-Infinity" pickOnBounds="false" prefHeight="40.0" prefWidth="40.0" scaleShape="false" VBox.vgrow="NEVER">
-                                        <ImageView fitHeight="31.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true" smooth="true">
+                                        <ImageView styleClass="icon" fitHeight="31.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true" smooth="true">
                                             <Image url="@../images/history.png" />
                                         </ImageView>
                                     </StackPane>

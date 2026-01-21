@@ -2,12 +2,7 @@
    APP BACKGROUND
    ========================= */
 .mainFxmlClass {
-    -fx-background-color: linear-gradient(
-        to bottom,
-        #fef5ed 0%,
-        #fce8e8 50%,
-        #f5e6f8 100%
-    );
+    -fx-background-color: linear-gradient(to bottom, #F6FFA6 0%, #FFD7C2 30%, #FFD7C2 80%, #FDCEDF 100%);
     -fx-font-family: "Segoe UI Black";
 }
 
@@ -19,7 +14,9 @@
     -fx-padding: 14;
     -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.08), 8, 0, 0, 2);
 }
-
+.icon{
+    -fx-effect: dropshadow(gaussian,rgba(0, 0, 0, 0.3),3,0.5,1,1);
+}
 #gameTitle {
     -fx-font-size: 18px;
     -fx-font-weight: bold;
@@ -84,12 +81,14 @@
 .playerScore {
     -fx-text-fill: #24346b;
     -fx-font-size: 32px;
+    -fx-effect: dropshadow(gaussian,rgba(255, 255, 255, 0.5),3,0.5,1,1);
 }
 
 .playerName {
     -fx-text-fill: #64748b;
     -fx-font-size: 14px;
     -fx-font-weight: bold;
+    -fx-effect: dropshadow(gaussian,rgba(255, 255, 255, 0.5),3,0.5,1,1);
 }
 
 .current-player {
@@ -110,6 +109,9 @@
     -fx-text-fill: #fefefe;
     -fx-background-radius: 2em 2em 0 0;
     -fx-effect: dropshadow(gaussian, rgba(251, 191, 36, 0.3), 6, 0, 0, 2);
+}
+.turnLabel .text {
+    -fx-effect: dropshadow(gaussian,rgba(0, 0, 0, 0.3),3,0.3,1,1);
 }
 
 /* =========================
@@ -165,15 +167,20 @@
     -fx-font-weight: bold;
     -fx-rotate: -3;
     -fx-font-size: 40px;
-    -fx-effect: dropshadow(gaussian, rgba(239, 68, 68, 0.3), 8, 0, 0, 2);
+    -fx-effect: dropshadow(gaussian, rgba(239, 68, 68, 0.5), 4, 0.1, 0, 2);
 }
-
+.x-text .text {
+    -fx-effect: dropshadow(gaussian, rgba(239, 68, 68, 0.5), 4, 0.1, 0, 2);
+}
 .o-text {
     -fx-text-fill: #f98316 !important;
     -fx-font-weight: bold;
     -fx-rotate: 3;
     -fx-font-size: 40px;
-    -fx-effect: dropshadow(gaussian, rgba(249, 115, 22, 0.3), 8, 0, 0, 2);
+    -fx-effect: dropshadow(gaussian, rgba(249, 115, 22, 0.5), 4, 0.1, 0, 2);
+}
+.o-text .text {
+    -fx-effect: dropshadow(gaussian, rgba(249, 115, 22, 0.5), 4, 0.1, 0, 2);
 }
 
 /* X and O in Game Tiles */
@@ -223,10 +230,13 @@
         #15803d
     );
 }
-
+.restart .text {
+    -fx-effect: dropshadow(gaussian,rgba(0, 0, 0, 0.3),3,0.3,1,1);
+}
 
 .recordingLabel {
     -fx-font-weight: bold;
     -fx-text-fill: #24346b;
     -fx-font-size: 16px;
+    -fx-effect: dropshadow(gaussian,rgba(255, 255, 255, 0.5),3,0.5,1,1);
 }

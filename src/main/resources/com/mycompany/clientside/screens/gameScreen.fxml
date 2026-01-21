@@ -31,7 +31,7 @@
             <right>
                 <Button fx:id="exitGameButton" id="leaveButton" onAction="#onExitClick" styleClass="button">
                     <graphic>
-                        <ImageView fitHeight="31.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true" smooth="true">
+                        <ImageView styleClass="icon" fitHeight="31.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true" smooth="true">
                             <Image url="@../images/logout.png" />
                         </ImageView>
                     </graphic>

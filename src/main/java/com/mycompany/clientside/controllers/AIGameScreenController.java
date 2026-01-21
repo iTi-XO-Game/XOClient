@@ -210,7 +210,7 @@ public class AIGameScreenController implements Initializable {
     private void handleNPCMove() {
         executor.submit(() -> {
             try {
-                Thread.sleep(50);
+                Thread.sleep(200);
             } catch (InterruptedException ignored) {
             }
             Platform.runLater(this::handleNPCMoveRunnable);
