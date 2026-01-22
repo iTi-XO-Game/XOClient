@@ -55,7 +55,7 @@
                 <padding>
                     <Insets bottom="25.0" left="25.0" right="25.0" top="0.0"/>
                 </padding>
-                <ImageView styleClass="icon" fitHeight="240.0" fitWidth="240.0" pickOnBounds="true"
+                <ImageView fitHeight="240.0" fitWidth="240.0" pickOnBounds="true"
                            preserveRatio="true" smooth="true">
                     <Image url="@../images/robot.png"/>
                 </ImageView>
