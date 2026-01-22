@@ -13,33 +13,37 @@
 <BorderPane prefHeight="400.0" prefWidth="600.0" styleClass="login-background" stylesheets="@../styles/loginStyles.css" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.mycompany.clientside.controllers.ReplaysController">
 
     <top>
-        <HBox prefHeight="59.0" prefWidth="600.0" style="-fx-background-color: white;" BorderPane.alignment="CENTER_LEFT">
-            <children>
-                <Button fx:id="navigateBackButton" mnemonicParsing="false" onAction="#navigateBack" prefHeight="58.0" prefWidth="87.0" style="-fx-background-color: transparent;">
+        <BorderPane prefHeight="60" styleClass="topBar">
+            <left>
+                <HBox alignment="CENTER_LEFT" spacing="12">
+                    <ImageView id="logo" fitHeight="31.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true" smooth="true">
+                        <Image url="@../images/xo_tiles.png" />
+                    </ImageView>
+                    <Label id="gameTitle" prefHeight="27.0" prefWidth="105.0" text="Tic Tac Toe" />
+                </HBox>
+            </left>
+            <right>
+                <Button id="leaveButton" fx:id="navigateBackButton" onAction="#navigateBack" styleClass="button">
                     <graphic>
-                        <ImageView fitHeight="31.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true" smooth="true">
-                            <Image url="@../images/arrow_back.png" />
+                        <ImageView styleClass="icon" fitHeight="31.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true" smooth="true">
+                            <Image url="@../images/logout.png" />
                         </ImageView>
                     </graphic>
+                    <text>Leave</text>
                 </Button>
-            </children>
-        </HBox>
+            </right>
+        </BorderPane>
     </top>
     <center>
-        <VBox alignment="TOP_CENTER" spacing="10" BorderPane.alignment="TOP_CENTER">
+        <VBox alignment="TOP_CENTER" maxWidth="520.0" maxHeight="600.0" spacing="10" BorderPane.alignment="CENTER" styleClass="card">
 
-            <padding>
-                <Insets bottom="30" left="30" right="30" top="30" />
-            </padding>
-
-            
             <Label styleClass="title" text="Recorded Games" />
             <Label styleClass="subtitle" text="View and manage your recorded Tic Tac Toe games." />
 
             <Label fx:id="emptyLabel" styleClass="title" text="Loading Records..." />
 
              <ScrollPane fx:id="gamesScrollPane" fitToWidth="true" hbarPolicy="NEVER" styleClass="games-scroll-pane" vbarPolicy="AS_NEEDED" VBox.vgrow="ALWAYS">
-                <VBox fx:id="gamesContainer" prefWidth="500" spacing="15" styleClass="cardX" />
+                <VBox fx:id="gamesContainer" id="container" prefWidth="250" spacing="15" />
             </ScrollPane>
 
         </VBox>

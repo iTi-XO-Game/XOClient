@@ -13,23 +13,19 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane id="AnchorPane" prefHeight="579.0" prefWidth="606.0" styleClass="register-background" stylesheets="@../styles/loginStyles.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.mycompany.clientside.controllers.ForgotScreenController">
+<AnchorPane id="AnchorPane" prefHeight="579.0" prefWidth="606.0" styleClass="login-background" stylesheets="@../styles/loginStyles.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.mycompany.clientside.controllers.ForgotScreenController">
    <children>
-      <StackPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="150.0" prefWidth="200.0" style="-fx-background-color: transparent;" styleClass="login-background" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+      <StackPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="150.0" prefWidth="200.0" style="-fx-background-color: transparent;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
             <VBox maxHeight="428.0" maxWidth="360.0" spacing="12.0" styleClass="card">
                <children>
                   <Label styleClass="title" text="Forgot Password" />
-                  <Label styleClass="subtitle" text="You Have To Remember" />
+                  <Label styleClass="subtitle" text="Reset Your Password" />
                   <Label styleClass="field-label" text="The Secret Key" />
-                  <TextField fx:id="secretTxt" prefHeight="36.0" promptText="Rember The Secret Key" styleClass="input" />
+                  <TextField fx:id="secretTxt" prefHeight="36.0" promptText="Enter The Secret Key" styleClass="input" />
                   <Label fx:id="secretErrorMessageLabel" prefHeight="130.0" prefWidth="310.0" styleClass="error-message" />
-                  <Label text="username">
-                     <font>
-                        <Font name="System Bold" size="15.0" />
-                     </font>
-                  </Label>
-                  <TextField fx:id="usernameField" promptText="Enter The username" />
+                  <Label text="username" styleClass="field-label"/>
+                  <TextField fx:id="usernameField" promptText="Enter The username" styleClass="input" />
                   <Label fx:id="usernameLabel" prefHeight="130.0" prefWidth="310.0" styleClass="error-message" />
                   <Label styleClass="field-label" text="Password" />
                   <StackPane>
@@ -38,7 +34,7 @@
                         <PasswordField fx:id="passTxtHidden" promptText="Create a strong password" styleClass="input" />
                         <Button mnemonicParsing="false" onAction="#togglePassword" styleClass="toggle-button" StackPane.alignment="CENTER_RIGHT">
                            <graphic>
-                              <ImageView fx:id="eyeIcon" fitHeight="15.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
+                              <ImageView fx:id="eyeIcon" fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true" smooth="true">
                                  <image>
                                     <Image url="@../images/show_password_eye.png" />
                                  </image>
@@ -55,7 +51,7 @@
                         <PasswordField fx:id="confirmPassTxtHidden" promptText="Re-enter your password" styleClass="input" />
                         <Button mnemonicParsing="false" onAction="#toggleConfirmPassword" styleClass="toggle-button" StackPane.alignment="CENTER_RIGHT">
                            <graphic>
-                              <ImageView fx:id="confirmEyeIcon" fitHeight="15.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
+                              <ImageView fx:id="confirmEyeIcon" fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true" smooth="true">
                                  <image>
                                     <Image url="@../images/show_password_eye.png" />
                                  </image>
@@ -68,7 +64,7 @@
                   <Button fx:id="checkBtn" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#handelCheck" prefHeight="42.0" styleClass="login-btn" text="Check" />
                   <HBox alignment="CENTER_LEFT">
                      <children>
-                        <Label text="Remeberd the pass?" />
+                        <Label text="Remembered the password?" />
                         <Hyperlink fx:id="loginHyperLink" onAction="#navigateToLogin" styleClass="create-link" text="Log In" />
                      </children>
                   </HBox>

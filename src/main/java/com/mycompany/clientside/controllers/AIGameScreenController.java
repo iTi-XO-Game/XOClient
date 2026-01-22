@@ -135,7 +135,7 @@ public class AIGameScreenController implements Initializable {
 
     private String generateGameName() {
         DateTimeFormatter formatter
-                = DateTimeFormatter.ofPattern("yyyy-MM-dd_HH-mm-ss");
+                = DateTimeFormatter.ofPattern("yyyy-MM-dd h:mm:ss a");
         return LocalDateTime.now().format(formatter);
     }
 

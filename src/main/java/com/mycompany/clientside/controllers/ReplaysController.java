@@ -114,6 +114,7 @@ public class ReplaysController implements Initializable {
 
         HBox row = new HBox(10);
         row.setAlignment(Pos.CENTER_LEFT);
+        row.getStyleClass().add("cardX");
 
         Label date = new Label(game.getGameName());
         date.getStyleClass().add("small-text");
@@ -123,7 +124,7 @@ public class ReplaysController implements Initializable {
 
         Button playBtn = createIconButton(
                 "Play",
-                "/com/mycompany/clientside/images/play.png",
+                "/com/mycompany/clientside/images/play_arrow.png",
                 "primary-btn"
         );
 
@@ -143,9 +144,6 @@ public class ReplaysController implements Initializable {
 
         row.getChildren().addAll(date, spacer, playBtn, deleteBtn);
 
-        if (!gamesContainer.getChildren().isEmpty()) {
-            gamesContainer.getChildren().add(new Separator());
-        }
         gamesContainer.getChildren().add(row);
 
     }
@@ -214,28 +212,20 @@ public class ReplaysController implements Initializable {
                     )
             );
 
-            icon.setFitWidth(14);
-            icon.setFitHeight(14);
+            icon.setFitWidth(20);
+            icon.setFitHeight(20);
             icon.setPreserveRatio(true);
 
         } catch (Exception e) {
             System.out.println("Icon not found: " + iconPath);
         }
 
-        Label label = new Label(text);
-        label.setTextFill(Color.WHITE);
-
-        HBox content;
+        Button button = new Button();
+        button.setText(text);
         if (icon != null) {
-            content = new HBox(5, icon, label);
-        } else {
-            content = new HBox(label);
+            button.setGraphic(icon);
         }
 
-        content.setAlignment(Pos.CENTER);
-
-        Button button = new Button();
-        button.setGraphic(content);
         button.getStyleClass().add(styleClass);
 
         return button;

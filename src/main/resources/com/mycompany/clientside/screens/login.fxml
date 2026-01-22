@@ -22,7 +22,7 @@
                   <HBox alignment="TOP_RIGHT" prefHeight="100.0" prefWidth="200.0">
                      <children>
                         <Label maxWidth="1.7976931348623157E308" styleClass="title" text="Login to Play" HBox.hgrow="ALWAYS" />
-                        <ImageView fx:id="serverSettingsIcon" fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true" styleClass="settings-icon" HBox.hgrow="NEVER">
+                        <ImageView fx:id="serverSettingsIcon" fitHeight="24.0" fitWidth="24.0" pickOnBounds="true" preserveRatio="true" smooth="true" styleClass="settings-icon" HBox.hgrow="NEVER">
                            <image>
                               <Image url="@../images/gear.png" />
                            </image>
@@ -40,7 +40,7 @@
                         <TextField fx:id="passTxtPlain" promptText="Enter your password" styleClass="input" />
                         <Button mnemonicParsing="false" onAction="#togglePassword" styleClass="toggle-button" StackPane.alignment="CENTER_RIGHT">
                            <graphic>
-                              <ImageView fx:id="eyeIcon" fitHeight="15.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
+                              <ImageView fx:id="eyeIcon" fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true" smooth="true">
                                  <image>
                                     <Image url="@../images/show_password_eye.png" />
                                  </image>
