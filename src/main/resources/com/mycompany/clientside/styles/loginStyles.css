@@ -3,12 +3,14 @@
     -fx-background-repeat: no-repeat;
     -fx-background-size: cover;
     -fx-background-position: center center;
+    -fx-font-family: "Segoe UI Black";
 }
 .register-background {
     -fx-background-image: url("../images/registerBackground.png");
     -fx-background-repeat: no-repeat;
     -fx-background-size: cover;
     -fx-background-position: center center;
+    -fx-font-family: "Segoe UI Black";
 }
 .card {
     -fx-background-color: white;

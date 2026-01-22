@@ -1,26 +1,58 @@
 /* Main Container */
 .root {
-    -fx-background-color: linear-gradient(to bottom, #e8f4f8, #d4e9f0);
+    -fx-background-color: linear-gradient(to bottom, #BDE8F5, #00F7FF);
+    -fx-font-family: "Segoe UI Black";
+    -fx-font-size: 14px;
 }
-
-/* Avatar Circle */
-.avatar-circle {
-    -fx-fill: white;
+.topBar {
+    -fx-background-color: #fffbf5;
+    -fx-padding: 14;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.08), 8, 0, 0, 2);
 }
-
-.avatar-emoji {
-    -fx-font-size: 35;
+.icon{
+    -fx-effect: dropshadow(gaussian,rgba(0, 0, 0, 0.3),3,0.5,1,1);
 }
-
-/* Title Styles */
-.title-main {
-    -fx-font-size: 28;
+#gameTitle {
+    -fx-font-size: 18px;
     -fx-font-weight: bold;
-    -fx-text-fill: #1e293b;
+    -fx-text-fill: #2d3748;
 }
 
-.title-subtitle {
-    -fx-font-size: 12;
+#logo {
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.12), 4, 0, 0, 2);
+}
+#leaveButton {
+    -fx-background-color: transparent;
+    -fx-border-color: #e2e8f0;
+    -fx-padding: 8 18 8 18;
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #4a5568;
+}
+
+#leaveButton:hover {
+    -fx-background-color: #fdd4d6;
+}
+.button {
+    -fx-background-radius: 14;
+    -fx-border-radius: 14;
+    -fx-cursor: hand;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.1), 8, 0, 0, 2);
+}
+
+.button:hover {
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.18), 14, 0, 0, 4);
+    -fx-scale-x: 1.03;
+    -fx-scale-y: 1.03;
+}
+
+.button:pressed {
+    -fx-scale-x: 0.97;
+    -fx-scale-y: 0.97;
+}
+
+.subtitle {
+    -fx-font-size: 14;
     -fx-text-fill: #64748b;
 }
 
@@ -28,132 +60,102 @@
 .game-options-card {
     -fx-background-color: white;
     -fx-background-radius: 15;
-    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.1), 15, 0, 0, 3);
-}
-
-/* Difficulty Label */
-.difficulty-label {
-    -fx-text-fill: #94a3b8;
-    -fx-font-size: 10;
-    -fx-font-weight: bold;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.1), 5, 0.1, 0, 3);
 }
 
 /* Difficulty Buttons Base Styles */
 .difficulty-button-easy {
-    -fx-background-color: #86efac;
+    -fx-background-color: #10b981;
     -fx-background-radius: 20;
     -fx-text-fill: white;
-    -fx-border-width: 4;
+    -fx-border-width: 3;
     -fx-border-color: transparent;
     -fx-border-radius: 20;
-    -fx-cursor: hand;
-    -fx-font-weight: bold;
+    -fx-min-width: 80;
     -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.1), 8, 0, 0, 2);
 }
-
-.difficulty-button-easy:selected {
-    -fx-border-color: #000000;
-    -fx-border-width: 5;
-    -fx-background-color: #4ade80;
-    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.4), 15, 0, 0, 3);
-    -fx-scale-x: 1.05;
-    -fx-scale-y: 1.05;
-}
-
 .difficulty-button-easy:hover {
-    -fx-background-color: #6ee7b7;
-    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.2), 12, 0, 0, 3);
+    -fx-background-color: #059669;
+}
+.difficulty-button-easy .text {
+    -fx-effect: dropshadow(gaussian,rgba(0, 0, 0, 0.3),3,0.3,1,1);
 }
 
 .difficulty-button-medium {
-    -fx-background-color: #fbbf24;
+    -fx-background-color: #f59e0b;
     -fx-background-radius: 20;
     -fx-text-fill: white;
-    -fx-border-width: 4;
+    -fx-border-width: 3;
     -fx-border-color: transparent;
     -fx-border-radius: 20;
     -fx-cursor: hand;
-    -fx-font-weight: bold;
+    -fx-min-width: 80;
     -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.1), 8, 0, 0, 2);
-}
-
-.difficulty-button-medium:selected {
-    -fx-border-color: #000000;
-    -fx-border-width: 5;
-    -fx-background-color: #fcd34d;
-    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.4), 15, 0, 0, 3);
-    -fx-scale-x: 1.05;
-    -fx-scale-y: 1.05;
 }
 
 .difficulty-button-medium:hover {
-    -fx-background-color: #fcd34d;
+    -fx-background-color: #d97706;
     -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.2), 12, 0, 0, 3);
+}
+.difficulty-button-medium .text {
+    -fx-effect: dropshadow(gaussian,rgba(0, 0, 0, 0.3),3,0.3,1,1);
 }
 
 .difficulty-button-hard {
-    -fx-background-color: #f87171;
+    -fx-background-color: #ef4444;
     -fx-background-radius: 20;
     -fx-text-fill: white;
-    -fx-border-width: 4;
+    -fx-border-width: 3;
     -fx-border-color: transparent;
     -fx-border-radius: 20;
     -fx-cursor: hand;
-    -fx-font-weight: bold;
+    -fx-min-width: 80;
     -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.1), 8, 0, 0, 2);
 }
 
-.difficulty-button-hard:selected {
-    -fx-border-color: #000000;
-    -fx-border-width: 5;
-    -fx-background-color: #fb923c;
-    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.4), 15, 0, 0, 3);
-    -fx-scale-x: 1.05;
-    -fx-scale-y: 1.05;
-}
-
 .difficulty-button-hard:hover {
-    -fx-background-color: #ef4444;
+    -fx-background-color: #dc2626;
     -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.2), 12, 0, 0, 3);
+}
+.difficulty-button-hard .text {
+    -fx-effect: dropshadow(gaussian,rgba(0, 0, 0, 0.3),3,0.3,1,1);
+}
+.selected {
+    -fx-border-width: 3;
+    -fx-background-radius: 4;
+    -fx-border-radius: 4;
 }
 
 /* Record Game Button */
 .record-button {
-    -fx-background-color: #e0e7ff;
+    -fx-background-color: linear-gradient(to bottom, #a78bfa, #8b5cf6);
     -fx-background-radius: 20;
-    -fx-text-fill: #6366f1;
+    -fx-text-fill: white;
     -fx-border-width: 0;
     -fx-cursor: hand;
     -fx-font-weight: bold;
 }
 
 .record-button:hover {
-    -fx-background-color: #c7d2fe;
-    -fx-text-fill: #4f46e5;
+    -fx-background-color: linear-gradient(to bottom, #7c3aed, #6d28d9);
+    fx-effect: dropshadow(gaussian, rgba(139, 92, 246, 0.6), 16, 0, 0, 6);
+}
+.record-button .text {
+    -fx-effect: dropshadow(gaussian,rgba(0, 0, 0, 0.3),3,0.3,1,1);
 }
 
 /* Play Game Button */
 .play-button {
-    -fx-background-color: #ff7b7b;
+    -fx-background-color: linear-gradient(to bottom, #22c55e, #16a34a);
     -fx-background-radius: 20;
     -fx-text-fill: white;
     -fx-cursor: hand;
 }
 
 .play-button:hover {
-    -fx-background-color: #ef4444;
+    -fx-background-color: linear-gradient(to bottom, #16a34a, #15803d);
 }
 
-/* Back to Menu Button */
-.back-button {
-    -fx-background-color: transparent;
-    -fx-text-fill: #2d3748;
-    -fx-cursor: hand;
-    -fx-underline: false;
-    -fx-font-size: 14px;
-}
-
-.back-button:hover {
-    -fx-text-fill: #1a202c;
-    -fx-underline: true;
+.play-button .text {
+    -fx-effect: dropshadow(gaussian,rgba(0, 0, 0, 0.3),3,0.3,1,1);
 }

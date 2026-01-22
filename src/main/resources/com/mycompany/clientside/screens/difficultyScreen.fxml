@@ -4,8 +4,6 @@
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.control.ToggleButton?>
-<?import javafx.scene.control.ToggleGroup?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.HBox?>
@@ -13,109 +11,116 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.shape.Circle?>
 <?import javafx.scene.text.Font?>
+<?import javafx.scene.layout.BorderPane?>
 
-<StackPane minHeight="480.0" minWidth="640.0" prefHeight="480.0" prefWidth="640.0" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.mycompany.clientside.controllers.DifficultyScreenController">
 
+<BorderPane xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="com.mycompany.clientside.controllers.DifficultyScreenController">
     <stylesheets>
-        <URL value="@../styles/difficultyScreen.css" />
+        <URL value="@../styles/difficultyScreen.css"/>
     </stylesheets>
 
-    <!-- Main Content -->
-    <VBox alignment="TOP_CENTER" spacing="20.0">
-        <StackPane.margin>
-            <Insets top="50.0" />
-        </StackPane.margin>
+    <top>
 
-        <!-- Character Avatar -->
-        <StackPane prefHeight="80.0" prefWidth="80.0">
-            <Circle radius="40.0" styleClass="avatar-circle" />
-            <Label styleClass="avatar-emoji" text="👤">
-                <font>
-                    <Font size="35.0" />
-                </font>
-            </Label>
-        </StackPane>
-
-        <!-- Title -->
-        <VBox alignment="CENTER" spacing="3.0">
-            <Label styleClass="title-main" text="Vs. NPC">
-                <font>
-                    <Font name="System Bold" size="28.0" />
-                </font>
-            </Label>
-            <Label styleClass="title-subtitle" text="Challenge the AI Master!">
-                <font>
-                    <Font size="12.0" />
-                </font>
-            </Label>
-        </VBox>
-
-        <!-- Game Options Card -->
-        <VBox alignment="CENTER" maxWidth="320.0" prefWidth="320.0" spacing="15.0" styleClass="game-options-card">
-            <padding>
-                <Insets bottom="25.0" left="25.0" right="25.0" top="25.0" />
-            </padding>
-
-            <!-- Difficulty Selection -->
-            <VBox alignment="CENTER" spacing="10.0">
-                <Label styleClass="difficulty-label" text="SELECT DIFFICULTY">
-                    <font>
-                        <Font name="System Bold" size="10.0" />
-                    </font>
-                </Label>
-
-                <HBox alignment="CENTER" spacing="8.0">
-                    <fx:define>
-                        <ToggleGroup fx:id="difficultyGroup" />
-                    </fx:define>
-
-                    <ToggleButton onAction="#clickEasy" prefHeight="35.0" prefWidth="90.0" selected="true" styleClass="difficulty-button-easy" text="Easy">
-                        <font>
-                            <Font name="System Bold" size="11.0" />
-                        </font>
-                  <toggleGroup>
-                     <ToggleGroup fx:id="difficultyGroup" />
-                  </toggleGroup>
-                    </ToggleButton>
-
-                    <ToggleButton onAction="#clickMedium" prefHeight="35.0" prefWidth="90.0" styleClass="difficulty-button-medium" text="Medium" toggleGroup="$difficultyGroup">
-                        <font>
-                            <Font name="System Bold" size="11.0" />
-                        </font>
-                    </ToggleButton>
-
-                    <ToggleButton onAction="#clickHard" prefHeight="35.0" prefWidth="90.0" styleClass="difficulty-button-hard" text="Hard" toggleGroup="$difficultyGroup">
-                        <font>
-                            <Font name="System Bold" size="11.0" />
-                        </font>
-                    </ToggleButton>
+        <BorderPane prefHeight="60" styleClass="topBar">
+            <left>
+                <HBox alignment="CENTER_LEFT" spacing="12">
+                    <ImageView id="logo" fitHeight="31.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true"
+                               smooth="true">
+                        <Image url="@../images/xo_tiles.png"/>
+                    </ImageView>
+                    <Label id="gameTitle" prefHeight="27.0" prefWidth="105.0" text="Tic Tac Toe"/>
                 </HBox>
+            </left>
+            <right>
+                <Button id="leaveButton" onAction="#backToMenu" styleClass="button">
+                    <graphic>
+                        <ImageView styleClass="icon" fitHeight="31.0" fitWidth="30.0" pickOnBounds="true"
+                                   preserveRatio="true" smooth="true">
+                            <Image url="@../images/logout.png"/>
+                        </ImageView>
+                    </graphic>
+                    <text>Leave</text>
+                </Button>
+
+            </right>
+        </BorderPane>
+    </top>
+    <center>
+        <StackPane alignment="CENTER">
+            <!-- Main Content -->
+            <!-- Game Options Card -->
+            <VBox alignment="CENTER" maxWidth="360.0" maxHeight="500.0" prefWidth="360.0" spacing="20.0"
+                  styleClass="game-options-card">
+                <padding>
+                    <Insets bottom="25.0" left="25.0" right="25.0" top="0.0"/>
+                </padding>
+                <ImageView styleClass="icon" fitHeight="240.0" fitWidth="240.0" pickOnBounds="true"
+                           preserveRatio="true" smooth="true">
+                    <Image url="@../images/robot.png"/>
+                </ImageView>
+
+                <!-- Difficulty Selection -->
+                <Label styleClass="subtitle" text="Challenge the AI Master!"/>
+                <HBox alignment="CENTER" spacing="8.0">
+                    <Button fx:id="easyButton" onAction="#clickEasy"
+                            styleClass="difficulty-button-easy">
+                        <graphic>
+                            <ImageView fx:id="easyImage" visible="true" managed="true"  styleClass="icon" fitHeight="31.0" fitWidth="30.0" pickOnBounds="true"
+                                       preserveRatio="true" smooth="true">
+                                <Image url="@../images/check_circle.png"/>
+                            </ImageView>
+                        </graphic>
+                        <text>Easy</text>
+                    </Button>
+
+                    <Button fx:id="mediumButton" onAction="#clickMedium"
+                            styleClass="difficulty-button-medium">
+                        <graphic>
+                            <ImageView fx:id="mediumImage" visible="true" managed="true"  styleClass="icon" fitHeight="31.0" fitWidth="30.0" pickOnBounds="true"
+                                       preserveRatio="true" smooth="true">
+                                <Image url="@../images/check_circle.png"/>
+                            </ImageView>
+                        </graphic>
+                        <text>Medium</text>
+                    </Button>
+
+                    <Button fx:id="hardButton" onAction="#clickHard"
+                            styleClass="difficulty-button-hard">
+                        <graphic>
+                            <ImageView fx:id="hardImage" visible="true" managed="true" styleClass="icon" fitHeight="31.0" fitWidth="30.0" pickOnBounds="true"
+                                       preserveRatio="true" smooth="true">
+                                <Image url="@../images/check_circle.png"/>
+                            </ImageView>
+                        </graphic>
+                        <text>Hard</text>
+                    </Button>
+                </HBox>
+
+                <!-- Record Game Button -->
+                <Button onAction="#clickRecordGame" prefHeight="40.0" prefWidth="270.0" styleClass="record-button">
+                    <graphic>
+                        <ImageView styleClass="icon" fitHeight="31.0" fitWidth="30.0" pickOnBounds="true"
+                                   preserveRatio="true" smooth="true">
+                            <Image url="@../images/record.png"/>
+                        </ImageView>
+                    </graphic>
+                    <text>Record &amp; Play Game</text>
+                </Button>
+
+                <!-- Play Game Button -->
+                <Button onAction="#clickPlayGame" prefHeight="45.0" prefWidth="270.0" styleClass="play-button">
+                    <graphic>
+                        <ImageView styleClass="icon" fitHeight="31.0" fitWidth="31.0" pickOnBounds="true"
+                                   preserveRatio="true" smooth="true">
+                            <Image url="@../images/play_arrow.png"/>
+                        </ImageView>
+                    </graphic>
+                    <text>Play Game</text>
+                </Button>
             </VBox>
 
-            <!-- Record Game Button -->
-            <Button onAction="#clickRecordGame" prefHeight="40.0" prefWidth="270.0" styleClass="record-button" text="⏺  Record &amp; Play Game">
-                <font>
-                    <Font name="System Bold" size="12.0" />
-                </font>
-            </Button>
+        </StackPane>
+    </center>
 
-            <!-- Play Game Button -->
-            <Button onAction="#clickPlayGame" prefHeight="45.0" prefWidth="270.0" styleClass="play-button" text="▶  Play Game">
-                <font>
-                    <Font name="System Bold" size="14.0" />
-                </font>
-            </Button>
-        </VBox>
-
-        <!-- Back to Menu Link -->
-        <Button onAction="#backToMenu" prefHeight="25.0" styleClass="back-button" text="Back to Menu">
-            <graphic>
-                <ImageView fitHeight="31.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true" smooth="true">
-                    <Image url="@../images/arrow_back.png" />
-                </ImageView>
-            </graphic>
-        </Button>
-
-    </VBox>
-
-</StackPane>
+</BorderPane>

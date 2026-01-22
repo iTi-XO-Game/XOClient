@@ -29,7 +29,7 @@
                         </ImageView>
                      </children>
                   </HBox>
-                  <Label styleClass="subtitle" text="Enter your credentials to continue your winning streak." />
+                  <Label styleClass="subtitle" text="Sign in and power up your streak." />
                   <Label styleClass="field-label" text="username" />
                   <TextField fx:id="usernameTxt" promptText="Enter your username" styleClass="input" />
                   <Label fx:id="usernameErrorMessageLabel" prefHeight="130.0" prefWidth="310.0" styleClass="error-message" />
