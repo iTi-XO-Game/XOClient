@@ -1,0 +1,102 @@
+/* ============================================
+   Tic Tac Toe Request - CSS Stylesheet
+   ============================================ */
+
+.mainFxmlClass{
+    -fx-background-image: url("../images/homeBackground.png");
+    -fx-background-size: cover;
+    -fx-background-position: center;
+    -fx-font-family: "Segoe UI Black";
+    -fx-background-radius: 20;
+    -fx-background-color: rgba(0,0,0,1);
+}
+
+/* Main challenge card */
+.card{
+    -fx-padding: 16;
+}
+
+/* Title */
+.title{
+    -fx-font-size: 30px;
+    -fx-font-weight: 900;
+    -fx-text-fill: #7f1d1d; /* deep red */
+}
+
+/* Subtitle */
+.subTitle{
+    -fx-font-size: 20px;
+    -fx-text-fill: rgba(127, 29, 29, 0.65);
+}
+
+/* Icon (Label / FontIcon) */
+.icon{
+    -fx-text-fill: #ef4444;
+    -fx-effect: dropshadow(gaussian, rgba(239, 68, 68, 0.25), 10, 0, 0, 2);
+}
+
+.button {
+    -fx-background-radius: 12;
+    -fx-padding: 0;
+    -fx-cursor: hand;
+    -fx-border-width: 0;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.1), 8, 0, 0, 2);
+}
+.button:hover {
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.15), 12, 0, 0, 4);
+    -fx-scale-y: 1.02;
+    -fx-scale-x: 1.02;
+}
+
+.button:pressed {
+    -fx-scale-y: 0.98;
+    -fx-scale-x: 0.98;
+}
+/* Player name */
+.playerName{
+    -fx-font-size: 40px;
+    -fx-font-weight: 800;
+    -fx-text-fill: #3f172a; /* slate */
+}
+
+/* Decline Button (RED) */
+.declineButton{
+    -fx-background-color: linear-gradient(to bottom, #ff6b6b 0%, #ef4444 55%, #b91c1c 100%);
+    -fx-text-fill: white;
+    -fx-font-size: 20;
+    -fx-font-weight: bold;
+    -fx-background-radius: 50;
+    -fx-border-color: rgba(239, 68, 68, 0.45);
+    -fx-border-width: 1.2px;
+    -fx-border-radius: 50;
+    -fx-cursor: hand;
+}
+
+.declineButton:hover{
+    -fx-background-color: linear-gradient(to bottom, #ef5b5b 0%, #df3434 55%, #a90c0c 100%);
+    -fx-border-color: rgba(239, 68, 68, 0.70);
+}
+
+.declineButton:pressed{
+    -fx-background-color: linear-gradient(to bottom, #dc2626 0%, #b91c1c 60%, #7f1d1d 100%);
+}
+
+/* Accept Button (GREEN) */
+.acceptButton{
+    -fx-background-color: linear-gradient(to bottom, #4ade80 0%, #22c55e 55%, #15803d 100%);
+    -fx-text-fill: white;
+    -fx-font-size: 20;
+    -fx-font-weight: bold;
+    -fx-background-radius: 50;
+    -fx-cursor: hand;
+    -fx-effect: dropshadow(gaussian, rgba(34, 197, 94, 0.35), 12, 0, 0, 4);
+}
+
+.acceptButton:hover{
+    -fx-background-color: linear-gradient(to bottom, #34d399 0%, #16a34a 55%, #15803d 100%);
+    -fx-effect: dropshadow(gaussian, rgba(34, 197, 94, 0.50), 16, 0, 0, 5);
+}
+
+.acceptButton:pressed{
+    -fx-background-color: linear-gradient(to bottom, #16a34a 0%, #15803d 60%, #14532d 100%);
+}

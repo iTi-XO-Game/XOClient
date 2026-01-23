@@ -26,8 +26,10 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
+import javafx.scene.paint.Color;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 import javafx.stage.WindowEvent;
 
 /**
@@ -117,8 +119,10 @@ public class ChallengeManager {
             stage.initModality(Modality.APPLICATION_MODAL);
 
             stage.setTitle("Challenge Received!");
+            stage.initStyle(StageStyle.TRANSPARENT);
 
             Scene scene = new Scene(root);
+            scene.setFill(Color.TRANSPARENT);
             stage.setScene(scene);
 
             stage.setOnCloseRequest(e -> {
@@ -168,8 +172,10 @@ public class ChallengeManager {
             stage.initModality(Modality.APPLICATION_MODAL);
 
             stage.setTitle("Challenge sent!");
+            stage.initStyle(StageStyle.TRANSPARENT);
 
             Scene scene = new Scene(root);
+            scene.setFill(Color.TRANSPARENT);
             stage.setScene(scene);
             stage.setOnCloseRequest(e -> {
                 executor.submit(() -> {

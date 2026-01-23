@@ -21,6 +21,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
+import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
 
 /**
@@ -31,11 +32,7 @@ import javafx.stage.Stage;
 public class PlayerRequestScreenController implements Initializable {
 
     @FXML
-    private ImageView imageIcon;
-    @FXML
     private Label challengerName;
-    @FXML
-    private Label challengerWinRate;
     @FXML
     private Label challengerStatus;
 
@@ -52,21 +49,29 @@ public class PlayerRequestScreenController implements Initializable {
     @FXML
     private StackPane root;
 
+    private double xOffset = 0;
+    private double yOffset = 0;
+
     /**
      * Initializes the controller class.
      */
-    @FXML
-    ImageView imageView;
-
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        imageView = new ImageView();
-        Image image = new Image(getClass().getResourceAsStream("/com/mycompany/clientside/images/man.png"));
-        imageView.setImage(image);
-
-        Platform.runLater(()->{
-            imageIcon.setImage(image);
+        root.setOnMousePressed(e -> {
+            xOffset = e.getSceneX();
+            yOffset = e.getSceneY();
         });
+
+        root.setOnMouseDragged(e -> {
+            root.getScene().getWindow().setX(e.getScreenX() - xOffset);
+            root.getScene().getWindow().setY(e.getScreenY() - yOffset);
+        });
+        Rectangle clip = new Rectangle();
+        clip.setArcWidth(20);  // radius in pixels
+        clip.setArcHeight(20);
+        clip.widthProperty().bind(root.widthProperty());
+        clip.heightProperty().bind(root.heightProperty());
+        root.setClip(clip);
     }
 
     public void setAcceptChallenge(Consumer<Challenge> sendAccept) {
@@ -103,17 +108,7 @@ public class PlayerRequestScreenController implements Initializable {
 
     public void setChallengeData(Challenge challenge, Player player) {
         this.challenge = challenge;
-        
-        int allGames = player.getWins() + player.getLosses() + player.getDraws();
-        float winRate;
-        if (allGames != 0) {
-            winRate = player.getWins() * 100f / (float) allGames;
-        } else {
-            winRate = 0f;
-        }
-        
         challengerName.setText(player.getUsername());
-        challengerWinRate.setText("Win Rate: " + String.format("%.1f", winRate) + "%");
     }
     
     private void closeDialog() {
