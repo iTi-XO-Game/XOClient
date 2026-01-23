@@ -2,7 +2,9 @@
    APP BACKGROUND
    ========================= */
 .mainFxmlClass {
-    -fx-background-color: linear-gradient(to bottom, #F6FFA6 0%, #FFD7C2 30%, #FFD7C2 80%, #FDCEDF 100%);
+    -fx-background-image: url("../images/gameBackground.png");
+    -fx-background-size: cover;
+    -fx-background-position: center;
     -fx-font-family: "Segoe UI Black";
 }
 
@@ -92,23 +94,22 @@
 }
 
 .current-player {
-    -fx-border-color: linear-gradient(to right, #fbbf24, #f59e0b);;
+    -fx-border-color: linear-gradient(to bottom, #dc2626, #b91c1c);
     -fx-border-width: 3;
     -fx-background-color: rgba(225, 250, 253, 1);
-    -fx-effect: dropshadow(gaussian, rgba(251, 191, 36, 0.6), 20, 0, 0, 0);
 }
 
 /* =========================
    TURN LABEL
    ========================= */
 .turnLabel {
-    -fx-background-color: linear-gradient(to right, #fbbf24, #f59e0b);
+    -fx-background-color: linear-gradient(to bottom, #dc2626, #b91c1c);
     -fx-padding: 3 14 3 14;
     -fx-font-size: 13px;
     -fx-font-weight: bold;
     -fx-text-fill: #fefefe;
     -fx-background-radius: 2em 2em 0 0;
-    -fx-effect: dropshadow(gaussian, rgba(251, 191, 36, 0.3), 6, 0, 0, 2);
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.12), 10, 0, 0, 3);
 }
 .turnLabel .text {
     -fx-effect: dropshadow(gaussian,rgba(0, 0, 0, 0.3),3,0.3,1,1);
@@ -204,7 +205,7 @@
     );
     -fx-border-color: #fbbf24;
     -fx-border-width: 3;
-    -fx-effect: dropshadow(gaussian, rgba(251, 191, 36, 0.7), 24, 0, 0, 0);
+    -fx-effect: dropshadow(gaussian, rgba(217, 119, 6, 0.7), 24, 0, 0, 0);
 }
 
 /* =========================
