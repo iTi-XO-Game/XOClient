@@ -3,243 +3,219 @@
  */
 
 .mainFxmlClass {
-
+    -fx-background-image: url("../images/lobbyBackground.png");
+    -fx-background-size: cover;
+    -fx-background-position: center;
+    -fx-font-family: "Segoe UI Black";
 }
-
-.back-button {
-    -fx-font-size: 30px;
-    -fx-text-fill: #0078D7;
-    -fx-background-color: white;
-    -fx-border-color: #d1e1f0;
-    -fx-border-width: 2px;
-    -fx-min-width: 60px;
-    -fx-max-width: 60px;
-    -fx-min-height: 60px;
-    -fx-max-height: 60px;
-    -fx-background-radius: 500;
-    -fx-border-radius: 500;
-    -fx-padding: 0;
-    -fx-alignment: center;
-    -fx-cursor: hand;
-    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.2), 8, 0, 0, 2);
+.topBar {
+    -fx-background-color: #fffbf5;
+    -fx-padding: 14;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.08), 8, 0, 0, 2);
 }
-
-.back-button:hover {
-    -fx-border-width: 0px;
-    -fx-text-fill: #005a9e;
-    -fx-background-color: #9fc4e1;
-    -fx-border-color: #0078D7;
-    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.3), 10, 0, 0, 3);
+.icon{
+    -fx-effect: dropshadow(gaussian,rgba(0, 0, 0, 0.3),3,0.5,1,1);
 }
-
-.refresh-button{
-    -fx-font-size: 30px;
-    -fx-text-fill: #209c04;
-    -fx-background-color: rgb(171, 224, 186);
-    -fx-border-color: #d1e1f0;
-    -fx-border-width: 2px;
-    -fx-min-width: 60px;
-    -fx-max-width: 60px;
-    -fx-min-height: 60px;
-    -fx-max-height: 60px;
-    -fx-background-radius: 500;
-    -fx-border-radius: 500;
-    -fx-padding: 0;
-    -fx-alignment: center;
-    -fx-cursor: hand;
-    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.2), 8, 0, 0, 2);
-}
-.refresh-button:hover {
-    -fx-border-width: 0px;
-    -fx-text-fill: white;
-    -fx-background-color: #4ECDC4;
-    /* -fx-border-color: #;  */
-    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.3), 10, 0, 0, 3);
-}
-.mainFxmlClass{
-    -fx-background-color: #FFF9F5;
-}
-.app-bar-container{
-    -fx-background-color:white;
-}
-
-/* General styling for both words */
-.title-main, .title-blue {
-    -fx-font-family: "Segoe UI Black"; 
-    -fx-font-size: 32px;           
+#gameTitle {
+    -fx-font-size: 18px;
     -fx-font-weight: bold;
+    -fx-text-fill: #2d3748;
 }
 
-.title-main {
-    -fx-text-fill: #2C3E50;
-}
-.title-blue {
-    -fx-text-fill: #0078D7;
-    /* This adds a tiny bit of depth without being a 'heavy' shadow */
-    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.05), 0, 0, 0, 1);
+#logo {
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.12), 4, 0, 0, 2);
 }
 
-.status-container {
-    -fx-background-color: white;
-    -fx-border-color: #d1e1f0;
+.button {
+    -fx-background-radius: 14;
+    -fx-border-radius: 14;
+    -fx-cursor: hand;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.1), 8, 0, 0, 2);
+}
+
+.button:hover {
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.18), 14, 0, 0, 4);
+    -fx-scale-x: 1.03;
+    -fx-scale-y: 1.03;
+}
+
+.button:pressed {
+    -fx-scale-x: 0.97;
+    -fx-scale-y: 0.97;
+}
+
+/* =========================
+   LEAVE BUTTON
+   ========================= */
+#leaveButton {
+    -fx-background-color: transparent;
+    -fx-border-color: #e2e8f0;
+    -fx-padding: 8 18 8 18;
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #4a5568;
+}
+
+#leaveButton:hover {
+    -fx-background-color: #fdd4d6;
+}
+
+/* ====== Main Card (screen container card) ====== */
+.card {
+    -fx-background-color: rgba(227, 250, 250,0.95);
+    -fx-background-radius: 16;
+    -fx-padding: 16;
+    -fx-border-color: rgba(20, 184, 166, 0.18);
     -fx-border-width: 1px;
+    -fx-border-radius: 16;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.14), 18, 0, 0, 6);
+}
 
-    /* High radius creates the pill/capsule shape */
+/* ====== Refresh Button (icon circle) ====== */
+.refresh-button {
+    -fx-background-color: #14b8a6;
+    -fx-background-radius: 500;
+    -fx-padding: 4;
+    -fx-cursor: hand;
+    -fx-effect: dropshadow(gaussian, rgba(20, 184, 166, 0.35), 10, 0, 0, 3);
+}
+
+.refresh-button:hover {
+    -fx-background-color: #0f766e;
+    -fx-effect: dropshadow(gaussian, rgba(20, 184, 166, 0.55), 14, 0, 0, 4);
+}
+
+.refresh-button:pressed {
+    -fx-background-color: #0b5f59;
+}
+
+/* ====== Title ====== */
+.title-main {
+    -fx-font-size: 32px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #0f375a;
+    -fx-effect: dropshadow(gaussian,rgba(0,0, 0, 0.1),3,0.5,1,1);
+}
+
+/* ====== Status Pill ====== */
+.countCard {
+    -fx-background-color: #fffafa;
+    -fx-border-color: #22C55E;
+    -fx-border-width: 1px;
     -fx-background-radius: 50;
     -fx-border-radius: 50;
-
-    /* Adds the subtle shadow seen in the image */
-    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.05), 5, 0, 0, 1);
-
-    /* Ensures the container doesn't stretch too much */
-    -fx-max-width: -font-relative-size;
-    -fx-padding: 5 15 5 15;
+    -fx-effect: dropshadow(gaussian, rgba(20, 184, 166, 0.18), 8, 0, 0, 2);
+    -fx-padding: 0 8 0 8;
 }
 
-.status-number {
+.onlineCount {
     -fx-font-weight: bold;
-    -fx-text-fill: #2C3E50; /* Darker charcoal for the number */
+    -fx-text-fill: #22C55E;
     -fx-font-size: 16px;
 }
 
-.status-text {
-    -fx-text-fill: #5D6D7E; /* Slightly lighter blue-grey for the text */
+.onlineText {
+    -fx-text-fill: #22C55E;
     -fx-font-size: 16px;
 }
+
+/* ====== Opponent Row Card ====== */
 .challenge-card {
-    -fx-background-color: white;
-    -fx-background-radius: 20px;
-        -fx-padding: 15px;
+    -fx-background-color: #FFFAFA;
+    -fx-background-radius: 16px;
+    -fx-padding: 12px;
+    -fx-border-color: #b1eceb;
+    -fx-border-width: 1px;
+    -fx-border-radius: 16px;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.10), 14, 0, 0, 4);
 }
 
 .challenge-card:hover {
-    -fx-background-color: #FFFBF6; 
-    
+    -fx-background-color:  #e1fcfb;
+    -fx-border-color: rgba(20, 164, 146, 1);
+    -fx-effect: dropshadow(gaussian, rgba(20, 184, 166, 0.20), 18, 0, 0, 6);
 }
 
-.opponent-name{
-    -fx-font-family: "Segoe UI Black";
-    -fx-font-size: 24px;
-    -fx-font-weight: bold;
-    -fx-text-fill: #2C3E50;
+/* ====== Opponent Name ====== */
+.opponent-name {
+    -fx-font-size: 22px;
+    -fx-text-fill: #137e7a; /* slate for strong readability */
+    -fx-font-weight: 700;
     -fx-line-spacing: 1px;
 }
 
-.opponent-wins ,.opponent-loses{
-    -fx-text-fill: #0078D7;
-    -fx-font-size: 18px;
-    -fx-background-color:#EFF6FF;
-    -fx-padding: 8px;
-    -fx-background-radius:15px;
-    -fx-font-weight:bold;
-}
-
-.opponent-loses{
-        -fx-background-color:#FEF2F2;
-    -fx-text-fill: #F15532;
-
-}
-/* Targets the ScrollPane itself */
-.scroll-pane {
-    -fx-background-color: transparent;
-}
-
-/* IMPORTANT: Targets the internal viewport that actually holds your content */
-.scroll-pane .viewport {
-    -fx-background-color: transparent;
-}
-
-/* Optional: Removes the border around the scroll area if you want a seamless look */
-.scroll-pane {
-    -fx-background-insets: 0;
-    -fx-padding: 0;
-}
-
+/* ====== Challenge Button ====== */
 .challenge-button {
-    -fx-background-color: #0078D7;
+    -fx-background-color: #14b8a6;
     -fx-text-fill: white;
+    -fx-font-size: 22px;
     -fx-font-weight: bold;
-    -fx-font-size: 24px;
     -fx-background-radius: 50px;
     -fx-cursor: hand;
-    
-    /* 1. Base Elevation (Stationary) */
-    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.2), 10, 0, 0, 4);
-    
-    /* Smoothing the transition (Optional: works best if done via Java code) */
+    -fx-effect: dropshadow(gaussian, rgba(20, 184, 166, 0.40), 12, 0, 0, 4);
 }
 
 .challenge-button:hover {
-    /* 2. Hover Elevation (Lifting up) */
-    /* We make the shadow blurrier and offset it more to look higher */
-    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.3), 15, 0, 0, 6);
-    
-    /* Make the color slightly brighter */
-    -fx-background-color: #1a89e0;
-    
-    /* Visual "Lift": Move the button 1 pixel up */
-    -fx-translate-y: -1px;
+    -fx-background-color: #0f766e;
+    -fx-effect: dropshadow(gaussian, rgba(20, 184, 166, 0.55), 16, 0, 0, 5);
 }
 
 .challenge-button:pressed {
-    /* 3. Pressed State (Pushing down) */
-    /* Remove the offset and shrink the shadow to make it look like it touched the floor */
-    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.2), 5, 0, 0, 1);
-    
-    /* Push the button down */
-    -fx-translate-y: 2px;
-    
-    /* Darken the color slightly */
-    -fx-background-color: #005a9e;
+    -fx-background-color: #0b5f59;
 }
 
 .challenge-button:disabled {
-    -fx-opacity: 0.6;
-    -fx-background-color: #95a5a6;
-    -fx-text-fill: white;
+    -fx-opacity: 1;
+    -fx-background-color: #4f665e;
+    -fx-text-fill: #FFFFFF;
 }
 
-/* 1. The main ScrollBar track (background) */
+/* Text shadow on button text only */
+.challenge-button .text {
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.28), 3, 0.4, 0, 1);
+}
+#playersContainer{
+    -fx-padding: 8 8 8 8;
+}
+
+
+/* ScrollPane styling */
+.scroll-pane {
+    -fx-background-color: transparent;
+    -fx-padding: 8 0 0 0;
+}
+
+.scroll-pane > .viewport {
+    -fx-background-color: transparent;
+}
+
+/* Style the scrollbar */
 .scroll-pane .scroll-bar:vertical {
     -fx-background-color: transparent;
-    -fx-width: 8px; /* Thinner for a modern look */
+    -fx-cursor: hand;
 }
 
-/* 2. The Thumb (the part that moves) */
+.scroll-pane .scroll-bar:vertical .track {
+    -fx-background-color: rgba(6, 217, 185, 0.2);
+    -fx-background-radius: 8;
+}
+
 .scroll-pane .scroll-bar:vertical .thumb {
-    -fx-background-color: #d1e1f0; /* Light blue-grey */
-    -fx-background-insets: 0;
-    -fx-background-radius: 10px;
+    -fx-background-color: rgba(6, 217, 185);
+    -fx-background-radius: 8;
+    -fx-padding: 4 4 4 4;
 }
 
-/* 3. Thumb Hover State */
 .scroll-pane .scroll-bar:vertical .thumb:hover {
-    -fx-background-color: #0078D7; /* Primary Blue on hover */
+    -fx-background-color: rgba(6, 197, 165);
 }
 
-/* 4. Thumb Pressed State */
 .scroll-pane .scroll-bar:vertical .thumb:pressed {
-    -fx-background-color: #005a9e;
+    -fx-background-color: #06a989;
 }
 
-/* 5. Hide the top and bottom arrow buttons */
-.scroll-pane .scroll-bar:vertical .increment-button, 
+.scroll-pane .scroll-bar:vertical .increment-button,
 .scroll-pane .scroll-bar:vertical .decrement-button {
     -fx-background-color: transparent;
-    -fx-padding: 0;
-}
-
-.scroll-pane .scroll-bar:vertical .increment-arrow, 
-.scroll-pane .scroll-bar:vertical .decrement-arrow {
-    -fx-shape: " "; /* Removes the arrow shape entirely */
-    -fx-padding: 0;
-}
-/* Hide the thumb by default */
-.scroll-pane .scroll-bar .thumb {
-    -fx-opacity: 0;
-}
-
-/* Show the thumb when the user moves the mouse over the scroll pane */
-.scroll-pane:hover .scroll-bar .thumb {
-    -fx-opacity: 1;
+    -fx-padding: 4;
 }

@@ -59,6 +59,9 @@ public class OnlinePlayerCardController implements Initializable {
         if (player.isPlaying()) {
             challengeButton.setDisable(true);
             challengeButton.setText("In game");
+        } else {
+            challengeButton.setDisable(false);
+            challengeButton.setText("Challenge");
         }
     }
 

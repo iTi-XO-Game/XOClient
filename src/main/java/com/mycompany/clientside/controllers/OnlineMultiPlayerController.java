@@ -71,6 +71,8 @@ public class OnlineMultiPlayerController implements Initializable {
                     case ADD_ONE -> {
                         Player updatedPlayer = lobby.getUpdatedPlayer();
                         OnlinePlayerCardController controller = playerControllers.get(updatedPlayer.getId());
+                        int count = Integer.parseInt(onlinePlayersCount.getText()) + 1;
+                        onlinePlayersCount.setText("" + count);
                         if (controller != null) {
                             controller.setPlayer(updatedPlayer);
                         } else {
@@ -81,6 +83,8 @@ public class OnlineMultiPlayerController implements Initializable {
                     case REMOVE_ONE -> {
                         Player updatedPlayer = lobby.getUpdatedPlayer();
                         OnlinePlayerCardController controller = playerControllers.remove(updatedPlayer.getId());
+                        int count = Integer.parseInt(onlinePlayersCount.getText()) - 1;
+                        onlinePlayersCount.setText("" + count);
                         if (controller != null) {
                             playersContainer.getChildren()
                                     .remove(controller.getRoot());

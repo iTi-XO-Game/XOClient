@@ -9,92 +9,72 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.Region?>
 
-<AnchorPane id="AnchorPane" prefHeight="400.0" prefWidth="600.0" styleClass="mainFxmlClass" stylesheets="@../styles/onlinemultplayer.css" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.mycompany.clientside.controllers.OnlineMultiPlayerController">
-   <children>
-      <BorderPane prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #FFF9F5;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-         <top>
-            <HBox prefHeight="60.0" prefWidth="579.0" styleClass="app-bar-container" BorderPane.alignment="CENTER">
-               <children>
-                  <Button alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#navigateBack" prefHeight="62.0" prefWidth="60.0" styleClass="back-button" stylesheets="@../styles/onlinemultplayer.css" text="←" textAlignment="CENTER">
-                     <HBox.margin>
-                        <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />
-                     </HBox.margin>
-                  </Button>
-                  <Pane prefHeight="200.0" prefWidth="200.0" HBox.hgrow="ALWAYS" />
-                  <Button alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#refreshFunction" prefHeight="62.0" prefWidth="60.0" styleClass="refresh-button" stylesheets="@../styles/onlinemultplayer.css" text="↻" textAlignment="CENTER">
-                     <HBox.margin>
-                        <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />
-                     </HBox.margin>
-                  </Button>
-               </children>
-               <BorderPane.margin>
-                  <Insets />
-               </BorderPane.margin>
+<BorderPane id="AnchorPane" styleClass="mainFxmlClass" stylesheets="@../styles/onlinemultplayer.css"
+            xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="com.mycompany.clientside.controllers.OnlineMultiPlayerController">
+    <top>
+        <BorderPane prefHeight="60" styleClass="topBar">
+            <left>
+                <HBox alignment="CENTER_LEFT" spacing="12">
+                    <ImageView id="logo" fitHeight="31.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true"
+                               smooth="true">
+                        <Image url="@../images/xo_tiles.png"/>
+                    </ImageView>
+                    <Label id="gameTitle" prefHeight="27.0" prefWidth="105.0" text="Tic Tac Toe"/>
+                </HBox>
+            </left>
+            <right>
+                <Button id="leaveButton" onAction="#navigateBack" styleClass="button">
+                    <graphic>
+                        <ImageView styleClass="icon" fitHeight="31.0" fitWidth="30.0" pickOnBounds="true"
+                                   preserveRatio="true" smooth="true">
+                            <Image url="@../images/logout.png"/>
+                        </ImageView>
+                    </graphic>
+                    <text>Leave</text>
+                </Button>
+            </right>
+        </BorderPane>
+    </top>
+    <center>
+        <VBox  maxWidth="600.0" maxHeight="600.0"  styleClass="card" BorderPane.alignment="CENTER">
+            <HBox spacing="12">
+                <HBox alignment="BOTTOM_CENTER">
+                    <Label styleClass="title-main" text="Game Lobby"/>
+                    <HBox alignment="CENTER" maxWidth="120.0" maxHeight="20.0" styleClass="countCard">
+                        <Label fx:id="onlinePlayersCount" styleClass="onlineCount" text="0"/>
+                        <Label styleClass="onlineText" text=" Online"/>
+                    </HBox>
+                </HBox>
+                <Region HBox.hgrow="ALWAYS" />
+                <Button onAction="#refreshFunction" styleClass="refresh-button">
+                    <graphic>
+                        <ImageView styleClass="icon" fitHeight="30.0" fitWidth="30.0" pickOnBounds="true"
+                                   preserveRatio="true" smooth="true">
+                            <Image url="@../images/refresh.png"/>
+                        </ImageView>
+                    </graphic>
+                </Button>
             </HBox>
-         </top>
-         <center>
-            <VBox prefHeight="200.0" prefWidth="100.0" BorderPane.alignment="TOP_CENTER">
-               <children>
-                  <HBox prefHeight="100.0" prefWidth="200.0">
-                     <children>
-                        <Label styleClass="title-main" text="Game " />
-                        <Label styleClass="title-blue" text="Lobby" textAlignment="CENTER" />
-                     </children>
-                     <VBox.margin>
-                        <Insets left="45.0" />
-                     </VBox.margin>
-                  </HBox>
-                  <HBox alignment="TOP_CENTER" maxHeight="-Infinity" maxWidth="-Infinity" styleClass="status-container" VBox.vgrow="NEVER">
-                     <children>
-                        <Label fx:id="onlinePlayersCount" styleClass="status-number" text="0" />
-                        <Label styleClass="status-text" text=" Players Online" />
-                     </children>
-                     <VBox.margin>
-                        <Insets left="45.0" />
-                     </VBox.margin>
-                  </HBox>
-                  <VBox prefHeight="186.0" prefWidth="659.0" style="-fx-background-color: transparent;" VBox.vgrow="ALWAYS">
-                     <children>
-                        <AnchorPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" VBox.vgrow="ALWAYS">
-                           <children>
-                              <ScrollPane fitToHeight="true" fitToWidth="true" prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-                                 <content>
-                                    <VBox fx:id="playersContainer">
-                                       <children>
-                                          <HBox alignment="CENTER" fillHeight="false" prefHeight="62.0" prefWidth="498.0" styleClass="challenge-card">
-                                             <children>
-                                                <VBox prefHeight="78.0" prefWidth="220.0">
-                                                   <children>
-                                                      <Label prefHeight="35.0" styleClass="opponent-name" text="No online players">
-                                                         <VBox.margin>
-                                                            <Insets bottom="6.0" />
-                                                         </VBox.margin>
-                                                      </Label>
-                                                   </children>
-                                                </VBox>
-                                             </children>
-                                             <padding>
-                                                <Insets bottom="20.0" left="20.0" right="10.0" top="20.0" />
-                                             </padding>
-                                          </HBox>
-                                       </children>
-                                    </VBox>
-                                 </content>
-                              </ScrollPane>
-                           </children>
-                           <VBox.margin>
-                              <Insets left="50.0" right="50.0" />
-                           </VBox.margin>
-                        </AnchorPane>
-                     </children>
-                     <VBox.margin>
-                        <Insets top="15.0" />
-                     </VBox.margin>
-                  </VBox>
-               </children>
+            <VBox VBox.vgrow="ALWAYS">
+                <ScrollPane fitToHeight="true" fitToWidth="true">
+                    <content>
+                        <VBox fx:id="playersContainer">
+                            <HBox alignment="CENTER" fillHeight="false" prefHeight="62.0"
+                                  prefWidth="498.0" styleClass="challenge-card">
+                                <VBox prefHeight="78.0" prefWidth="220.0">
+                                    <Label prefHeight="35.0" styleClass="opponent-name"
+                                           text="No online players"/>
+                                </VBox>
+                            </HBox>
+                        </VBox>
+                    </content>
+                </ScrollPane>
             </VBox>
-         </center>
-      </BorderPane>
-   </children>
-</AnchorPane>
+        </VBox>
+    </center>
+</BorderPane>
