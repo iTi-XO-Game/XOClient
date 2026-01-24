@@ -6,10 +6,7 @@ package com.mycompany.clientside.controllers;
 
 import com.mycompany.clientside.App;
 import com.mycompany.clientside.Screens;
-import com.mycompany.clientside.client.ClientManager;
-import com.mycompany.clientside.client.EndGameVideo;
-import com.mycompany.clientside.client.EndPoint;
-import com.mycompany.clientside.client.JsonUtils;
+import com.mycompany.clientside.client.*;
 import com.mycompany.clientside.models.ActiveGame;
 import com.mycompany.clientside.models.ActiveGame.GameAction;
 import com.mycompany.clientside.models.Challenge;
@@ -19,8 +16,6 @@ import com.mycompany.clientside.models.UserSession;
 
 import java.io.IOException;
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.Objects;
 import java.util.Optional;
 import java.util.ResourceBundle;
 import java.util.concurrent.ExecutorService;
@@ -385,19 +380,17 @@ public class PvpGameScreenController implements Initializable {
 
     @FXML
     private void onExitClick(ActionEvent event) {
-        Alert alert = new Alert(AlertType.CONFIRMATION);
-        alert.setTitle("Leave Game?");
-        alert.setHeaderText("Are you sure you want to Leave the game?");
-
-        ButtonType buttonYes = new ButtonType("Leave");
-        ButtonType buttonNo = new ButtonType("cancel");
-        alert.getButtonTypes().setAll(buttonYes, buttonNo);
-
-        Optional<ButtonType> result = alert.showAndWait();
-
-        if (result.isPresent() && result.get() == buttonYes) {
-            leaveGame();
-        }
+        AlertBuilder alertBuilder = new AlertBuilder();
+        alertBuilder
+                .setTitle("Leave Game?")
+                .setSubTitle("Are you sure you want to Leave the game?")
+                .setAcceptText("Leave")
+                .setCancelText("Cancel")
+                .setCancellable(true)
+                .setDanger(true)
+                .setOnAccept(this::leaveGame)
+                .setOnCancel(() -> {})
+                .show();
     }
 
     private void leaveGame() {
@@ -425,26 +418,16 @@ public class PvpGameScreenController implements Initializable {
             Runnable onYes,
             Runnable onNo
     ) {
-        Alert alert = new Alert(AlertType.CONFIRMATION);
-        alert.setTitle(title);
-        alert.setHeaderText(description);
-
-        ButtonType buttonYes = new ButtonType(yesText);
-
-        if (!noText.isBlank()) {
-            ButtonType buttonNo = new ButtonType(noText);
-            alert.getButtonTypes().setAll(buttonYes, buttonNo);
-        } else {
-            alert.getButtonTypes().setAll(buttonYes);
-        }
-
-        Optional<ButtonType> result = alert.showAndWait();
-
-        if (result.isPresent() && result.get() == buttonYes) {
-            onYes.run();
-        } else if (!noText.isBlank()) {
-            onNo.run();
-        }
+        AlertBuilder alertBuilder = new AlertBuilder();
+        alertBuilder
+                .setTitle(title)
+                .setSubTitle(description)
+                .setAcceptText(yesText)
+                .setOnAccept(onYes)
+                .setCancelText(noText)
+                .setOnCancel(onNo)
+                .setCancellable(!noText.isBlank())
+                .show();
     }
 }
 

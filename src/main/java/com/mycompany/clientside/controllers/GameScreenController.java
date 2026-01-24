@@ -6,21 +6,18 @@ package com.mycompany.clientside.controllers;
 
 import com.mycompany.clientside.App;
 import com.mycompany.clientside.Screens;
+import com.mycompany.clientside.client.AlertBuilder;
 import com.mycompany.clientside.client.EndGameVideo;
 import com.mycompany.clientside.models.Move;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.Optional;
 import java.util.ResourceBundle;
 import java.util.function.Consumer;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
-import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.layout.VBox;
 
@@ -219,23 +216,22 @@ public class GameScreenController implements Initializable {
 
     @FXML
     private void onExitClick(ActionEvent event) {
-        Alert alert = new Alert(AlertType.CONFIRMATION);
-        alert.setTitle("Leave Game?");
-        alert.setHeaderText("Are you sure you want to Leave the game?");
-
-        ButtonType buttonYes = new ButtonType("Leave");
-        ButtonType buttonNo = new ButtonType("cancel");
-        alert.getButtonTypes().setAll(buttonYes, buttonNo);
-
-        Optional<ButtonType> result = alert.showAndWait();
-
-        if (result.isPresent() && result.get() == buttonYes) {
-
-            try {
-                App.setRoot(Screens.HOME_SCREEN);
-            } catch (IOException ex) {
-                // todo show alert
-            }
-        }
+        AlertBuilder alertBuilder = new AlertBuilder();
+        alertBuilder
+                .setTitle("Leave Game?")
+                .setSubTitle("Are you sure you want to Leave the game?")
+                .setAcceptText("Leave")
+                .setCancelText("Cancel")
+                .setCancellable(true)
+                .setDanger(true)
+                .setOnAccept(() -> {
+                    try {
+                        App.setRoot(Screens.HOME_SCREEN);
+                    } catch (IOException ex) {
+                        System.err.println("Cannot go to home screen");
+                    }
+                })
+                .setOnCancel(() -> {})
+                .show();
     }
 }

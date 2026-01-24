@@ -6,6 +6,7 @@ package com.mycompany.clientside.controllers;
 
 import com.mycompany.clientside.App;
 import com.mycompany.clientside.Screens;
+import com.mycompany.clientside.client.AlertBuilder;
 import com.mycompany.clientside.models.Move;
 import java.io.IOException;
 import java.util.List;
@@ -191,19 +192,16 @@ public class ReplayGameScreenController {
     }
 
     private void showEndGameAlert(String header) {
-
-        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-        alert.setTitle("Game Over");
-        alert.setHeaderText(header);
-        alert.setContentText("Restart the game?");
-
-        ButtonType restartBtn = new ButtonType("Restart");
-        ButtonType cancelBtn = new ButtonType("Cancel");
-
-        alert.getButtonTypes().setAll(restartBtn, cancelBtn);
-
-        Optional<ButtonType> result = alert.showAndWait();
-
+        AlertBuilder alertBuilder = new AlertBuilder();
+        alertBuilder
+                .setTitle(header)
+                .setSubTitle("Restart the game?")
+                .setAcceptText("Restart")
+                .setCancelText("Cancel")
+                .setCancellable(true)
+                .setOnAccept(() -> {})
+                .setOnCancel(() -> {})
+                .show();
     }
 
     private boolean checkLine(Button a, Button b, Button c) {
@@ -287,23 +285,23 @@ public class ReplayGameScreenController {
 
     @FXML
     private void onExitClick(ActionEvent event) {
-        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-        alert.setTitle("Leave Replay Game?");
-        alert.setHeaderText("Are you sure you want to Leave this replay game?");
+        AlertBuilder alertBuilder = new AlertBuilder();
+        alertBuilder
+                .setTitle("Leave Replay Game?")
+                .setSubTitle("Are you sure you want to Leave this replay game?")
+                .setAcceptText("Leave")
+                .setCancelText("Cancel")
+                .setCancellable(true)
+                .setDanger(true)
+                .setOnAccept(() -> {
+                    try {
+                        App.setRoot(Screens.REPLAYS_SCREEN);
+                    } catch (IOException ex) {
+                        System.err.println("Cannot go to replays screen");
+                    }
+                })
+                .setOnCancel(() -> {})
+                .show();
 
-        ButtonType buttonYes = new ButtonType("Leave");
-        ButtonType buttonNo = new ButtonType("cancel");
-        alert.getButtonTypes().setAll(buttonYes, buttonNo);
-
-        Optional<ButtonType> result = alert.showAndWait();
-
-        if (result.isPresent() && result.get() == buttonYes) {
-
-            try {
-                App.setRoot(Screens.REPLAYS_SCREEN);
-            } catch (IOException ex) {
-                ex.printStackTrace();
-            }
-        }
     }
 }

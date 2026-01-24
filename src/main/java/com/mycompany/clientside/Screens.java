@@ -25,5 +25,6 @@ public class Screens {
     public static final String REPLAY_GAME_SCREEN = "screens/replayGameScreen";
     public static final String SERVER_SETTINGS_SCREEN = "screens/serverSettingsScreen";
     public static final String PVP_GAME_SCREEN = "screens/pvpGameScreen";
+    public static final String ALERT_DIALOG = "screens/alert";
 
 }

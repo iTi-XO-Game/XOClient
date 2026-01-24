@@ -9,6 +9,7 @@ import com.google.gson.GsonBuilder;
 import com.google.gson.JsonSyntaxException;
 import com.mycompany.clientside.App;
 import com.mycompany.clientside.Screens;
+import com.mycompany.clientside.client.AlertBuilder;
 import com.mycompany.clientside.client.EndGameVideo;
 import com.mycompany.clientside.models.GameRecord;
 import com.mycompany.clientside.models.GamesWrapper;
@@ -388,24 +389,23 @@ public class AIGameScreenController implements Initializable {
 
     @FXML
     private void onExitClick(ActionEvent event) {
-        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-        alert.setTitle("Leave Game?");
-        alert.setHeaderText("Are you sure you want to Leave the game?");
-
-        ButtonType buttonYes = new ButtonType("Leave");
-        ButtonType buttonNo = new ButtonType("cancel");
-        alert.getButtonTypes().setAll(buttonYes, buttonNo);
-
-        Optional<ButtonType> result = alert.showAndWait();
-
-        if (result.isPresent() && result.get() == buttonYes) {
-
-            try {
-                App.setRoot(Screens.HOME_SCREEN);
-            } catch (IOException ex) {
-                ex.printStackTrace();
-            }
-        }
+        AlertBuilder alertBuilder = new AlertBuilder();
+        alertBuilder
+                .setTitle("Leave Game?")
+                .setSubTitle("Are you sure you want to Leave the game?")
+                .setAcceptText("Leave")
+                .setCancelText("Cancel")
+                .setCancellable(true)
+                .setDanger(true)
+                .setOnAccept(() -> {
+                    try {
+                        App.setRoot(Screens.HOME_SCREEN);
+                    } catch (IOException ex) {
+                        System.out.println("Cannot go to Home Screen");
+                    }
+                })
+                .setOnCancel(() -> {})
+                .show();
     }
 
     private Move findBestMove(char board[][], char player, int h) {

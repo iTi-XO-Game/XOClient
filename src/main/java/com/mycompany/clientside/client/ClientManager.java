@@ -10,7 +10,6 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
 import javafx.application.Platform;
-import javafx.scene.control.Alert;
 
 public class ClientManager {
 
@@ -185,10 +184,12 @@ public class ClientManager {
 
     private void showServerDisconnectedAlert() {
         Platform.runLater(() -> {
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setTitle("An Error Occurred");
-            alert.setHeaderText("Server Error. please, try again later!");
-            alert.showAndWait();
+            AlertBuilder alertBuilder = new AlertBuilder();
+            alertBuilder
+                    .setTitle("An Error Occurred")
+                    .setSubTitle("Unable to connect to the server. please, try again later!")
+                    .setAcceptText("Dismiss")
+                    .show();
         });
     }
 

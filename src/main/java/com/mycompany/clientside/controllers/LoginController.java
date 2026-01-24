@@ -13,7 +13,6 @@ import com.mycompany.clientside.models.AuthResponse;
 import com.mycompany.clientside.models.UserSession;
 import java.io.IOException;
 import java.net.URL;
-import java.util.Optional;
 import java.util.ResourceBundle;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
@@ -96,10 +95,12 @@ public class LoginController implements Initializable {
 
                 Platform.runLater(() -> {
                     if (loginResponse.getStatusCode() == StatusCode.ERROR) {
-                        Alert alert = new Alert(Alert.AlertType.ERROR);
-                        alert.setTitle("An Error Occurred");
-                        alert.setHeaderText(loginResponse.getErrorMessage());
-                        alert.showAndWait();
+                        AlertBuilder alertBuilder = new AlertBuilder();
+                        alertBuilder
+                                .setTitle("An Error Occurred")
+                                .setSubTitle(loginResponse.getErrorMessage())
+                                .setAcceptText("Dismiss")
+                                .show();
                     } else if (loginResponse.getStatusCode() == StatusCode.SUCCESS) {
                         UserSession.setUserId(loginResponse.getId());
                         UserSession.setUsername(loginResponse.getUsername());
@@ -110,18 +111,16 @@ public class LoginController implements Initializable {
                         } catch (IOException ex) {
                         }
                     } else if (loginResponse.getStatusCode() == StatusCode.SERVER_CLOSED) {
-                        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-                        alert.setTitle("Server disconnected");
-                        alert.setHeaderText("Server has disconnected.");
-
-
-                        ButtonType buttonNo = new ButtonType("Exit");
-                        alert.getButtonTypes().setAll(buttonNo);
-
-                        alert.showAndWait();
-                        Platform.exit();
-                        System.exit(0);
-
+                        AlertBuilder alertBuilder = new AlertBuilder();
+                        alertBuilder
+                                .setTitle("Server disconnected")
+                                .setSubTitle("Server has been disconnected.")
+                                .setAcceptText("Exit")
+                                .setOnAccept(() -> {
+                                    Platform.exit();
+                                    System.exit(0);
+                                })
+                                .show();
                     }
                 });
             } catch (Exception e) {

@@ -6,6 +6,7 @@ package com.mycompany.clientside.controllers;
 
 import com.mycompany.clientside.App;
 import com.mycompany.clientside.Screens;
+import com.mycompany.clientside.client.AlertBuilder;
 import com.mycompany.clientside.client.ClientManager;
 import com.mycompany.clientside.client.EndPoint;
 import com.mycompany.clientside.client.JsonUtils;
@@ -153,20 +154,26 @@ public class RegisterController implements Initializable {
 
             Platform.runLater(() -> {
                 if (authResponse.getStatusCode() == StatusCode.ERROR) {
-                    Alert alert = new Alert(Alert.AlertType.ERROR);
-                    alert.setTitle("An Error Ocurred");
-                    alert.setHeaderText(authResponse.getErrorMessage());
-                    alert.showAndWait();
+                    AlertBuilder alertBuilder = new AlertBuilder();
+                    alertBuilder
+                            .setTitle("An Error Occurred")
+                            .setSubTitle(authResponse.getErrorMessage())
+                            .setAcceptText("Dismiss")
+                            .show();
                 } else {
-                    try {
-                        Alert alert = new Alert(Alert.AlertType.INFORMATION);
-                        alert.setTitle("Account Creation");
-                        alert.setHeaderText("Account Created Successfully!");
-                        alert.showAndWait();
-                        App.setRoot(Screens.LOGIN_SCREEN);
-                    } catch (IOException ex) {
+                    AlertBuilder alertBuilder = new AlertBuilder();
+                    alertBuilder
+                            .setTitle("Success")
+                            .setSubTitle("Your account was created successfully!")
+                            .setAcceptText("Continue")
+                            .setOnAccept(() -> {
+                                try {
+                                    App.setRoot(Screens.LOGIN_SCREEN);
+                                } catch (IOException ex) {
 
-                    }
+                                }
+                            })
+                            .show();
                 }
             });
         });

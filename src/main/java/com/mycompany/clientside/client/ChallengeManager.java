@@ -25,7 +25,6 @@ import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Alert;
 import javafx.scene.paint.Color;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
@@ -277,14 +276,22 @@ public class ChallengeManager {
 
     private void showError(Challenge challenge) {
         Platform.runLater(() -> {
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setTitle("An Error Ocurred");
-            alert.setHeaderText(challenge.getErrorMessage());
-            alert.showAndWait();
-            if (resetPlayerCard != null) {
-                resetPlayerCard.run();
-                resetPlayerCard = null;
-            }
+            AlertBuilder alertBuilder = new AlertBuilder();
+            alertBuilder
+                    .setTitle("An Error Occurred")
+                    .setSubTitle(challenge.getErrorMessage())
+                    .setAcceptText("Dismiss")
+                    .setCancelText("")
+                    .setCancellable(false)
+                    .setDanger(true)
+                    .setOnAccept(() -> {
+                        if (resetPlayerCard != null) {
+                            resetPlayerCard.run();
+                            resetPlayerCard = null;
+                        }
+                    })
+                    .setOnCancel(() -> {})
+                    .show();
         });
     }
 

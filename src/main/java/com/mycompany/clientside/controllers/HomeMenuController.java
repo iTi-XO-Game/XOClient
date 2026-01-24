@@ -6,17 +6,15 @@ package com.mycompany.clientside.controllers;
 
 import com.mycompany.clientside.App;
 import com.mycompany.clientside.Screens;
+import com.mycompany.clientside.client.AlertBuilder;
 import com.mycompany.clientside.client.ClientManager;
 import java.io.IOException;
 import java.net.URL;
-import java.util.Optional;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
-import javafx.scene.control.ButtonType;
 
 /**
  * FXML Controller class
@@ -43,31 +41,29 @@ public class HomeMenuController implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        // TODO
+
     }
 
     @FXML
     private void onLogOut(ActionEvent event) {
-        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-        alert.setTitle("Log out");
-        alert.setHeaderText("Log out");
-        alert.setContentText("Are you sure you want to log out from the game?");
-
-        ButtonType confirmBtn = new ButtonType("Log out");
-        ButtonType cancelBtn = new ButtonType("Cancel");
-
-        alert.getButtonTypes().setAll(confirmBtn, cancelBtn);
-
-        Optional<ButtonType> result = alert.showAndWait();
-
-        if (result.isPresent() && result.get() == confirmBtn) {
-            ClientManager.getInstance().sendLogout();
-            try {
-                App.setRoot(Screens.LOGIN_SCREEN);
-            } catch (IOException ex) {
-                // todo make an alert!
-            }
-        }
+        AlertBuilder alertBuilder = new AlertBuilder();
+        alertBuilder
+                .setTitle("Log out")
+                .setSubTitle("Are you sure you want to log out from the game?")
+                .setAcceptText("Log out")
+                .setCancelText("Cancel")
+                .setCancellable(true)
+                .setDanger(true)
+                .setOnAccept(() -> {
+                    ClientManager.getInstance().sendLogout();
+                    try {
+                        App.setRoot(Screens.LOGIN_SCREEN);
+                    } catch (IOException ex) {
+                        System.err.println("Cannot go to login screen");
+                    }
+                })
+                .setOnCancel(() -> {})
+                .show();
     }
 
     @FXML
@@ -75,7 +71,7 @@ public class HomeMenuController implements Initializable {
         try {
             App.setRoot(Screens.DIFFICULTY_SCREEN);
         } catch (IOException ex) {
-            // todo make an alert!
+            System.err.println("Cannot go to difficulty screen");
         }
     }
 
@@ -84,7 +80,7 @@ public class HomeMenuController implements Initializable {
         try {
             App.setRoot(Screens.GAME_SCREEN);
         } catch (IOException ex) {
-            // todo add alert!
+            System.err.println("Cannot go to game screen");
         }
     }
 
@@ -102,7 +98,7 @@ public class HomeMenuController implements Initializable {
         try {
             App.setRoot(Screens.STATS_SCREEN);
         } catch (IOException ex) {
-            // todo make an alert!
+            System.err.println("Cannot go to score screen");
         }
     }
 
@@ -111,7 +107,7 @@ public class HomeMenuController implements Initializable {
         try {
             App.setRoot(Screens.REPLAYS_SCREEN);
         } catch (IOException ex) {
-            // todo make an alert!
+            System.err.println("Cannot go to replays screen");
         }
     }
 

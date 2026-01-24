@@ -5,10 +5,7 @@ import java.net.URL;
 import java.util.ResourceBundle;
 import com.mycompany.clientside.App;
 import com.mycompany.clientside.Screens;
-import com.mycompany.clientside.client.ClientManager;
-import com.mycompany.clientside.client.EndPoint;
-import com.mycompany.clientside.client.JsonUtils;
-import com.mycompany.clientside.client.MyAlert;
+import com.mycompany.clientside.client.*;
 import com.mycompany.clientside.models.AuthRequest;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
@@ -133,21 +130,32 @@ public class ForgotScreenController implements Initializable {
                 Platform.runLater(()
                         -> {
                     boolean isDone = JsonUtils.fromJson(responseJson, Boolean.class);
+                    AlertBuilder alertBuilder = new AlertBuilder();
                     if (isDone) {
-                        MyAlert.show(Alert.AlertType.CONFIRMATION, "Update The Password ", "Password State", "Now The Password Updated :)");
+                        alertBuilder
+                                .setTitle("Password was updated")
+                                .setSubTitle("Your password was updated successfully :)")
+                                .setAcceptText("Go to log in")
+                                .show();
                         navigateToLogin(null);
                     } else {
-                        MyAlert.show(Alert.AlertType.ERROR, "username Not Found", "Can't Find This username", "Enter Valid username");
+                        alertBuilder
+                                .setTitle("Username Not Found")
+                                .setSubTitle("Can't Find This username. Please, try again.")
+                                .setAcceptText("Dismiss")
+                                .show();
                     }
 
                 });
 
             });
         } else {
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setTitle("An Error Ocurred");
-            alert.setHeaderText("Secret Key Is Wrong");
-            alert.showAndWait();
+            AlertBuilder alertBuilder = new AlertBuilder();
+            alertBuilder
+                    .setTitle("An Error Occurred")
+                    .setSubTitle("Secret Key Is Wrong")
+                    .setAcceptText("Dismiss")
+                    .show();
         }
     }
 
