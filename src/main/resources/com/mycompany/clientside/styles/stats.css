@@ -1,0 +1,317 @@
+
+.root{
+    -fx-background-image: url("../images/historyBackground.png");
+    -fx-background-size: cover;
+    -fx-background-position: center;
+    -fx-font-family: "Segoe UI Black";
+}
+
+/* =========================
+TOP BAR
+========================= */
+.topBar {
+    -fx-background-color: #fffbf5;
+    -fx-padding: 14;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.08), 8, 0, 0, 2);
+}
+.icon{
+    -fx-effect: dropshadow(gaussian,rgba(0, 0, 0, 0.3),3,0.5,1,1);
+}
+#gameTitle {
+    -fx-font-size: 18px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #2d3748;
+}
+
+#logo {
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.12), 4, 0, 0, 2);
+}
+
+/* =========================
+GENERIC BUTTON FEEL
+========================= */
+.button {
+    -fx-background-radius: 14;
+    -fx-border-radius: 14;
+    -fx-cursor: hand;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.1), 8, 0, 0, 2);
+}
+
+.button:hover {
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.18), 14, 0, 0, 4);
+    -fx-scale-x: 1.03;
+    -fx-scale-y: 1.03;
+}
+
+.button:pressed {
+    -fx-scale-x: 0.97;
+    -fx-scale-y: 0.97;
+}
+
+/* =========================
+LEAVE BUTTON
+========================= */
+#leaveButton {
+    -fx-background-color: transparent;
+    -fx-border-color: #e2e8f0;
+    -fx-padding: 8 18 8 18;
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #4a5568;
+}
+
+#leaveButton:hover {
+    -fx-background-color: #fdd4d6;
+}
+
+
+/*******************************/
+
+/* Header Section */
+.screenHeaderCard {
+    -fx-background-color: linear-gradient(to bottom, #1a1a2e, #16213e);
+    -fx-background-radius: 8 8 0 0;
+    -fx-padding: 30px;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.5), 15, 0, 0, 5);
+}
+
+.title {
+    -fx-font-size: 32px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #e8e8e8;
+    -fx-padding: 0 0 10 0;
+}
+
+.subTitle {
+    -fx-font-size: 16px;
+    -fx-text-fill: #9ca3af;
+    -fx-font-style: italic;
+}
+
+/* Stats Cards */
+.winsCard {
+    -fx-background-color: linear-gradient(to bottom right, #10b981, #059669);
+    -fx-background-radius: 10px;
+    -fx-padding: 8px;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.4), 10, 0, 0, 3);
+}
+
+.winsCard:hover {
+    -fx-effect: dropshadow(gaussian, rgba(16, 185, 129, 0.4), 15, 0, 0, 5);
+    -fx-scale-y: 1.02;
+    -fx-scale-x: 1.02;
+}
+
+.winsLabel {
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+    -fx-text-fill: rgba(255, 255, 255, 0.9);
+    -fx-padding: 0 0 5px 0;
+}
+
+.winsCount {
+    -fx-font-size: 20px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #ffffff;
+}
+
+.winsIconContainer {
+    -fx-background-color: rgba(255, 255, 255, 0.15);
+    -fx-background-radius: 50%;
+    -fx-padding: 4px;
+}
+
+.drawsCard {
+    -fx-background-color: linear-gradient(to bottom right, #f59e0b, #d97706);
+    -fx-background-radius: 10px;
+    -fx-padding: 8px;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.4), 10, 0, 0, 3);
+}
+
+.drawsCard:hover {
+    -fx-effect: dropshadow(gaussian, rgba(245, 158, 11, 0.4), 15, 0, 0, 5);
+    -fx-scale-y: 1.02;
+    -fx-scale-x: 1.02;
+}
+
+.drawsIconContainer {
+    -fx-background-color: rgba(255, 255, 255, 0.15);
+    -fx-background-radius: 50%;
+    -fx-padding: 4px;
+}
+
+.drawsLabel {
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+    -fx-text-fill: rgba(255, 255, 255, 0.9);
+    -fx-padding: 0 0 5px 0;
+}
+
+.drawsCount {
+    -fx-font-size: 20px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #ffffff;
+}
+
+.lossesCard {
+    -fx-background-color: linear-gradient(to bottom right, #ef4444, #dc2626);
+    -fx-background-radius: 10px;
+    -fx-padding: 8px;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.4), 10, 0, 0, 3);
+}
+
+.lossesCard:hover {
+    -fx-effect: dropshadow(gaussian, rgba(239, 68, 68, 0.4), 15, 0, 0, 5);
+    -fx-scale-y: 1.02;
+    -fx-scale-x: 1.02;
+}
+
+.lossesLabel {
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+    -fx-text-fill: rgba(255, 255, 255, 0.9);
+    -fx-padding: 0 0 5px 0;
+}
+
+.lossesCount {
+    -fx-font-size: 20px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #ffffff;
+}
+
+.lossesIconContainer {
+    -fx-background-color: rgba(255, 255, 255, 0.15);
+    -fx-background-radius: 50%;
+    -fx-padding: 4px;
+}
+.tableHeader{
+    -fx-background-color: #1f2937;
+    -fx-border-color: #374151;
+    -fx-border-width: 0 0 2px 0;
+}
+/* Table Headers */
+.resultHeaderLabel {
+    -fx-font-size: 18px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #e8e8e8;
+    -fx-padding: 15px 10px;
+}
+
+.opponentHeaderLabel {
+    -fx-font-size: 18px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #e8e8e8;
+    -fx-padding: 15px 10px;
+}
+
+.dateHeaderLabel {
+    -fx-font-size: 18px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #e8e8e8;
+    -fx-padding: 15px 10px;
+}
+
+
+.gamesContainer {
+    -fx-background-color: #111827;
+    -fx-background-radius: 8px;
+    -fx-padding: 4;
+}
+
+.gameRow {
+    -fx-background-color: #1f2937;
+    -fx-padding: 15px 10px;
+    -fx-border-color: #374151;
+    -fx-border-width: 0 0 1px 0;
+}
+
+.gameRow:hover {
+    -fx-background-color: #2d3748;
+}
+
+/* Result Labels and Containers */
+.drawResultLabel {
+    -fx-font-size: 16px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #fbbf24;
+    -fx-padding: 5px 12px;
+}
+
+.drawResultContainer {
+    -fx-background-color: rgba(251, 191, 36, 0.2);
+    -fx-background-radius: 15px;
+    -fx-padding: 2px;
+}
+
+.winResultLabel {
+    -fx-font-size: 16px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #34d399;
+    -fx-padding: 5px 12px;
+}
+
+.winResultContainer {
+    -fx-background-color: rgba(52, 211, 153, 0.2);
+    -fx-background-radius: 15px;
+    -fx-padding: 2px;
+}
+
+.lossResultLabel {
+    -fx-font-size: 16px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #f87171;
+    -fx-padding: 5px 12px;
+}
+
+.lossResultContainer {
+    -fx-background-color: rgba(248, 113, 113, 0.2);
+    -fx-background-radius: 15px;
+    -fx-padding: 2px;
+}
+
+/* Opponent and Date Labels */
+.opponentNameLabel {
+    -fx-font-size: 16px;
+    -fx-text-fill: #e8e8e8;
+    -fx-font-weight: 500;
+}
+
+.dateLabel {
+    -fx-font-size: 16px;
+    -fx-text-fill: #9ca3af;
+}
+
+/* Scroll Pane */
+.scroll-pane {
+    -fx-background-color: transparent;
+    -fx-background-insets: 0;
+    -fx-padding: 0;
+    -fx-cursor: hand;
+}
+
+.scroll-pane > .viewport {
+    -fx-background-color: transparent;
+}
+
+.scroll-pane > .scroll-bar:vertical {
+    -fx-background-color: rgba(255,255,255,0.1);
+}
+
+.scroll-pane > .scroll-bar:vertical > .thumb {
+    -fx-background-color: #4b5563;
+    -fx-background-radius: 5px;
+}
+
+.scroll-pane > .scroll-bar:vertical > .thumb:hover {
+    -fx-background-color: #6b7280;
+}
+
+.scroll-pane > .scroll-bar:vertical > .increment-button,
+.scroll-pane > .scroll-bar:vertical > .decrement-button {
+    -fx-background-color: transparent;
+    -fx-padding: 4;
+}
+
+.scroll-pane > .corner {
+    -fx-background-color: transparent;
+}

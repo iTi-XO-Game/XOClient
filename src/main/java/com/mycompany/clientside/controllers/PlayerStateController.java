@@ -6,6 +6,7 @@ package com.mycompany.clientside.controllers;
 
 import com.mycompany.clientside.App;
 import com.mycompany.clientside.Screens;
+
 import java.net.URL;
 import java.time.Instant;
 import java.time.LocalDateTime;
@@ -20,17 +21,24 @@ import com.mycompany.clientside.client.JsonUtils;
 import com.mycompany.clientside.models.*;
 import javafx.application.Platform;
 import javafx.fxml.Initializable;
+
 import java.util.ArrayList;
+
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
+
 import java.io.IOException;
+
 import javafx.scene.control.Label;
+
 import java.time.format.DateTimeFormatter;
+
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
+import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
 
 /**
@@ -55,11 +63,14 @@ public class PlayerStateController implements Initializable {
     String opponentName;
 
     private int wins = 0;
+    private int draws = 0;
     private int losses = 0;
     @FXML
     private Button navigateBackButton;
     @FXML
     private Label winCounterLabel;
+    @FXML
+    private Label drawCounterLabel;
     @FXML
     private Label losesCounterLabel;
 
@@ -82,24 +93,27 @@ public class PlayerStateController implements Initializable {
             gameModels = gamesHistoryResponse.getGameModels();
 
             wins = 0;
+            draws = 0;
             losses = 0;
             for (GameHistory game : gameModels) {
                 if (game.getWinnerId() != null && game.getWinnerId() == MY_ID) {
                     wins++;
                 } else if (game.getWinnerId() != null) {
                     losses++;
+                } else {
+                    draws++;
                 }
             }
 
-            Platform.runLater(() -> setWinsAndLosesLabels(wins, losses));
+            Platform.runLater(() -> setWinsAndLosesLabels(wins, draws, losses));
             new Thread(this::getOpponentsUserName).start();
 
         });
     }
 
-    public void setWinsAndLosesLabels(int wins, int losses) {
-
+    public void setWinsAndLosesLabels(int wins, int draws, int losses) {
         winCounterLabel.setText(wins + "");
+        drawCounterLabel.setText(draws + "");
         losesCounterLabel.setText(losses + "");
     }
 
@@ -114,31 +128,31 @@ public class PlayerStateController implements Initializable {
 
     private HBox createGameRow(GameHistory game) {
         HBox row = new HBox();
-        row.setAlignment(Pos.CENTER_LEFT);
-        row.setPrefHeight(60);
-        row.setPadding(new Insets(0, 20, 0, 20));
-        row.setStyle("-fx-border-color: #F1F5F9; -fx-border-width: 0 0 1 0;");
-        // 1. Result Logic (The Container)
-        Label resultLabel = new Label();
-        HBox resultContainer = new HBox(resultLabel);
-        resultContainer.setAlignment(Pos.CENTER_LEFT);
+        row.setAlignment(Pos.CENTER);
+        row.getStyleClass().add("gameRow");
 
-        resultContainer.setMaxWidth(Double.MAX_VALUE);
-        HBox.setHgrow(resultContainer, Priority.ALWAYS);
+        Label resultLabel = new Label();
+
+        HBox resultContainer = new HBox(resultLabel);
 
         if (game.getWinnerId() == null) {
-            setupStatusLabel(resultLabel, "Draw", "#F1F5F9", "#64748B");
-
+            resultLabel.setText("Draw");
+            resultLabel.getStyleClass().add("drawResultLabel");
+            resultContainer.getStyleClass().add("drawResultContainer");
         } else if (game.getWinnerId() == MY_ID) {
-            setupStatusLabel(resultLabel, "Victory", "#E6F9ED", "#2ECC71");
-
+            resultLabel.setText("Win");
+            resultLabel.getStyleClass().add("winResultLabel");
+            resultContainer.getStyleClass().add("winResultContainer");
         } else {
-            setupStatusLabel(resultLabel, "Defeat", "#FEE2E2", "#EF4444");
+            resultLabel.setText("Defeat");
+            resultLabel.getStyleClass().add("lossResultLabel");
+            resultContainer.getStyleClass().add("lossResultContainer");
         }
 
         int opponentId = game.getPlayerXId() == MY_ID ? game.getPlayerOId() : game.getPlayerXId();
 
         Label opponentLabel = new Label(opponentNames.get(opponentId));
+        opponentLabel.getStyleClass().add("opponentNameLabel");
 
         long time = game.getGameDate();
         LocalDateTime dateTime = Instant
@@ -146,17 +160,16 @@ public class PlayerStateController implements Initializable {
                 .atZone(ZoneId.systemDefault())
                 .toLocalDateTime();
         Label dateLabel = new Label(dateTime.format(DateTimeFormatter.ofPattern("MMM dd, yyyy h:mm a")));
+        dateLabel.getStyleClass().add("dateLabel");
 
-        resultContainer.prefWidthProperty().bind(row.widthProperty().divide(4));
-        opponentLabel.prefWidthProperty().bind(row.widthProperty().divide(4));
-        dateLabel.prefWidthProperty().bind(row.widthProperty().divide(4));
+        Region r1 = new Region();
+        HBox.setHgrow(r1, Priority.ALWAYS);
+        Region r2 = new Region();
+        HBox.setHgrow(r2, Priority.ALWAYS);
+        Region r3 = new Region();
+        HBox.setHgrow(r3, Priority.ALWAYS);
 
-        opponentLabel.setMaxWidth(Double.MAX_VALUE);
-        HBox.setHgrow(opponentLabel, Priority.ALWAYS);
-        dateLabel.setMaxWidth(Double.MAX_VALUE);
-        HBox.setHgrow(dateLabel, Priority.ALWAYS);
-
-        row.getChildren().addAll(resultContainer, opponentLabel, dateLabel);
+        row.getChildren().addAll(resultContainer, r1, opponentLabel, r2, dateLabel, r3);
 
         return row;
     }
@@ -184,12 +197,6 @@ public class PlayerStateController implements Initializable {
             temp.add(opponentId);
         }
         return temp;
-    }
-
-    private void setupStatusLabel(Label lbl, String text, String bg, String textFill) {
-        lbl.setText(text);
-        lbl.setStyle("-fx-background-color: " + bg + "; -fx-text-fill: " + textFill + "; "
-                + "-fx-background-radius: 10; -fx-padding: 5 10 5 10; -fx-font-weight: bold;");
     }
 
     @FXML
