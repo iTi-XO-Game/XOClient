@@ -253,13 +253,15 @@ public class PvpGameScreenController implements Initializable {
                 btn.setDisable(true);
             });
 
-            executor.submit(() -> {
-                try {
-                    Thread.sleep(500);
-                } catch (InterruptedException ignored) {
-                }
-                EndGameVideo.showEndGameVideo(currentPlayer + " Wins!", false);
-            });
+            if (activeGame.getWinnerId() == UserSession.getUserId()) {
+                executor.submit(() -> {
+                    try {
+                        Thread.sleep(500);
+                    } catch (InterruptedException ignored) {
+                    }
+                    EndGameVideo.showEndGameVideo(currentPlayer + " Wins!", false);
+                });
+            }
             return true;
         }
 

@@ -23,6 +23,7 @@ public class App extends Application {
         scene = new Scene(loadFXML(Screens.LOGIN_SCREEN));
         stage.setMaximized(true);
         stage.setScene(scene);
+        stage.setTitle("Tic Tac Toe");
         stage.show();
     }
     
